@@ -1,0 +1,2 @@
+# stratifGUI
+Private
