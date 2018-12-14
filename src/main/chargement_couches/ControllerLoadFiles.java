@@ -2,7 +2,6 @@ package main.chargement_couches;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
 import main.Gui;
 import main.common.AController;
 import main.ex.LoadException;
@@ -35,8 +34,8 @@ public class ControllerLoadFiles extends AController
       //   - where user might have modified input
       //   - that directly impact the present action
       updateModelDb();
-      model.setPostgresqlBinPath(gui.txtPostgresqlBinPath.getText());
-      model.setTempFolderPath   (gui.txtTempFolderPath.getText());
+      model.setPostgresqlBinPath(gui.txtPostgresqlBinDir.getText());
+      model.setTempFolderPath   (gui.txtTempDir.getText());
 
 
 

@@ -1,6 +1,7 @@
 package main;
 
 import main.chargement_couches.*;
+import main.common.ControllerSelectFile;
 import main.common.ControllerTest;
 import main.common.ModelDb;
 import main.ex.ConfigAccessException;
@@ -35,29 +36,29 @@ import static javax.swing.UIManager.setLookAndFeel;
  */
 public class Gui
 {
-  private JFrame rootFrame;
-  public  JPanel rootPanel;
-  private JButton buttTest;
-  private JTabbedPane tabbedPane1;
-  private JTextArea txtaLog;
-  private JButton   buttSelectFiles;
-  public  JTextArea txtaSelectedFiles;
-  private JButton   buttLoadSelectedFiles;
-  public  JTextField txtDbHostname;
-  public  JTextField txtDbUser;
-  public  JTextField txtDbPassword;
-  public  JTextField txtDbName;
-  public  JTextField txtDbPort;
-  public  JTextField txtUnzipDir;
-  public  JTextField txtDetectDep;
+  private JFrame       rootFrame;
+  public  JPanel       rootPanel;
+  private JButton      buttTest;
+  private JTabbedPane  tabbedPane1;
+  private JTextArea    txtaLog;
+  private JButton      buttSelectFiles;
+  public  JTextArea    txtaSelectedFiles;
+  private JButton      buttLoadSelectedFiles;
+  public  JTextField   txtDbHostname;
+  public  JTextField   txtDbUser;
+  public  JTextField   txtDbPassword;
+  public  JTextField   txtDbName;
+  public  JTextField   txtDbPort;
+  public  JTextField   txtUnzipDir;
+  public  JTextField   txtDetectDep;
 
-  private JButton buttSelectUnzipDir;
-  private JButton buttTestDbConnectivity;
-  private JButton buttComputeFiles;
-  public  JTable  tableDetectedFiles;
+  private JButton      buttSelectUnzipDir;
+  private JButton      buttTestDbConnectivity;
+  private JButton      buttComputeFiles;
+  public  JTable       tableDetectedFiles;
 
-  public JCheckBox chbDetectFiles;
-  public JTextField txtDetectFiles;
+  public JCheckBox     chbDetectFiles;
+  public JTextField    txtDetectFiles;
 
 
   private JPanel pannel;
@@ -76,8 +77,10 @@ public class Gui
   public  JRadioButton rdoDep;
   public  JTextField   txtDep;
 
-  public  JTextField   txtPostgresqlBinPath;
-  public  JTextField   txtTempFolderPath;
+  public  JTextField   txtPostgresqlBinDir;
+  public  JTextField   txtTempDir;
+  public  JButton      buttSelectPostgresqlBinDir;
+  public  JButton      buttSelectTempDir;
 
 
   /**
@@ -176,10 +179,13 @@ public class Gui
         rdoCoucheAutre   .setActionCommand(ModelCouche.AUTRE);
 
         // Attach actions
+        buttSelectPostgresqlBinDir
+                              .addActionListener(new ControllerSelectFile        (this, txtPostgresqlBinDir, JFileChooser.DIRECTORIES_ONLY, false));
+        buttSelectTempDir  .addActionListener(new ControllerSelectFile        (this, txtTempDir,    JFileChooser.DIRECTORIES_ONLY, false));
         buttTest              .addActionListener(new ControllerTest              (this));
         buttTestDbConnectivity.addActionListener(new ControllerTestDbConnectivity(this, modelLoad));
         buttSelectFiles       .addActionListener(new ControllerSelectRootFolders(this, modelLoad));
-        buttSelectUnzipDir    .addActionListener(new ControllerSelectUnzipDir    (this));
+        buttSelectUnzipDir    .addActionListener(new ControllerSelectFile        (this, txtUnzipDir,    JFileChooser.DIRECTORIES_ONLY, false));
         buttComputeFiles      .addActionListener(new ControllerFindFiles         (this, modelLoad));
         buttLoadSelectedFiles .addActionListener(new ControllerLoadFiles         (this, modelLoad));
 
@@ -351,8 +357,8 @@ public class Gui
       txtDbPassword       .setText(userConfig.getProp("db.password"));
       txtDbPort           .setText(userConfig.getProp("db.port"));
       txtDbName           .setText(userConfig.getProp("db.name"));
-      txtPostgresqlBinPath.setText(userConfig.getProp("postgresql_bin_path"));
-      txtTempFolderPath   .setText(userConfig.getProp("temp_folder_path"));
+      txtPostgresqlBinDir.setText(userConfig.getProp("postgresql_bin_path"));
+      txtTempDir.setText(userConfig.getProp("temp_folder_path"));
 
       txtUnzipDir         .setText(userConfig.getProp("rep_dezip"));
       if (! txtDetectFiles.getText().isEmpty()) { chbDetectFilesSelect(true); }  else {chbDetectFilesSelect(false); }
@@ -364,10 +370,10 @@ public class Gui
    * @param b select (true) or deselect (false)
    */
   public void chbDetectFilesSelect(boolean b)
-    {
-      chbDetectFiles.setSelected(b);
-      txtDetectFiles.setEnabled(b);
-    }
+  {
+    chbDetectFiles.setSelected(b);
+    txtDetectFiles.setEnabled(b);
+  }
 
 
   /**
