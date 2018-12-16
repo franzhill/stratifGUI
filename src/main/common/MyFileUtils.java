@@ -15,6 +15,12 @@ public class MyFileUtils
         return (FilenameUtils.getExtension(f.getName()).toUpperCase().equals("SHP"));
     }
 
+    public static boolean isBatfile(File f)
+    {
+        return (FilenameUtils.getExtension(f.getName()).toUpperCase().equals("BAT"));
+    }
+
+
 
     /**
      * Same as String.split, though

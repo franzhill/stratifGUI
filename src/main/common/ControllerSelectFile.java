@@ -5,11 +5,15 @@ import main.Gui;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 
+/**
+ * Handles file selection dialog and display of selected file(s) in associated text field
+ */
 public class ControllerSelectFile extends AController
 {
     protected JTextField txtField;
     protected int        mode;
     protected boolean    enableMultiSelection;
+
     /**
      *
      * @param gui

@@ -26,10 +26,20 @@ public class SysCommand
     }
 
 
-    public void execute()
+    public SysCommand(String command)
+    {
+        this.command = command;
+    }
+
+    /**
+     *
+     * @return the exit value of the command
+     */
+    public int execute()
     {
         String homeDirectory = System.getProperty("user.home");
         Process proc;
+        int exitVal = 0;
         try
         {   // Execute sys command in its own process
             proc = Runtime.getRuntime().exec("cmd.exe /C" + command);
@@ -43,17 +53,21 @@ public class SysCommand
             errorGobbler.start();
             outputGobbler.start();
             // Sys command exit status
-            int exitVal = 0;
             try
             {   exitVal = proc.waitFor();
+
             }
             catch (InterruptedException e)
             {   e.printStackTrace();
+                exitVal=-1;
             }
-            logger.debug("System call command exited with value = " + exitVal);
+
         }
         catch (IOException e)
         {   e.printStackTrace();
+            exitVal=-1;
         }
+        logger.debug("System call command exited with value = " + exitVal);
+        return exitVal;
     }
 }

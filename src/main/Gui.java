@@ -181,7 +181,7 @@ public class Gui
         // Attach actions
         buttSelectPostgresqlBinDir
                               .addActionListener(new ControllerSelectFile        (this, txtPostgresqlBinDir, JFileChooser.DIRECTORIES_ONLY, false));
-        buttSelectTempDir  .addActionListener(new ControllerSelectFile        (this, txtTempDir,    JFileChooser.DIRECTORIES_ONLY, false));
+        buttSelectTempDir     .addActionListener(new ControllerSelectFile        (this, txtTempDir,    JFileChooser.DIRECTORIES_ONLY, false));
         buttTest              .addActionListener(new ControllerTest              (this));
         buttTestDbConnectivity.addActionListener(new ControllerTestDbConnectivity(this, modelLoad));
         buttSelectFiles       .addActionListener(new ControllerSelectRootFolders(this, modelLoad));
@@ -237,8 +237,8 @@ public class Gui
         gui.initGuiLogger();
         loggerGui.trace("Testing the loggerGui...");
         loggerGui.debug("Testing the loggerGui...");
-        loggerGui.info("Testing the loggerGui...");
-        loggerGui.warn("Testing the loggerGui...");
+        loggerGui.info ("Testing the loggerGui...");
+        loggerGui.warn ("Testing the loggerGui...");
         loggerGui.error("Testing the loggerGui...");
         logger.debug("logger, debug");
         gui.loadUserConf();
@@ -252,10 +252,10 @@ public class Gui
      * The GUI logger logs in a text area visible to the end user and may be used to display valuable information
      * (as well as possibly relevant logging messages).
      * We are using a Log4J2 dedicated appender to write inside the dedicated GUI text area, via a
-     * special outpustream. The construction of such an appender may not be made via userConfig depFiles, it
+     * special outpustream. The construction of such an appender may not be made via config files, it
      * has to be done programmatically (and consequently same goes for the logger) (here).
-     * However we will be making it possible to store as much configs as possible in the Log4J2 userConfig file,
-     * by placing them in dummy appender and logger, in the userConfig file, and then retrieving these configs programmatically
+     * However we will be making it possible to store as much configs as possible in the Log4J2 config file,
+     * by placing them in dummy appender and logger, in the config file, and then retrieving these configs programmatically
      * here to insert them in the real appender and logger.
      *
      * Note : we're tightly coupling to the Log4j2 logging solution here ...)
@@ -263,10 +263,10 @@ public class Gui
      */
      private void initGuiLogger()
     {
-        String GUI_LOGGER_REF = "gui_logger";  // Name used for the dummy counterparts in the userConfig depFiles, and for the final logger
+        String GUI_LOGGER_REF = "gui_logger";  // Name used for the dummy counterparts in the config depFiles, and for the final logger
 
-        // 1. Create the dedicated appender, and add it to the Log4J2 userConfig
-        // Get the Log4J2 context, userConfig and stuff
+        // 1. Create the dedicated appender, and add it to the Log4J2 config
+        // Get the Log4J2 context, config and stuff
         final LoggerContext context = LoggerContext.getContext(false);
         final Configuration config = context.getConfiguration();
         final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
@@ -291,7 +291,7 @@ public class Gui
         // 2. Add the newly created appender to the log4J2 logger we'll be dedicating to GUI logging
 
         LoggerConfig guiLoggerConfig =  config.getLoggers().get(GUI_LOGGER_REF);
-        if (null == guiLoggerConfig )  // not declared in userConfig file ...
+        if (null == guiLoggerConfig )  // not declared in config file ...
         {   // Create one with some default params
             AppenderRef[] refs = new AppenderRef[] {};
             LoggerConfig loggerConfig = LoggerConfig.createLogger(false, Level.INFO, GUI_LOGGER_REF,"true", refs, null, config, null );

@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Finds all files (shapefiles etc.) corresponding to GUI input settings
+ */
 public class ControllerFindFiles extends AController
 {
 
