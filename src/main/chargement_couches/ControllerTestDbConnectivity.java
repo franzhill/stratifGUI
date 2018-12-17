@@ -5,6 +5,7 @@ import main.common.AController;
 import main.common.DbConnector;
 import main.common.ModelDb;
 import main.ex.DbConnectionException;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.awt.event.ActionEvent;
 
@@ -27,9 +28,11 @@ public class ControllerTestDbConnectivity extends AController
             dbc.getConn();
             gui.showMessageInfo("Connexion à la BD OK.");
         }
-        catch (DbConnectionException excp)
+        catch (DbConnectionException ex)
         {
             gui.showMessageInfo("Echec de la connexion à la BD !");
+            logger.error("failure to connect to the DB : DbConnectionException message = " + ex.getMessage() +
+                         "\n Exception stack trace = \n " + ExceptionUtils.getStackTrace(ex) );
         }
     }
 
