@@ -26,20 +26,19 @@ public class DbConnector
   {
     if (conn == null)
     {
-      String url = "jdbc:postgresql://" + modelDb.hostname + ":" + modelDb.port;
+      String url = "jdbc:postgresql://" + modelDb.hostname + ":" + modelDb.port + "/" + modelDb.name;
       try
       {
-        conn = DriverManager.getConnection(url, modelDb.user, modelDb.port);
+        conn = DriverManager.getConnection(url, modelDb.user, modelDb.password);
         //logger.info("Connected to the PostgreSQL server successfully.");
       }
       catch (SQLException e)
       {
         //logger.error("Could not connect to DB : " + e.getMessage());
-        throw new DbConnectionException("Could not connect to DB.", e);
+        throw new DbConnectionException(String.format("Could not connect to DB (url = %s)", url ), e);
       }
     }
     return conn;
   }
-
 
 }

@@ -12,14 +12,15 @@ public class ModelDb
   @Getter public String password;
   @Getter public String hostname;
   @Getter public String port;
-  @Getter public String name = "_";  // TODO Add
+  @Getter public String name;  // TODO Add
 
-  public ModelDb(String hostname, String port, String user, String password)
+  public ModelDb(String hostname, String port, String user, String password, String name)
   {
     this.hostname= hostname;
     this.port    = port;
     this.user    = user;
     this.password= password;
+    this.name    = name;
   }
 
   /**

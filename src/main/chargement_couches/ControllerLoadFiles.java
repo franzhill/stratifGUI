@@ -37,9 +37,6 @@ public class ControllerLoadFiles extends AController
       model.setPostgresqlBinPath(gui.txtPostgresqlBinDir.getText());
       model.setTempFolderPath   (gui.txtTempDir.getText());
 
-
-
-
       // Save configs (they might have been edited by user)
       // TODO for the time being we won't be saving the config
       //gui.saveUserConfigDisplay();
@@ -57,8 +54,8 @@ public class ControllerLoadFiles extends AController
         loadFileDeps();
       }
       catch (LoadException e1)
-      { e1.printStackTrace(); // TODO handle
-        gui.showMessageError("Lors du chargement des couches spécifiées. Vérifier les paramètres fournis, et réessayer, ou consulter les logs.");
+      {
+        gui.showMessageError("Erreur lors du chargement des couches spécifiées. Vérifier les paramètres fournis, et réessayer, ou consulter les logs.", e1);
         return;
       }
     }
@@ -97,17 +94,21 @@ public class ControllerLoadFiles extends AController
         data.put("fd"   , fd);
 
         // Interpolate and output file
+        Writer file;
+        String filepath= String.format("tmp/chargement_couche_%s_%s_%s.bat", model.couche.type, fd.getName(), fd.departement);
         try
-        { logger.debug("model.couche.type= " + model.couche.type);
-
-          Writer file = new FileWriter(new File(String.format("tmp/chargement_couche_%s_%s_%s.bat", model.couche.type, fd.getName(), fd.departement)));   // TODO put in conf file
-          template.process(data, file);
+        { file = new FileWriter(new File(filepath));   // TODO put in conf file
+        }
+        catch (IOException e)
+        { throw new LoadException(String.format("Erreur d'accès pour écriture au fichier bat {%s}.", filepath), e);
+        }
+        try
+        { template.process(data, file);
           file.flush();
           file.close();
         }
         catch (Exception e)
-        { e.printStackTrace(); // TODO handle
-          throw new LoadException(String.format("Impossible d'évaluer le template pour fabriquer le script bat de chargement pour {%s}, {%s}.", model.couche.type, fd.departement), e);
+        { throw new LoadException(String.format("Erreur lors de la fabrication du script bat de chargement à partir du template, pour type de couche = {%s}, département = {%s}.", model.couche.type, fd.departement), e);
         }
       }
     }

@@ -46,7 +46,8 @@ public abstract class AController implements ActionListener
     model.modelDb = new ModelDb(gui.txtDbHostname.getText(),
                                 gui.txtDbPort    .getText(),
                                 gui.txtDbUser    .getText(),
-                                gui.txtDbPassword.getText());
+                                gui.txtDbPassword.getText(),
+                                gui.txtDbName    .getText() );
   }
 
 

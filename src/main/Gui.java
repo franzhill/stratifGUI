@@ -428,10 +428,29 @@ public class Gui
      * Display error to the user in a dialog window
      */
     public void showMessageError(String usrMsg)
+    {  showMessageError(usrMsg, null);
+    }
+
+    /**
+     * Display error to the user in a dialog window
+     * With technical information regarding the cause exception
+     * @param usrMsg
+     * @param e exception that caused the problem
+     */
+    public void showMessageError(String usrMsg, Throwable e)
     {
         loggerGui.error(usrMsg);
+        if (e != null)
+        {   usrMsg = usrMsg +
+                    "\n" +
+                    "Infos techniques : \n" +
+                    ExceptionUtils.getStackTrace(e);
+        }
         JOptionPane.showMessageDialog(rootPanel, usrMsg, "ERREUR", JOptionPane.WARNING_MESSAGE);
     }
+
+
+
 
 
     /**

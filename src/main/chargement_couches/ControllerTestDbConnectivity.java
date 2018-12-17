@@ -30,7 +30,7 @@ public class ControllerTestDbConnectivity extends AController
         }
         catch (DbConnectionException ex)
         {
-            gui.showMessageInfo("Echec de la connexion à la BD !");
+            gui.showMessageInfo("Echec de la connexion à la BD ! \n\n Infos techniques : \n" + ExceptionUtils.getStackTrace(ex));
             logger.error("failure to connect to the DB : DbConnectionException message = " + ex.getMessage() +
                          "\n Exception stack trace = \n " + ExceptionUtils.getStackTrace(ex) );
         }
