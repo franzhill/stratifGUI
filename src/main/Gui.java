@@ -4,6 +4,7 @@ import main.chargement_couches.*;
 import main.common.ControllerSelectFile;
 import main.common.ControllerTest;
 import main.common.ModelDb;
+import main.common.MyExceptionUtils;
 import main.ex.ConfigAccessException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.Level;
@@ -180,12 +181,12 @@ public class Gui
 
         // Attach actions
         buttSelectPostgresqlBinDir
-                              .addActionListener(new ControllerSelectFile        (this, txtPostgresqlBinDir, JFileChooser.DIRECTORIES_ONLY, false));
-        buttSelectTempDir     .addActionListener(new ControllerSelectFile        (this, txtTempDir,    JFileChooser.DIRECTORIES_ONLY, false));
+                              .addActionListener(new ControllerSelectFile        (this, txtPostgresqlBinDir, JFileChooser.DIRECTORIES_ONLY, false, null));
+        buttSelectTempDir     .addActionListener(new ControllerSelectFile        (this, txtTempDir         , JFileChooser.DIRECTORIES_ONLY, false, null));
         buttTest              .addActionListener(new ControllerTest              (this));
         buttTestDbConnectivity.addActionListener(new ControllerTestDbConnectivity(this, modelLoad));
-        buttSelectFiles       .addActionListener(new ControllerSelectRootFolders(this, modelLoad));
-        buttSelectUnzipDir    .addActionListener(new ControllerSelectFile        (this, txtUnzipDir,    JFileChooser.DIRECTORIES_ONLY, false));
+        buttSelectFiles       .addActionListener(new ControllerSelectRootFolders (this, modelLoad, txtaSelectedFiles, JFileChooser.DIRECTORIES_ONLY, true , userConfig.getProp("dir_couches")));
+        buttSelectUnzipDir    .addActionListener(new ControllerSelectFile        (this, txtUnzipDir,                  JFileChooser.DIRECTORIES_ONLY, false, null));
         buttComputeFiles      .addActionListener(new ControllerFindFiles         (this, modelLoad));
         buttLoadSelectedFiles .addActionListener(new ControllerLoadFiles         (this, modelLoad));
 
@@ -230,7 +231,7 @@ public class Gui
         SwingUtilities.updateComponentTreeUI(gui.rootFrame);
         gui.rootFrame.pack();
 
-
+        gui.loadUserConf();
         gui.addActionListeners();
 
         logger.debug("initialising gui logger...");
@@ -241,7 +242,7 @@ public class Gui
         loggerGui.warn ("Testing the loggerGui...");
         loggerGui.error("Testing the loggerGui...");
         logger.debug("logger, debug");
-        gui.loadUserConf();
+
         gui.initUserConfigDisplay();
     }
 
@@ -442,10 +443,11 @@ public class Gui
         loggerGui.error(usrMsg);
         if (e != null)
         {   usrMsg = usrMsg +
-                    "\n" +
+                    "\n \n" +
                     "Infos techniques : \n" +
-                    ExceptionUtils.getStackTrace(e);
+                    MyExceptionUtils.getStackMessages(e);
         }
+
         JOptionPane.showMessageDialog(rootPanel, usrMsg, "ERREUR", JOptionPane.WARNING_MESSAGE);
     }
 

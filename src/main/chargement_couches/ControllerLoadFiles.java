@@ -95,9 +95,10 @@ public class ControllerLoadFiles extends AController
 
         // Interpolate and output file
         Writer file;
-        String filepath= String.format("tmp/chargement_couche_%s_%s_%s.bat", model.couche.type, fd.getName(), fd.departement);
+        String filepath= String.format(model.getTempFolderPath() + File.separator + "chargement_couche_%s_%s_%s.bat", model.couche.type, fd.getName(), fd.departement); // TODO put in conf file
+        logger.debug("filepath=" + filepath);
         try
-        { file = new FileWriter(new File(filepath));   // TODO put in conf file
+        { file = new FileWriter(new File(filepath));
         }
         catch (IOException e)
         { throw new LoadException(String.format("Erreur d'accès pour écriture au fichier bat {%s}.", filepath), e);

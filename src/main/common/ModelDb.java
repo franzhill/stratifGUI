@@ -1,10 +1,6 @@
 package main.common;
 
 import lombok.Getter;
-import main.ex.DbConnectionException;
-
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class ModelDb
 {
@@ -29,11 +25,11 @@ public class ModelDb
    */
   public boolean isIncomplete()
   {
-    return  StringUtils.isNullOrEmpty(user)     ||
-            StringUtils.isNullOrEmpty(password) ||
-            StringUtils.isNullOrEmpty(hostname) ||
-            StringUtils.isNullOrEmpty(port)     ||
-            StringUtils.isNullOrEmpty(name);
+    return  MyStringUtils.isNullOrEmpty(user)     ||
+            MyStringUtils.isNullOrEmpty(password) ||
+            MyStringUtils.isNullOrEmpty(hostname) ||
+            MyStringUtils.isNullOrEmpty(port)     ||
+            MyStringUtils.isNullOrEmpty(name);
   }
 /*
 

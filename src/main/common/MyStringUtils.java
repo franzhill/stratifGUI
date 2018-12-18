@@ -3,7 +3,7 @@ package main.common;
 /**
  * @author fhill
  */
-public class StringUtils
+public class MyStringUtils
 {
   /**
    * Can't believe I actually have to write a function for this...

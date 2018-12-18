@@ -3,7 +3,7 @@ package main.chargement_couches;
 import lombok.Getter;
 import main.common.AModel;
 import main.common.ModelDb;
-import main.common.StringUtils;
+import main.common.MyStringUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -52,11 +52,11 @@ public class ModelLoad extends AModel
   { // Path may have spaces so add ""
     //postgresqlBinPath = '"' + FilenameUtils.separatorsToSystem(path) + '"';
     // Add " " inside bat template
-    postgresqlBinPath = FilenameUtils.separatorsToSystem(path);
+    postgresqlBinPath = FilenameUtils.separatorsToSystem(path);  // TODO see if even necessary
   }
 
   public void setTempFolderPath(String path)
-  { tempFolderPath = FilenameUtils.separatorsToSystem(path);
+  { tempFolderPath = FilenameUtils.separatorsToSystem(path);   // TODO see if even necessary
   }
 
 
@@ -66,8 +66,8 @@ public class ModelLoad extends AModel
    */
   public boolean isIncomplete()
   {
-    return  StringUtils.isNullOrEmpty(postgresqlBinPath) ||
-            StringUtils.isNullOrEmpty(tempFolderPath)    ||
+    return  MyStringUtils.isNullOrEmpty(postgresqlBinPath) ||
+            MyStringUtils.isNullOrEmpty(tempFolderPath)    ||
             modelDb.isIncomplete();
   }
 
