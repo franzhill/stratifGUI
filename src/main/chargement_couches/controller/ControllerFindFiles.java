@@ -1,24 +1,16 @@
-package main.chargement_couches;
+package main.chargement_couches.controller;
 
 import main.Gui;
-import main.common.AController;
-import main.common.FileFinder;
-import main.common.MyFileUtils;
+import main.chargement_couches.model.ModelLoad;
+import main.common.controller.AController;
+import main.chargement_couches.tool.FileFinder;
 import main.ex.DepExtractionException;
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.filefilter.TrueFileFilter;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Finds all files (shapefiles etc.) corresponding to GUI input settings

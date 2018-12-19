@@ -1,5 +1,7 @@
-package main;
+package main.gui;
 
+
+import main.Gui;
 
 import java.io.IOException;
 import java.io.OutputStream;

@@ -1,9 +1,9 @@
-package main.chargement_couches;
+package main.chargement_couches.model;
 
 import lombok.Getter;
-import main.common.AModel;
-import main.common.ModelDb;
-import main.common.MyStringUtils;
+import main.common.model.AModel;
+import main.common.model.ModelDb;
+import main.utils.MyStringUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;

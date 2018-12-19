@@ -1,8 +1,8 @@
-package main.chargement_couches;
+package main.chargement_couches.controller;
 
 import main.Gui;
-import main.common.AController;
-import main.common.ControllerSelectFile;
+import main.chargement_couches.model.ModelLoad;
+import main.common.controller.ControllerSelectFile;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;

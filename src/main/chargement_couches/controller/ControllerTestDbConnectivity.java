@@ -1,9 +1,9 @@
-package main.chargement_couches;
+package main.chargement_couches.controller;
 
 import main.Gui;
-import main.common.AController;
+import main.chargement_couches.model.ModelLoad;
+import main.common.controller.AController;
 import main.common.DbConnector;
-import main.common.ModelDb;
 import main.ex.DbConnectionException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 

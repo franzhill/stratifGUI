@@ -1,5 +1,6 @@
 package main.common;
 
+import main.common.model.ModelDb;
 import main.ex.DbConnectionException;
 
 import java.sql.Connection;

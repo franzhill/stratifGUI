@@ -1,8 +1,9 @@
-package main.common;
+package main.common.controller;
 
 import main.Gui;
-import main.chargement_couches.ModelCouche;
-import main.chargement_couches.ModelLoad;
+import main.chargement_couches.model.ModelCouche;
+import main.chargement_couches.model.ModelLoad;
+import main.common.model.ModelDb;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,7 +1,8 @@
-package main.common;
+package main.chargement_couches.tool;
 
-import main.chargement_couches.FileDep;
+import main.chargement_couches.model.FileDep;
 import main.ex.DepExtractionException;
+import main.utils.MyFileUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;

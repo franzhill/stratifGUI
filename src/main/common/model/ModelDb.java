@@ -1,6 +1,7 @@
-package main.common;
+package main.common.model;
 
 import lombok.Getter;
+import main.utils.MyStringUtils;
 
 public class ModelDb
 {

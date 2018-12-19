@@ -1,7 +1,8 @@
-package main.common;
+package main.common.controller;
 
 import main.Gui;
-import main.SysCommand;
+import main.common.SysCommand;
+import main.common.controller.AController;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;

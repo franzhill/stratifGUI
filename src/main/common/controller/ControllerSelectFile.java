@@ -1,6 +1,7 @@
-package main.common;
+package main.common.controller;
 
 import main.Gui;
+import main.common.controller.AController;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;

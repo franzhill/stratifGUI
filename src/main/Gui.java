@@ -1,11 +1,16 @@
 package main;
 
-import main.chargement_couches.*;
-import main.common.ControllerSelectFile;
-import main.common.ControllerTest;
-import main.common.ModelDb;
-import main.common.MyExceptionUtils;
+import main.chargement_couches.controller.*;
+import main.chargement_couches.model.FileDep;
+import main.chargement_couches.model.ModelCouche;
+import main.chargement_couches.model.ModelLoad;
+import main.common.*;
+import main.common.controller.ControllerSelectFile;
+import main.common.controller.ControllerTest;
+import main.common.model.ModelDb;
 import main.ex.ConfigAccessException;
+import main.gui.GuiLogOutputStream;
+import main.utils.MyExceptionUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -181,16 +186,16 @@ public class Gui
 
         // Attach actions
         buttSelectPostgresqlBinDir
-                              .addActionListener(new ControllerSelectFile        (this, txtPostgresqlBinDir, JFileChooser.DIRECTORIES_ONLY, false, null));
+                              .addActionListener(new ControllerSelectFile(this, txtPostgresqlBinDir, JFileChooser.DIRECTORIES_ONLY, false, null));
         buttSelectTempDir     .addActionListener(new ControllerSelectFile        (this, txtTempDir         , JFileChooser.DIRECTORIES_ONLY, false, null));
-        buttTest              .addActionListener(new ControllerTest              (this));
+        buttTest              .addActionListener(new ControllerTest(this));
         buttTestDbConnectivity.addActionListener(new ControllerTestDbConnectivity(this, modelLoad));
-        buttSelectFiles       .addActionListener(new ControllerSelectRootFolders (this, modelLoad, txtaSelectedFiles, JFileChooser.DIRECTORIES_ONLY, true , userConfig.getProp("dir_couches")));
+        buttSelectFiles       .addActionListener(new ControllerSelectRootFolders(this, modelLoad, txtaSelectedFiles, JFileChooser.DIRECTORIES_ONLY, true , userConfig.getProp("dir_couches")));
         buttSelectUnzipDir    .addActionListener(new ControllerSelectFile        (this, txtUnzipDir,                  JFileChooser.DIRECTORIES_ONLY, false, null));
-        buttComputeFiles      .addActionListener(new ControllerFindFiles         (this, modelLoad));
-        buttLoadSelectedFiles .addActionListener(new ControllerLoadFiles         (this, modelLoad));
+        buttComputeFiles      .addActionListener(new ControllerFindFiles(this, modelLoad));
+        buttLoadSelectedFiles .addActionListener(new ControllerLoadFiles(this, modelLoad));
 
-        ControllerSelectCouche rdoCoucheCtrl = new ControllerSelectCouche        (this, modelLoad);
+        ControllerSelectCouche rdoCoucheCtrl = new ControllerSelectCouche(this, modelLoad);
 
         rdoCoucheTopo         .addActionListener(rdoCoucheCtrl);
         rdoCoucheAlti         .addActionListener(rdoCoucheCtrl);

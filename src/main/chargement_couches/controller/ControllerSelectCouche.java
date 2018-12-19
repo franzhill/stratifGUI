@@ -1,7 +1,8 @@
-package main.chargement_couches;
+package main.chargement_couches.controller;
 
 import main.Gui;
-import main.common.AController;
+import main.chargement_couches.model.ModelLoad;
+import main.common.controller.AController;
 
 import java.awt.event.ActionEvent;
 

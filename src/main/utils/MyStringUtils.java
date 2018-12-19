@@ -1,4 +1,4 @@
-package main.common;
+package main.utils;
 
 /**
  * @author fhill

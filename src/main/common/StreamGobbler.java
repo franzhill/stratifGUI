@@ -1,4 +1,4 @@
-package main;
+package main.common;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,10 +11,10 @@ import java.io.InputStreamReader;
  *
  * @courtesy https://www.javaworld.com/article/2071275/core-java/when-runtime-exec---won-t.html?page=2
  */
-class StreamGobbler extends Thread
+public class StreamGobbler extends Thread
 {
-    InputStream is;
-    String type;
+    private InputStream is;
+    private String type;
 
     //@MagicConstant(stringValues = {TYPE_OUT, TYPE_ERR})  // annotation that works with IntelliJ
     public static final String TYPE_OUT = "OUT";
@@ -28,7 +28,7 @@ class StreamGobbler extends Thread
      */
     StreamGobbler(InputStream is, String type)
     {
-        this.is = is;
+        this.is   = is;
         this.type = type;
     }
 
@@ -37,7 +37,7 @@ class StreamGobbler extends Thread
         try
         {
             InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader br = new BufferedReader(isr);
+            BufferedReader    br  = new BufferedReader(isr);
             String line = null;
             while ( (line = br.readLine()) != null)
             {

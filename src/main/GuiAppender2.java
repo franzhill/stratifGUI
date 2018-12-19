@@ -4,6 +4,10 @@ import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.appender.AbstractAppender;
 
 
+/**
+ * @deprecated
+ *
+ */
 public class GuiAppender2 extends AbstractAppender
 {
     protected Gui gui;

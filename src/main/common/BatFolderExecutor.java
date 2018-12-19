@@ -1,16 +1,19 @@
-package main;
+package main.common;
 
-import main.common.MyFileUtils;
+import main.utils.MyFileUtils;
 import main.ex.DirException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.nio.file.Files;
 
 /**
  * Execute all bat files contained in a dir
  */
 public class BatFolderExecutor
 {
+  private Logger logger = LoggerFactory.getLogger(BatFolderExecutor.class);
+
   /**
    * Dir containing all bat files (path of)
    */
@@ -35,7 +38,7 @@ public class BatFolderExecutor
   private String error;
 
 
-  private BatFolderExecutor(String dirPath)
+  public BatFolderExecutor(String dirPath)
   {
     this.dir  = dirPath;
     this.wip  = this.dir + File.pathSeparator + "WIP";
@@ -70,21 +73,29 @@ public class BatFolderExecutor
 
   private void executeBat(File f)
   {
+    logger.debug("f=" + f.getName());
+    logger.debug("Moving file to WIP...");
     // Move to WIP
-    File fwip = new File(wip + File.separator + f.getName());
-    f.renameTo(fwip);  // Moves the actual underlying system file
+    //File fwip = new File(wip + File.separator + f.getName());
+
+    //f.renameTo(fwip);  // Moves the actual underlying system file // TODO seems not
+    logger.debug("Done.");
 
     // Execute
-    SysCommand syscommand = new SysCommand(fwip.getAbsolutePath());
+    logger.debug("Executing...");
+    SysCommand syscommand = new SysCommand(f.getAbsolutePath());
     int retValue = syscommand.execute();
 
     if (retValue == 0)
     { // Move bat file to Done
+      logger.debug("retval=0, eveything OK, moving to DONE...");
       // TODO
     }
     else
     { // Else to Error
+      logger.debug(String.format("retval=%s, NOK, moving to ERROR...", retValue));
       // TODO
     }
+
   }
 }

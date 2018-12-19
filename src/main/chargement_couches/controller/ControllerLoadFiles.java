@@ -1,9 +1,13 @@
-package main.chargement_couches;
+package main.chargement_couches.controller;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import main.Gui;
-import main.common.AController;
+import main.chargement_couches.model.FileDep;
+import main.chargement_couches.model.ModelLoad;
+import main.common.BatFolderExecutor;
+import main.common.controller.AController;
+import main.ex.DirException;
 import main.ex.LoadException;
 
 import java.awt.event.ActionEvent;
@@ -52,6 +56,7 @@ public class ControllerLoadFiles extends AController
       try
       { logger.debug("model.couche.type= " + model.couche.type);
         loadFileDeps();
+        executeBats();
       }
       catch (LoadException e1)
       {
@@ -68,7 +73,7 @@ public class ControllerLoadFiles extends AController
 
       //Load template
       Template template;
-      String template_path  = "resources/chargement_couche.bat" ; // TODO  put in conf file ?
+      String template_path  = String.format("resources/chargement_couche.%s.ftl.bat", model.couche.type.toLowerCase()) ; // TODO  put in conf file ? / function
 
       try
       { template = cfg.getTemplate(template_path);
@@ -113,4 +118,16 @@ public class ControllerLoadFiles extends AController
         }
       }
     }
+
+
+    protected void executeBats()
+    {
+      BatFolderExecutor bfe = new BatFolderExecutor(model.getTempFolderPath());
+      try {
+        bfe.execute();
+      } catch (DirException e) {
+        e.printStackTrace(); // TODO handle
+      }
+    }
+
 }

@@ -1,5 +1,6 @@
-package main;
+package main.common;
 
+import main.common.StreamGobbler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,13 +43,13 @@ public class SysCommand
         int exitVal = 0;
         try
         {   // Execute sys command in its own process
-            proc = Runtime.getRuntime().exec("cmd.exe /C" + command);
+            proc = Runtime.getRuntime().exec("cmd.exe /C " + command);
             // /C      Carries out the command specified by string and then terminates
 
             // Catch error messages and handle them in the gobbler
             StreamGobbler errorGobbler = new StreamGobbler(proc.getErrorStream(), StreamGobbler.TYPE_ERR);
             // Catch regular output messages and handle them in the gobbler
-            StreamGobbler outputGobbler = new StreamGobbler(proc.getInputStream(), StreamGobbler.TYPE_OUT);
+            StreamGobbler outputGobbler = new StreamGobbler(proc.getInputStream() /* sic, not getOutputStream() */, StreamGobbler.TYPE_OUT);
             // Launch the gobblers
             errorGobbler.start();
             outputGobbler.start();

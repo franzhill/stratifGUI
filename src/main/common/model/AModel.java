@@ -1,4 +1,4 @@
-package main.common;
+package main.common.model;
 
 import main.Gui;
 import org.slf4j.Logger;
