@@ -1,8 +1,8 @@
 package main.common.controller;
 
 import main.Gui;
-import main.common.SysCommand;
-import main.common.controller.AController;
+import main.common.tool.SysCommand;
+import main.common.tool.streamGobblerOutputhandler.StreamGobblerOutputhandlerGui;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class ControllerTest extends AController
         gui.loggerGui.info("logging this following press of button");
 
         // Test
-        SysCommand cmd = new SysCommand("dir", new ArrayList<String>(Arrays.asList(".")));
+        SysCommand cmd = new SysCommand("dir", new ArrayList<String>(Arrays.asList(".")),  new StreamGobblerOutputhandlerGui(this.gui));
         cmd.execute();
     }
 }

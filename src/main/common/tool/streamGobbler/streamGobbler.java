@@ -1,4 +1,6 @@
-package main.common;
+package main.common.tool.streamGobbler;
+
+import main.common.tool.streamGobblerOutputhandler.IStreamGobblerOutputhandler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,16 +22,18 @@ public class StreamGobbler extends Thread
     public static final String TYPE_OUT = "OUT";
     public static final String TYPE_ERR = "ERR";
 
+    protected IStreamGobblerOutputhandler outputHandler;
 
     /**
      *
      * @param is
      * @param type one of StreamGobbler.TYPE_OUT or StreamGobbler.TYPE_ERR
      */
-    StreamGobbler(InputStream is, String type)
+    public StreamGobbler(InputStream is, String type, IStreamGobblerOutputhandler outputHandler)
     {
         this.is   = is;
         this.type = type;
+        this.outputHandler = outputHandler;
     }
 
     public void run()
@@ -41,11 +45,13 @@ public class StreamGobbler extends Thread
             String line = null;
             while ( (line = br.readLine()) != null)
             {
-                System.out.println(type + ">" + line);
+                outputHandler.handleOutput(line, type);
             }
         } catch (IOException ioe)
         {
             ioe.printStackTrace();
         }
     }
+
+
 }

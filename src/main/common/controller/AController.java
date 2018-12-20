@@ -41,6 +41,10 @@ public abstract class AController implements ActionListener
     }
 
 
+    protected void do_() throws Exception {};
+
+
+
   protected void updateModelDb()
   {
     // Get the model info from the (pseudo-MVC) View

@@ -1,5 +1,7 @@
 package main.common;
 
+import main.common.tool.SysCommand;
+import main.common.tool.streamGobblerOutputhandler.IStreamGobblerOutputhandler;
 import main.utils.MyFileUtils;
 import main.ex.DirException;
 import org.slf4j.Logger;
@@ -37,13 +39,19 @@ public class BatFolderExecutor
    */
   private String error;
 
+  /**
+   * Will handle the output from the system command calls (e.g. write messages in the GUI)
+   */
+  private IStreamGobblerOutputhandler outputHandler;
 
-  public BatFolderExecutor(String dirPath)
+
+  public BatFolderExecutor(String dirPath, IStreamGobblerOutputhandler outputHandler)
   {
     this.dir  = dirPath;
     this.wip  = this.dir + File.pathSeparator + "WIP";
     this.done = this.dir + File.pathSeparator + "DONE";
     this.error= this.dir + File.pathSeparator + "ERROR";
+    this.outputHandler  = outputHandler;
   }
 
 
@@ -83,7 +91,7 @@ public class BatFolderExecutor
 
     // Execute
     logger.debug("Executing...");
-    SysCommand syscommand = new SysCommand(f.getAbsolutePath());
+    SysCommand syscommand = new SysCommand(f.getAbsolutePath(), this.outputHandler);
     int retValue = syscommand.execute();
 
     if (retValue == 0)

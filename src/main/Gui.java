@@ -28,6 +28,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
@@ -46,10 +47,10 @@ public class Gui
   public  JPanel       rootPanel;
   private JButton      buttTest;
   private JTabbedPane  tabbedPane1;
-  private JTextArea    txtaLog;
+  public  JTextArea    txtaLog;
   private JButton      buttSelectFiles;
   public  JTextArea    txtaSelectedFiles;
-  private JButton      buttLoadSelectedFiles;
+  private JButton buttExecuteScripts;
   public  JTextField   txtDbHostname;
   public  JTextField   txtDbUser;
   public  JTextField   txtDbPassword;
@@ -87,9 +88,11 @@ public class Gui
   public  JTextField   txtTempDir;
   public  JButton      buttSelectPostgresqlBinDir;
   public  JButton      buttSelectTempDir;
+  public JButton       buttGenerateScripts;
+  public JCheckBox     chbEmptyWorkDirFirst;
 
 
-  /**
+    /**
      * Internal logger
      */
     private static Logger logger = LoggerFactory.getLogger(Gui.class);
@@ -98,14 +101,12 @@ public class Gui
      * Will log in a dedicated area on the GUI, visible to the end user.
      * Is public for access from other classes in the MVC architecture
      */
-    public static Logger loggerGui;
+    public static Logger loggerGui;  // TODO unmake static ?
 
     /**
      * Holds the details pertaining to the selected depFiles/folders.
      */
     private ModelLoad modelLoad = new ModelLoad();
-
-    private ModelDb modelDb;
 
     /**
      * Holds the userConfig loaded from user conf file
@@ -142,6 +143,8 @@ public class Gui
         rootFrame = new JFrame("Stratification");
         rootFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         rootFrame.setContentPane(rootPanel);
+
+        // txtaLog.setFont(Font.decode("UTF-8")); DOESN'T WORK ...
     }
 
 
@@ -186,16 +189,17 @@ public class Gui
 
         // Attach actions
         buttSelectPostgresqlBinDir
-                              .addActionListener(new ControllerSelectFile(this, txtPostgresqlBinDir, JFileChooser.DIRECTORIES_ONLY, false, null));
+                              .addActionListener(new ControllerSelectFile        (this, txtPostgresqlBinDir, JFileChooser.DIRECTORIES_ONLY, false, null));
         buttSelectTempDir     .addActionListener(new ControllerSelectFile        (this, txtTempDir         , JFileChooser.DIRECTORIES_ONLY, false, null));
-        buttTest              .addActionListener(new ControllerTest(this));
+        buttTest              .addActionListener(new ControllerTest              (this));
         buttTestDbConnectivity.addActionListener(new ControllerTestDbConnectivity(this, modelLoad));
-        buttSelectFiles       .addActionListener(new ControllerSelectRootFolders(this, modelLoad, txtaSelectedFiles, JFileChooser.DIRECTORIES_ONLY, true , userConfig.getProp("dir_couches")));
+        buttSelectFiles       .addActionListener(new ControllerSelectParentFiles (this, modelLoad, txtaSelectedFiles, JFileChooser.DIRECTORIES_ONLY, true , userConfig.getProp("dir_couches")));
         buttSelectUnzipDir    .addActionListener(new ControllerSelectFile        (this, txtUnzipDir,                  JFileChooser.DIRECTORIES_ONLY, false, null));
-        buttComputeFiles      .addActionListener(new ControllerFindFiles(this, modelLoad));
-        buttLoadSelectedFiles .addActionListener(new ControllerLoadFiles(this, modelLoad));
+        buttComputeFiles      .addActionListener(new ControllerFindFiles         (this, modelLoad));
+        buttGenerateScripts   .addActionListener(new ControllerGenerateScripts   (this, modelLoad));
+        buttExecuteScripts    .addActionListener(new ControllerExecuteScripts    (this, modelLoad));
 
-        ControllerSelectCouche rdoCoucheCtrl = new ControllerSelectCouche(this, modelLoad);
+        ControllerSelectCouche rdoCoucheCtrl = new ControllerSelectCouche        (this, modelLoad);
 
         rdoCoucheTopo         .addActionListener(rdoCoucheCtrl);
         rdoCoucheAlti         .addActionListener(rdoCoucheCtrl);
@@ -241,11 +245,11 @@ public class Gui
 
         logger.debug("initialising gui logger...");
         gui.initGuiLogger();
-        loggerGui.trace("Testing the loggerGui...");
-        loggerGui.debug("Testing the loggerGui...");
-        loggerGui.info ("Testing the loggerGui...");
-        loggerGui.warn ("Testing the loggerGui...");
-        loggerGui.error("Testing the loggerGui...");
+        loggerGui.trace("Testing the loggerGui àéè...");
+        loggerGui.debug("Testing the loggerGui àéè...");
+        loggerGui.info ("Testing the loggerGui àéè...");
+        loggerGui.warn ("Testing the loggerGui àéè...");
+        loggerGui.error("Testing the loggerGui àéè...");
         logger.debug("logger, debug");
 
         gui.initUserConfigDisplay();
@@ -337,7 +341,7 @@ public class Gui
     public void logInGui(String text, boolean addNewLine)
     {   final String logInGuiNewline = "\n";
 
-        txtaLog.append( text + (addNewLine ? logInGuiNewline : "")); //+ logInGuiNewline);
+        txtaLog.append( text) ;//+ (addNewLine ? logInGuiNewline : "")); //+ logInGuiNewline);
         // scrolls the text area to the end of data
         txtaLog.setCaretPosition(txtaLog.getDocument().getLength());
     }
@@ -363,8 +367,8 @@ public class Gui
       txtDbPassword       .setText(userConfig.getProp("db.password"));
       txtDbPort           .setText(userConfig.getProp("db.port"));
       txtDbName           .setText(userConfig.getProp("db.name"));
-      txtPostgresqlBinDir.setText(userConfig.getProp("postgresql_bin_path"));
-      txtTempDir.setText(userConfig.getProp("temp_folder_path"));
+      txtPostgresqlBinDir .setText(userConfig.getProp("postgresql_bin_path"));
+      txtTempDir          .setText(userConfig.getProp("temp_folder_path"));
 
       txtUnzipDir         .setText(userConfig.getProp("rep_dezip"));
       if (! txtDetectFiles.getText().isEmpty()) { chbDetectFilesSelect(true); }  else {chbDetectFilesSelect(false); }

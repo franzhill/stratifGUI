@@ -2,12 +2,17 @@ package main.common;
 
 import main.ex.ConfigAccessException;
 import org.apache.commons.configuration2.Configuration;
+import org.apache.commons.configuration2.FileBasedConfiguration;
 import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
+import org.apache.commons.configuration2.builder.combined.CombinedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
+import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Read and save to a ini-style configuration file
@@ -23,11 +28,30 @@ public class Config
      * (lets us load from & save to the file)
      */
     private FileBasedConfigurationBuilder<PropertiesConfiguration> builder;
+    /*private CombinedConfigurationBuilder builder;*/
 
     /**
      * Holds our configurations (key- value pairs)
      */
     private Configuration config;
+
+/*
+    public void Config(String filePath) throws ConfigAccessException
+    {
+        try
+        {
+            Configurations configs = new Configurations();
+            builder = configs.combinedBuilder(filePath);
+            config = builder.getConfiguration();
+        }
+        catch (ConfigurationException cex)
+        {   String msg = String.format("Could not load configuration file path: {%s}", filePath);
+            logger.error(msg);
+            throw new ConfigAccessException(msg, cex);
+        }
+
+    }
+*/
 
     /**
      *
@@ -53,6 +77,10 @@ public class Config
             throw new ConfigAccessException(msg, cex);
         }
     }
+
+
+
+
 
     /**
      * Get a configuration property.

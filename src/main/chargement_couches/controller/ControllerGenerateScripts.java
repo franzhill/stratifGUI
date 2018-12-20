@@ -5,10 +5,9 @@ import freemarker.template.Template;
 import main.Gui;
 import main.chargement_couches.model.FileDep;
 import main.chargement_couches.model.ModelLoad;
-import main.common.BatFolderExecutor;
 import main.common.controller.AController;
-import main.ex.DirException;
-import main.ex.LoadException;
+import main.ex.ExecutionException;
+import org.apache.commons.io.FileUtils;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -18,9 +17,9 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ControllerLoadFiles extends AController
+public class ControllerGenerateScripts extends AController
 {
-    public ControllerLoadFiles(Gui gui, ModelLoad model)
+    public ControllerGenerateScripts(Gui gui, ModelLoad model)
     {   super(gui, model);
     }
 
@@ -52,22 +51,48 @@ public class ControllerLoadFiles extends AController
         return;
       }
 
-      // Do the loading of the layers into DB
+      // Do
       try
-      { logger.debug("model.couche.type= " + model.couche.type);
-        loadFileDeps();
-        executeBats();
+      { do_();
+        gui.loggerGui.info("Tous les scripts ont été générés.");
       }
-      catch (LoadException e1)
-      {
-        gui.showMessageError("Erreur lors du chargement des couches spécifiées. Vérifier les paramètres fournis, et réessayer, ou consulter les logs.", e1);
+      catch (ExecutionException e1)
+      { gui.showMessageError("Erreur lors du chargement des couches spécifiées. Vérifier les paramètres fournis, et réessayer, ou consulter les logs.", e1);
         return;
       }
     }
 
 
-    private void loadFileDeps() throws LoadException
+    protected void preDoChecks()
     {
+
+    }
+
+
+    @Override
+    protected void do_() throws ExecutionException
+    {
+      loadFileDeps();
+    }
+
+
+    private void emptyWorkDir() throws ExecutionException
+    {
+      if (gui.chbEmptyWorkDirFirst.isSelected())
+      { try
+        { FileUtils.cleanDirectory(new File(model.getTempFolderPath()));
+        }
+        catch (IOException e)
+        {  throw new ExecutionException(String.format("Impossible de vider le répertoire des scripts (%s). Vérifier que ce répertoire existe.", model.getTempFolderPath()), e);
+        }
+      }
+    }
+
+
+    private void loadFileDeps() throws ExecutionException
+    {
+      emptyWorkDir();
+
       // Use Freemarker to generate the bat file that will load the "couche" in DB
       Configuration cfg = new Configuration();   // Freemarker configuration object
 
@@ -80,7 +105,7 @@ public class ControllerLoadFiles extends AController
       }
       catch (IOException e)
       { e.printStackTrace(); // TODO handle
-        throw new LoadException(String.format("Impossible de charger le template pour fabriquer le script bat de chargement, {%s}.", template_path));
+        throw new ExecutionException(String.format("Impossible de charger le template pour fabriquer le script bat de chargement, {%s}.", template_path));
       }
 
       // Provide templating engine with data for interpolation
@@ -92,42 +117,34 @@ public class ControllerLoadFiles extends AController
       {
         logger.debug("Processing file : " + fd.toString());
         if (fd.departement.isEmpty())
-        { throw new LoadException(String.format("Département manquant pour le fichier {%s}.", fd.file.getAbsolutePath()));
+        { throw new ExecutionException(String.format("Département manquant pour le fichier {%s}.", fd.file.getAbsolutePath()));
         }
 
         // Provide templating engine with remaining data for interpolation
         data.put("fd"   , fd);
 
         // Interpolate and output file
-        Writer file;
+        Writer filewriter;
         String filepath= String.format(model.getTempFolderPath() + File.separator + "chargement_couche_%s_%s_%s.bat", model.couche.type, fd.getName(), fd.departement); // TODO put in conf file
+        File   f = new File(filepath);
         logger.debug("filepath=" + filepath);
         try
-        { file = new FileWriter(new File(filepath));
+        { filewriter = new FileWriter(f);
         }
         catch (IOException e)
-        { throw new LoadException(String.format("Erreur d'accès pour écriture au fichier bat {%s}.", filepath), e);
+        { throw new ExecutionException(String.format("Erreur d'accès pour écriture au fichier bat {%s}.", filepath), e);
         }
         try
-        { template.process(data, file);
-          file.flush();
-          file.close();
+        { template.process(data, filewriter);
+          filewriter.flush();
+          filewriter.close();
         }
         catch (Exception e)
-        { throw new LoadException(String.format("Erreur lors de la fabrication du script bat de chargement à partir du template, pour type de couche = {%s}, département = {%s}.", model.couche.type, fd.departement), e);
+        { throw new ExecutionException(String.format("Erreur lors de la fabrication du script bat de chargement à partir du template, pour type de couche = {%s}, département = {%s}.", model.couche.type, fd.departement), e);
         }
+        gui.loggerGui.info("Génération du script : " + f.getName() + " : DONE. ");
       }
-    }
 
-
-    protected void executeBats()
-    {
-      BatFolderExecutor bfe = new BatFolderExecutor(model.getTempFolderPath());
-      try {
-        bfe.execute();
-      } catch (DirException e) {
-        e.printStackTrace(); // TODO handle
-      }
     }
 
 }

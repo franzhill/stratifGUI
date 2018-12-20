@@ -12,10 +12,10 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-public class ControllerSelectRootFolders extends ControllerSelectFile
+public class ControllerSelectParentFiles extends ControllerSelectFile
 {
     /**
-     * See parent constuctor
+     * See parent constructor
      * @param gui
      * @param model
      * @param textComponent
@@ -23,7 +23,7 @@ public class ControllerSelectRootFolders extends ControllerSelectFile
      * @param enableMultiSelection
      * @param homeDir
      */
-    public ControllerSelectRootFolders(Gui gui, ModelLoad model, JTextComponent textComponent, int mode, boolean enableMultiSelection, @Nullable String homeDir)
+    public ControllerSelectParentFiles(Gui gui, ModelLoad model, JTextComponent textComponent, int mode, boolean enableMultiSelection, @Nullable String homeDir)
     {
         super(gui, textComponent, mode, enableMultiSelection, homeDir);
         this.model = model;
