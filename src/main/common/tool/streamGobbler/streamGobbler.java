@@ -19,8 +19,8 @@ public class StreamGobbler extends Thread
     private String type;
 
     //@MagicConstant(stringValues = {TYPE_OUT, TYPE_ERR})  // annotation that works with IntelliJ
-    public static final String TYPE_OUT = "OUT";
-    public static final String TYPE_ERR = "ERR";
+    public static final String TYPE_OUT = "STDO";
+    public static final String TYPE_ERR = "STDE";
 
     protected IStreamGobblerOutputhandler outputHandler;
 

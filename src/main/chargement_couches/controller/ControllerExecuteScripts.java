@@ -33,7 +33,7 @@ public class ControllerExecuteScripts extends AController
     {
       BatFolderExecutor bfe = new BatFolderExecutor(model.getTempFolderPath(), new StreamGobblerOutputhandlerGui(this.gui));
       try {
-        bfe.execute();
+        bfe.execute();  // TODO try executing in thread
       } catch (DirException e) {
         e.printStackTrace(); // TODO handle
       }

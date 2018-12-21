@@ -2,15 +2,24 @@ package main.gui;
 
 
 import main.Gui;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.apache.commons.lang3.ArrayUtils.toArray;
 
 /**
- * Outpustream which is bound to a GUI
+ * Outpustream which is bound to a Gui
+ *
  * Will redirect (write) its content to a (to be specified) function of the GUI
  * (that will e.g. display it in a text area)
+ *
+ * TODO remove direct dependency to Gui, and use an interface
+ *
  * @author fhill
  */
 public class GuiLogOutputStream extends OutputStream
@@ -19,6 +28,10 @@ public class GuiLogOutputStream extends OutputStream
 
     /** The internal memory for the written bytes. */
     private String mem;
+
+    /** The internal memory for the written bytes. */
+    List<Byte> lBytes = new ArrayList<>();
+
 
     public GuiLogOutputStream(Gui gui)
     {   this.gui = gui;
@@ -33,6 +46,7 @@ public class GuiLogOutputStream extends OutputStream
     }
 */
 
+/*
     @Override
     public void write (int b)
     {
@@ -52,6 +66,34 @@ public class GuiLogOutputStream extends OutputStream
             flush ();
         }
     }
+*/
+
+
+
+  // TODO could probably be optimized working with a byte[] instead of a List<Byte>
+  public void write (int b)
+  {
+    lBytes.add((byte) (b & 0xff));  // Auto-boxing
+
+    if (b == 0xA) // End of line   //if (new String(bytees).equals("\n"))
+    { // Flush
+      // i.e. redirect data to the GUI
+
+      // All the following to convert List<Byte> to byte[] ...  so we can easily build a String to support encoding
+      Byte[] aBytes = new Byte[lBytes.size()];
+      lBytes.toArray(aBytes);
+      byte[] abytes =  ArrayUtils.toPrimitive(aBytes);
+
+      // Now we can log a String to GUI
+      gui.logInGui(  new String( abytes ) );   //, true);
+      lBytes.clear();
+    }
+  }
+
+
+
+
+
 
     /**
      * Flushes the output stream.

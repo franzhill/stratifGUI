@@ -83,7 +83,7 @@ public class ControllerGenerateScripts extends AController
         { FileUtils.cleanDirectory(new File(model.getTempFolderPath()));
         }
         catch (IOException e)
-        {  throw new ExecutionException(String.format("Impossible de vider le répertoire des scripts (%s). Vérifier que ce répertoire existe.", model.getTempFolderPath()), e);
+        {  throw new ExecutionException(String.format("Impossible de vider le répertoire des scripts (%s). Un fichier est peut-être verrouillé.", model.getTempFolderPath()), e);
         }
       }
     }

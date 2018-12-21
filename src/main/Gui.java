@@ -74,6 +74,7 @@ public class Gui
   public  JRadioButton rdoCoucheAlti;
   public  JRadioButton rdoCoucheAutre;
   public  JRadioButton rdoCoucheFoncier;
+  public  JRadioButton rdoCoucheForet;
 
   public  JTextField   txtSchema;
 
@@ -92,7 +93,8 @@ public class Gui
   public JCheckBox     chbEmptyWorkDirFirst;
 
 
-    /**
+
+  /**
      * Internal logger
      */
     private static Logger logger = LoggerFactory.getLogger(Gui.class);
@@ -182,10 +184,12 @@ public class Gui
 
     private void addActionListeners()
     {
+        // The action command allows to identify the radio button that has been selected
         rdoCoucheTopo    .setActionCommand(ModelCouche.TOPO);
         rdoCoucheAlti    .setActionCommand(ModelCouche.ALTI);
         rdoCoucheFoncier .setActionCommand(ModelCouche.FONCIER);
         rdoCoucheAutre   .setActionCommand(ModelCouche.AUTRE);
+        rdoCoucheForet   .setActionCommand(ModelCouche.FORET);
 
         // Attach actions
         buttSelectPostgresqlBinDir
@@ -205,6 +209,7 @@ public class Gui
         rdoCoucheAlti         .addActionListener(rdoCoucheCtrl);
         rdoCoucheAutre        .addActionListener(rdoCoucheCtrl);
         rdoCoucheFoncier      .addActionListener(rdoCoucheCtrl);
+        rdoCoucheForet        .addActionListener(rdoCoucheCtrl);
 
         chbDetectFiles.addActionListener(new AbstractAction("chbDetectFiles")
         { public void actionPerformed(ActionEvent e)
@@ -409,6 +414,7 @@ public class Gui
     if (rdoCoucheAlti   .isSelected()) return rdoCoucheAlti   ;
     if (rdoCoucheFoncier.isSelected()) return rdoCoucheFoncier;
     if (rdoCoucheAutre  .isSelected()) return rdoCoucheAutre  ;
+    if (rdoCoucheForet  .isSelected()) return rdoCoucheForet  ;
     return null;
   }
 

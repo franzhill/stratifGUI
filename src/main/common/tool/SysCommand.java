@@ -69,13 +69,14 @@ public class SysCommand
             //errorGobbler.start();
             //outputGobbler.start();
             // Sys command exit status
+            /*
             try
             {   exitVal = proc.waitFor();
             }
             catch (InterruptedException e)
             {   e.printStackTrace();
                 exitVal=-1;
-            }
+            }*/
 
         }
         catch (IOException e)

@@ -14,13 +14,14 @@ public class ModelCouche
   public final static String ALTI    = "ALTI";
   public final static String AUTRE   = "AUTRE";
   public static final String FONCIER = "FONCIER";
+  public static final String FORET   = "FORET";
 
 
   /**
    * Kind of layer (couche) to be loaded
    */
   //@MagicConstant(stringValues = {ModelCouche.TOPO, ModelCouche.ALTI, ModelCouche.FONCIER, ModelCouche.AUTRE})  //  IntelliJ annotation
-  public String type;
+  @Getter public String type;
 
   /**
    * Straightforward departement, or detection pattern
