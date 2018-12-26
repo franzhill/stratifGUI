@@ -21,13 +21,31 @@ public class ControllerSelectCouche extends AController
     logger.debug("Sélection de la couche : " + couche);
 
     // Display in GUI
-    gui.txtDetectDep  .setText(gui.userConfig.getProp("couches." + coucheLc + ".detect_dep")  );
-    gui.txtDetectFiles.setText(gui.userConfig.getProp("couches." + coucheLc + ".detect_files"));
-    gui.txtFileExt    .setText(gui.userConfig.getProp("couches." + coucheLc + ".file_ext")    );
-    gui.txtSchema     .setText(gui.userConfig.getProp("couches." + coucheLc + ".schema")      );
-    gui.txtTable      .setText(gui.userConfig.getProp("couches." + coucheLc + ".table")       );
-    gui.txtLoadCmd    .setText(gui.userConfig.getProp("couches." + coucheLc + ".bin_cmd")     );
+    gui.txtDetectDep        .setText(gui.userConfig.getProp("couches." + coucheLc + ".detect_dep")          );
+    gui.txtDetectFiles      .setText(gui.userConfig.getProp("couches." + coucheLc + ".detect_files")        );
+    gui.txtFileExt          .setText(gui.userConfig.getProp("couches." + coucheLc + ".file_ext")            );
+    gui.txtSchema           .setText(gui.userConfig.getProp("couches." + coucheLc + ".schema")              );
+    gui.txtTable            .setText(gui.userConfig.getProp("couches." + coucheLc + ".table")               );
+    gui.txtLoadCmd          .setText(gui.userConfig.getProp("couches." + coucheLc + ".bin_cmd")             );
+    gui.txtSchemaTableSource.setText(gui.userConfig.getProp("couches." + coucheLc + ".schema_table_source") );
+
     if (! gui.txtDetectFiles.getText().isEmpty()) { gui.chbDetectFilesSelect(true); }  else {gui.chbDetectFilesSelect(false); }
+
+    gui.txtDetectDep        .setEnabled(true);
+    gui.txtDetectFiles      .setEnabled(true);
+    gui.txtFileExt          .setEnabled(true);
+    gui.txtSchema           .setEnabled(true);
+    gui.txtTable            .setEnabled(true);
+    gui.txtLoadCmd          .setEnabled(true);
+    gui.txtSchemaTableSource.setEnabled(true);
+
+    if (gui.rdoCoucheFoncier.isSelected())
+    { gui.txtSchema           .setEnabled(false);
+      gui.txtTable            .setEnabled(false);
+    }
+    else
+    { gui.txtSchemaTableSource.setEnabled(false);
+    }
 
     // Update model
     updateModelCouche();

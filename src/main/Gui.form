@@ -3,7 +3,7 @@
   <grid id="27dc6" binding="rootPanel" layout-manager="GridLayoutManager" row-count="3" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="1127" height="841"/>
+      <xy x="20" y="20" width="1395" height="946"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -17,7 +17,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="b1c58" binding="pannel" layout-manager="GridLayoutManager" row-count="16" column-count="21" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+          <grid id="b1c58" binding="pannel" layout-manager="GridLayoutManager" row-count="5" column-count="11" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
             <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
               <tabbedpane title="Chargement couches"/>
@@ -25,47 +25,335 @@
             <properties/>
             <border type="none"/>
             <children>
-              <grid id="a94f5" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                <margin top="0" left="0" bottom="0" right="0"/>
+              <grid id="a94f5" layout-manager="GridLayoutManager" row-count="2" column-count="12" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                <margin top="5" left="5" bottom="5" right="5"/>
                 <constraints>
-                  <grid row="3" column="1" row-span="1" col-span="20" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="3" column="0" row-span="1" col-span="11" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
-                <border type="none"/>
+                <border type="line">
+                  <color color="-3940883"/>
+                </border>
                 <children>
                   <component id="ae621" class="javax.swing.JLabel">
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="0" row-span="1" col-span="11" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <font style="1"/>
                       <text value="Chargement couche en BD :"/>
                     </properties>
                   </component>
+                  <tabbedpane id="136c6" binding="tabbedPane2" default-binding="true">
+                    <constraints>
+                      <grid row="1" column="0" row-span="1" col-span="11" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                        <preferred-size width="200" height="200"/>
+                      </grid>
+                    </constraints>
+                    <properties/>
+                    <border type="none"/>
+                    <children>
+                      <grid id="c619e" layout-manager="GridLayoutManager" row-count="9" column-count="9" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <tabbedpane title="Topo, Forêt, Alti"/>
+                        </constraints>
+                        <properties>
+                          <background color="-1314108"/>
+                        </properties>
+                        <border type="none"/>
+                        <children>
+                          <scrollpane id="c5b5b">
+                            <constraints>
+                              <grid row="4" column="1" row-span="1" col-span="7" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                <preferred-size width="200" height="83"/>
+                              </grid>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="a8d0b" class="javax.swing.JTextArea" binding="txtaSelectedFiles">
+                                <constraints/>
+                                <properties>
+                                  <editable value="false"/>
+                                  <font name="Courier New" size="11"/>
+                                  <text value=""/>
+                                </properties>
+                              </component>
+                            </children>
+                          </scrollpane>
+                          <component id="f46a2" class="javax.swing.JRadioButton" binding="rdoCoucheTopo">
+                            <constraints>
+                              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <selected value="false"/>
+                              <text value="Topo"/>
+                            </properties>
+                          </component>
+                          <component id="42af6" class="javax.swing.JRadioButton" binding="rdoCoucheForet">
+                            <constraints>
+                              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <selected value="false"/>
+                              <text value="Forêt"/>
+                            </properties>
+                          </component>
+                          <component id="38080" class="javax.swing.JRadioButton" binding="rdoCoucheAlti">
+                            <constraints>
+                              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Alti"/>
+                            </properties>
+                          </component>
+                          <component id="10d9e" class="javax.swing.JLabel">
+                            <constraints>
+                              <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false">
+                                <preferred-size width="154" height="83"/>
+                              </grid>
+                            </constraints>
+                            <properties>
+                              <text value="Sélection des fichiers depuis :"/>
+                              <toolTipText value="Sélectionner le(s) répertoire(s) ou zip(s) contenant les fichiers à charger. Pour sélectionner plusieurs fichiers (ou répertoires), maintenir la touche &quot;Ctrl&quot; enfoncée lors de la sélection dans la popup."/>
+                            </properties>
+                          </component>
+                          <component id="5e648" class="javax.swing.JCheckBox" binding="chbDetectFiles">
+                            <constraints>
+                              <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Détection des fichiers :"/>
+                            </properties>
+                          </component>
+                          <component id="530f2" class="javax.swing.JTextField" binding="txtDetectFiles">
+                            <constraints>
+                              <grid row="5" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties/>
+                          </component>
+                          <component id="1266d" class="javax.swing.JButton" binding="buttComputeFiles">
+                            <constraints>
+                              <grid row="5" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Trouver"/>
+                            </properties>
+                          </component>
+                          <component id="b99b5" class="javax.swing.JTextField" binding="txtDep">
+                            <constraints>
+                              <grid row="5" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="50" height="24"/>
+                              </grid>
+                            </constraints>
+                            <properties>
+                              <background color="-1"/>
+                              <enabled value="false"/>
+                            </properties>
+                          </component>
+                          <component id="b44b3" class="javax.swing.JRadioButton" binding="rdoDep">
+                            <constraints>
+                              <grid row="5" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="ou renseigner le département : "/>
+                            </properties>
+                          </component>
+                          <component id="bd49d" class="javax.swing.JTextField" binding="txtDetectDep">
+                            <constraints>
+                              <grid row="5" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties>
+                              <text value=""/>
+                            </properties>
+                          </component>
+                          <component id="d82a" class="javax.swing.JRadioButton" binding="rdoDepDetect">
+                            <constraints>
+                              <grid row="5" column="3" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <selected value="true"/>
+                              <text value="Détection du département :"/>
+                            </properties>
+                          </component>
+                          <component id="52bfc" class="javax.swing.JLabel">
+                            <constraints>
+                              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Extension fichiers : "/>
+                              <toolTipText value="extension des fichiers à sélectionner, sans le point, séparés par une virgule s'il y en a plusieurs. Ex : &quot;shp&quot;. Ex : &quot;shp, asc&quot;."/>
+                            </properties>
+                          </component>
+                          <component id="a81c1" class="javax.swing.JTextField" binding="txtFileExt">
+                            <constraints>
+                              <grid row="0" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties/>
+                          </component>
+                          <component id="4a146" class="javax.swing.JLabel">
+                            <constraints>
+                              <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Commande système :"/>
+                              <toolTipText value="par exemple raster2sql, shp2sql ... avec les options. Ex. : shp2pgsql -d  -W LATIN1 -s 2154"/>
+                            </properties>
+                          </component>
+                          <component id="4d851" class="javax.swing.JTextField" binding="txtLoadCmd">
+                            <constraints>
+                              <grid row="1" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties/>
+                          </component>
+                          <component id="8a93e" class="javax.swing.JButton" binding="buttSelectFiles" default-binding="true">
+                            <constraints>
+                              <grid row="4" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                                <preferred-size width="74" height="83"/>
+                              </grid>
+                            </constraints>
+                            <properties>
+                              <text value="..."/>
+                            </properties>
+                          </component>
+                          <component id="22e74" class="javax.swing.JLabel">
+                            <constraints>
+                              <grid row="6" column="0" row-span="1" col-span="9" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Fichiers trouvés à charger en BD :"/>
+                            </properties>
+                          </component>
+                          <scrollpane id="d585">
+                            <constraints>
+                              <grid row="7" column="0" row-span="1" col-span="8" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                <minimum-size width="200" height="100"/>
+                                <preferred-size width="200" height="100"/>
+                              </grid>
+                            </constraints>
+                            <properties/>
+                            <border type="none"/>
+                            <children>
+                              <component id="7668" class="javax.swing.JTable" binding="tableDetectedFiles">
+                                <constraints/>
+                                <properties/>
+                              </component>
+                            </children>
+                          </scrollpane>
+                          <component id="7f892" class="javax.swing.JButton" binding="buttExecuteScripts">
+                            <constraints>
+                              <grid row="8" column="7" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Exécuter les scripts"/>
+                            </properties>
+                          </component>
+                          <component id="afa80" class="javax.swing.JButton" binding="buttGenerateScripts">
+                            <constraints>
+                              <grid row="8" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Générer les scripts"/>
+                            </properties>
+                          </component>
+                          <component id="c767f" class="javax.swing.JCheckBox" binding="chbEmptyWorkDirFirst">
+                            <constraints>
+                              <grid row="8" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Vider le répertoire"/>
+                              <toolTipText value="Vide le répertoire des scripts avant de générer les scripts"/>
+                            </properties>
+                          </component>
+                          <component id="b02fc" class="javax.swing.JRadioButton" binding="rdoCoucheFoncier">
+                            <constraints>
+                              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Foncier"/>
+                            </properties>
+                          </component>
+                          <component id="2bc79" class="javax.swing.JLabel">
+                            <constraints>
+                              <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Masque du schema.table à extraire :"/>
+                              <toolTipText value="Schema.table à extraire depuis dans le dump sql. Utiliser %DEP%, %DEPxx%, %ANNEE%..."/>
+                            </properties>
+                          </component>
+                          <component id="fb95d" class="javax.swing.JLabel">
+                            <constraints>
+                              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="Masque schema.table de destination :"/>
+                              <toolTipText value="Endroit où faire l'insertion dans la base destination. Utiliser %DEP% pour le département sur 3 chiffres, %DEPxx% sur 2, %FIC% pour le nom du fichier, %ANNEE% pour l'année sur 4 chiffres"/>
+                            </properties>
+                          </component>
+                          <component id="3fdfb" class="javax.swing.JTextField" binding="txtSchema">
+                            <constraints>
+                              <grid row="2" column="2" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties/>
+                          </component>
+                          <component id="1df60" class="javax.swing.JTextField" binding="txtTable">
+                            <constraints>
+                              <grid row="2" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties/>
+                          </component>
+                          <component id="e081b" class="javax.swing.JLabel">
+                            <constraints>
+                              <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <text value="."/>
+                            </properties>
+                          </component>
+                          <component id="d5d49" class="javax.swing.JTextField" binding="txtSchemaTableSource">
+                            <constraints>
+                              <grid row="3" column="2" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                <preferred-size width="150" height="-1"/>
+                              </grid>
+                            </constraints>
+                            <properties>
+                              <text value=""/>
+                            </properties>
+                          </component>
+                        </children>
+                      </grid>
+                      <grid id="9805f" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                        <margin top="0" left="0" bottom="0" right="0"/>
+                        <constraints>
+                          <tabbedpane title="Foncier"/>
+                        </constraints>
+                        <properties>
+                          <background color="-3549454"/>
+                        </properties>
+                        <border type="none"/>
+                        <children/>
+                      </grid>
+                    </children>
+                  </tabbedpane>
                 </children>
               </grid>
-              <scrollpane id="c5b5b">
-                <constraints>
-                  <grid row="9" column="11" row-span="1" col-span="8" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <preferred-size width="200" height="83"/>
-                  </grid>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <component id="a8d0b" class="javax.swing.JTextArea" binding="txtaSelectedFiles">
-                    <constraints/>
-                    <properties>
-                      <editable value="false"/>
-                      <font name="Courier New" size="11"/>
-                      <text value=""/>
-                    </properties>
-                  </component>
-                </children>
-              </scrollpane>
               <component id="3fa9c" class="javax.swing.JLabel">
                 <constraints>
-                  <grid row="10" column="1" row-span="1" col-span="10" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="Répertoire de dézip :"/>
@@ -74,236 +362,24 @@
               </component>
               <component id="277" class="javax.swing.JTextField" binding="txtUnzipDir">
                 <constraints>
-                  <grid row="10" column="11" row-span="1" col-span="8" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                  <grid row="4" column="1" row-span="1" col-span="8" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                     <preferred-size width="150" height="-1"/>
                   </grid>
                 </constraints>
                 <properties/>
-              </component>
-              <component id="bd49d" class="javax.swing.JTextField" binding="txtDetectDep">
-                <constraints>
-                  <grid row="11" column="11" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <text value=""/>
-                </properties>
-              </component>
-              <component id="530f2" class="javax.swing.JTextField" binding="txtDetectFiles">
-                <constraints>
-                  <grid row="12" column="11" row-span="1" col-span="8" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
-              </component>
-              <scrollpane id="d585">
-                <constraints>
-                  <grid row="14" column="1" row-span="1" col-span="19" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                    <minimum-size width="200" height="100"/>
-                    <preferred-size width="200" height="100"/>
-                  </grid>
-                </constraints>
-                <properties/>
-                <border type="none"/>
-                <children>
-                  <component id="7668" class="javax.swing.JTable" binding="tableDetectedFiles">
-                    <constraints/>
-                    <properties/>
-                  </component>
-                </children>
-              </scrollpane>
-              <component id="8a93e" class="javax.swing.JButton" binding="buttSelectFiles" default-binding="true">
-                <constraints>
-                  <grid row="9" column="19" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                    <preferred-size width="74" height="83"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <text value="..."/>
-                </properties>
               </component>
               <component id="13cb3" class="javax.swing.JButton" binding="buttSelectUnzipDir">
                 <constraints>
-                  <grid row="10" column="19" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="4" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <text value="..."/>
-                </properties>
-              </component>
-              <component id="7f892" class="javax.swing.JButton" binding="buttExecuteScripts">
-                <constraints>
-                  <grid row="15" column="19" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Exécuter les scripts"/>
-                </properties>
-              </component>
-              <component id="10d9e" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="9" column="1" row-span="1" col-span="10" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false">
-                    <preferred-size width="154" height="83"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <text value="Sélection des fichiers depuis :"/>
-                  <toolTipText value="Sélectionner le(s) répertoire(s) ou zip(s) contenant les fichiers à charger. Pour sélectionner plusieurs fichiers (ou répertoires), maintenir la touche &quot;Ctrl&quot; enfoncée lors de la sélection dans la popup."/>
-                </properties>
-              </component>
-              <component id="22e74" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="13" column="1" row-span="1" col-span="10" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Fichiers trouvés à charger en BD :"/>
-                </properties>
-              </component>
-              <component id="f46a2" class="javax.swing.JRadioButton" binding="rdoCoucheTopo">
-                <constraints>
-                  <grid row="4" column="1" row-span="1" col-span="10" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <selected value="false"/>
-                  <text value="Topo"/>
-                </properties>
-              </component>
-              <component id="38080" class="javax.swing.JRadioButton" binding="rdoCoucheAlti">
-                <constraints>
-                  <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Alti"/>
-                </properties>
-              </component>
-              <component id="bb29d" class="javax.swing.JRadioButton" binding="rdoCoucheAutre">
-                <constraints>
-                  <grid row="8" column="1" row-span="1" col-span="10" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Autre"/>
-                </properties>
-              </component>
-              <component id="5e648" class="javax.swing.JCheckBox" binding="chbDetectFiles">
-                <constraints>
-                  <grid row="12" column="1" row-span="1" col-span="10" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Détection des fichiers :"/>
-                </properties>
-              </component>
-              <component id="4a146" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="6" column="11" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Commande système :"/>
-                </properties>
-              </component>
-              <component id="4d851" class="javax.swing.JTextField" binding="txtLoadCmd">
-                <constraints>
-                  <grid row="6" column="12" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
-              </component>
-              <component id="52bfc" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="8" column="11" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Extension fichiers : "/>
-                  <toolTipText value="extension des fichiers à sélectionner, sans le point, séparés par une virgule s'il y en a plusieurs. Ex : &quot;shp&quot;. Ex : &quot;shp, asc&quot;."/>
-                </properties>
-              </component>
-              <component id="a81c1" class="javax.swing.JTextField" binding="txtFileExt">
-                <constraints>
-                  <grid row="8" column="12" row-span="1" col-span="4" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
-              </component>
-              <component id="d82a" class="javax.swing.JRadioButton" binding="rdoDepDetect">
-                <constraints>
-                  <grid row="11" column="1" row-span="1" col-span="10" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <selected value="true"/>
-                  <text value="Détection du département :"/>
-                </properties>
-              </component>
-              <component id="b44b3" class="javax.swing.JRadioButton" binding="rdoDep">
-                <constraints>
-                  <grid row="11" column="12" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="ou renseigner le département : "/>
-                </properties>
-              </component>
-              <component id="b99b5" class="javax.swing.JTextField" binding="txtDep">
-                <constraints>
-                  <grid row="11" column="14" row-span="1" col-span="5" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties>
-                  <enabled value="false"/>
-                </properties>
-              </component>
-              <component id="bb1b1" class="javax.swing.JRadioButton" binding="rdoCoucheFoncier" default-binding="true">
-                <constraints>
-                  <grid row="7" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Foncier"/>
-                </properties>
-              </component>
-              <component id="fb95d" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="7" column="11" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Schéma.table en BD :"/>
-                </properties>
-              </component>
-              <component id="3fdfb" class="javax.swing.JTextField" binding="txtSchema">
-                <constraints>
-                  <grid row="7" column="12" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
-              </component>
-              <component id="e081b" class="javax.swing.JLabel">
-                <constraints>
-                  <grid row="7" column="14" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="."/>
-                </properties>
-              </component>
-              <component id="1df60" class="javax.swing.JTextField" binding="txtTable">
-                <constraints>
-                  <grid row="7" column="15" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-                    <preferred-size width="150" height="-1"/>
-                  </grid>
-                </constraints>
-                <properties/>
-              </component>
-              <component id="1266d" class="javax.swing.JButton" binding="buttComputeFiles">
-                <constraints>
-                  <grid row="12" column="19" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Trouver"/>
                 </properties>
               </component>
               <grid id="1fcc0" layout-manager="GridLayoutManager" row-count="6" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="0" column="1" row-span="3" col-span="11" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="0" row-span="3" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
@@ -404,7 +480,7 @@
               <grid id="9a398" layout-manager="GridLayoutManager" row-count="4" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
-                  <grid row="0" column="12" row-span="3" col-span="8" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="2" row-span="3" col-span="8" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties/>
                 <border type="none"/>
@@ -474,32 +550,6 @@
                   </component>
                 </children>
               </grid>
-              <component id="afa80" class="javax.swing.JButton" binding="buttGenerateScripts">
-                <constraints>
-                  <grid row="15" column="15" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Générer les scripts"/>
-                </properties>
-              </component>
-              <component id="c767f" class="javax.swing.JCheckBox" binding="chbEmptyWorkDirFirst">
-                <constraints>
-                  <grid row="15" column="12" row-span="1" col-span="3" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <text value="Vider le répertoire"/>
-                  <toolTipText value="Vide le répertoire des scripts avant de générer les scripts"/>
-                </properties>
-              </component>
-              <component id="42af6" class="javax.swing.JRadioButton" binding="rdoCoucheForet">
-                <constraints>
-                  <grid row="5" column="1" row-span="1" col-span="5" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
-                </constraints>
-                <properties>
-                  <selected value="false"/>
-                  <text value="Forêt"/>
-                </properties>
-              </component>
             </children>
           </grid>
           <grid id="fdf4b" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -593,11 +643,14 @@
       <member id="b44b3"/>
     </group>
     <group name="buttonGroupSelectCouche">
-      <member id="f46a2"/>
-      <member id="38080"/>
       <member id="bb29d"/>
       <member id="bb1b1"/>
+    </group>
+    <group name="buttonGroupSelectCouche">
+      <member id="f46a2"/>
       <member id="42af6"/>
+      <member id="38080"/>
+      <member id="b02fc"/>
     </group>
   </buttonGroups>
 </form>

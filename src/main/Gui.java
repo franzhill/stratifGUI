@@ -72,9 +72,8 @@ public class Gui
 
   public  JRadioButton rdoCoucheTopo;
   public  JRadioButton rdoCoucheAlti;
-  public  JRadioButton rdoCoucheAutre;
-  public  JRadioButton rdoCoucheFoncier;
   public  JRadioButton rdoCoucheForet;
+  public  JRadioButton rdoCoucheFoncier;
 
   public  JTextField   txtSchema;
 
@@ -89,9 +88,10 @@ public class Gui
   public  JTextField   txtTempDir;
   public  JButton      buttSelectPostgresqlBinDir;
   public  JButton      buttSelectTempDir;
-  public JButton       buttGenerateScripts;
-  public JCheckBox     chbEmptyWorkDirFirst;
-
+  public  JButton      buttGenerateScripts;
+  public  JCheckBox    chbEmptyWorkDirFirst;
+  private JTabbedPane tabbedPane2;
+  public  JTextField   txtSchemaTableSource;
 
 
   /**
@@ -187,9 +187,8 @@ public class Gui
         // The action command allows to identify the radio button that has been selected
         rdoCoucheTopo    .setActionCommand(ModelCouche.TOPO);
         rdoCoucheAlti    .setActionCommand(ModelCouche.ALTI);
-        rdoCoucheFoncier .setActionCommand(ModelCouche.FONCIER);
-        rdoCoucheAutre   .setActionCommand(ModelCouche.AUTRE);
         rdoCoucheForet   .setActionCommand(ModelCouche.FORET);
+        rdoCoucheFoncier .setActionCommand(ModelCouche.FONCIER);
 
         // Attach actions
         buttSelectPostgresqlBinDir
@@ -207,9 +206,11 @@ public class Gui
 
         rdoCoucheTopo         .addActionListener(rdoCoucheCtrl);
         rdoCoucheAlti         .addActionListener(rdoCoucheCtrl);
-        rdoCoucheAutre        .addActionListener(rdoCoucheCtrl);
-        rdoCoucheFoncier      .addActionListener(rdoCoucheCtrl);
         rdoCoucheForet        .addActionListener(rdoCoucheCtrl);
+        rdoCoucheFoncier      .addActionListener(rdoCoucheCtrl);
+
+
+        // According to selections made, some components should be disabled/selected etc.:
 
         chbDetectFiles.addActionListener(new AbstractAction("chbDetectFiles")
         { public void actionPerformed(ActionEvent e)
@@ -228,6 +229,8 @@ public class Gui
           { if (rdoDepDetect.isSelected()) {rdoDepDetectSelect(true); }
           }
         });
+
+
 
     }
 
@@ -412,9 +415,8 @@ public class Gui
   {
     if (rdoCoucheTopo   .isSelected()) return rdoCoucheTopo   ;
     if (rdoCoucheAlti   .isSelected()) return rdoCoucheAlti   ;
-    if (rdoCoucheFoncier.isSelected()) return rdoCoucheFoncier;
-    if (rdoCoucheAutre  .isSelected()) return rdoCoucheAutre  ;
     if (rdoCoucheForet  .isSelected()) return rdoCoucheForet  ;
+    if (rdoCoucheFoncier.isSelected()) return rdoCoucheFoncier;
     return null;
   }
 
