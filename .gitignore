@@ -1,5 +1,9 @@
 # Intellij module file
 StratifGUI.iml
 
+# Intellij generated stuff
+target
+out
+
 # tmp gets regularly wiped clean so don't put a .gitignore in it
 tmp
