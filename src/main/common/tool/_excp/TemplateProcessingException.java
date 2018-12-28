@@ -1,12 +1,12 @@
 package main.common.tool._excp;
 
-public class TableExtractionException  extends Exception
+public class TemplateProcessingException extends Exception
 {
-  public TableExtractionException(String message, Throwable cause)
+  public TemplateProcessingException(String message, Throwable cause)
   { super(message, cause);
   }
 
-  public TableExtractionException(String message)
+  public TemplateProcessingException(String message)
   { super(message);
   }
 

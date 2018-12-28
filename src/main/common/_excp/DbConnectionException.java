@@ -1,4 +1,4 @@
-package main.ex;
+package main.common._excp;
 
 public class DbConnectionException extends Exception
 {

@@ -16,6 +16,7 @@ public class ModelCouche
   public static final String FONCIER = "FONCIER";
   public static final String FORET   = "FORET";
 
+  // The getters are for use by Freemarker
 
   /**
    * Kind of layer (couche) to be loaded
@@ -31,7 +32,8 @@ public class ModelCouche
   @Getter public String fileExt    ;
   @Getter public String schema     ;
   @Getter public String table      ;
-  @Getter public String binCmd;
+  @Getter public String binCmd     ;
+  @Getter public String schemaTableSource ;
 
   /**
    *
@@ -43,7 +45,7 @@ public class ModelCouche
    * @param table
    * @param binCmd
    */
-  public ModelCouche(String type, String dep, String detectFiles, String fileExt, String schema, String table, String binCmd)
+  public ModelCouche(String type, String dep, String detectFiles, String fileExt, String schema, String table, String binCmd, String schemaTableSource)
   {
     this.type = type;
     this.dep = dep;
@@ -52,5 +54,6 @@ public class ModelCouche
     this.schema = schema;
     this.table = table;
     this.binCmd = binCmd;
+    this.schemaTableSource = schemaTableSource;
   }
 }

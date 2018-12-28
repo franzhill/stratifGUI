@@ -12,9 +12,30 @@ import java.util.List;
  */
 public class FileDep
 {
-  @Getter
-  public String departement;   // TODO rename departement to dep ?
+  // The getters are for use by Freemarker
+
+  @Getter public String departement;   // TODO rename departement to dep ?
   public File   file;
+
+  /**
+   * In some cases (e.g. couche Foncier) we may want to associate a DB table name to the departement
+   * Here in the format schema.table
+   */
+  @Getter public String schemaTable;
+
+  /**
+   * Same as schemaTable, but without the schema. part, i.e. just the table name
+   */
+  @Getter public String table;
+
+  /**
+   * In some cases (e.g. couche Foncier) we may need to specify an intermediary sql file
+   * for use in the processing of the current FileDep
+   */
+  @Getter public File sqlFile1;
+  @Getter public File sqlFile2;
+
+
 
   /**
    * @used_by Freemarker

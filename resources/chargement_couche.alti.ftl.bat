@@ -1,12 +1,12 @@
 :: Stops the shell echoing every command
 @ECHO OFF
 
-:: For late extrapolation within the values of {model.couche.schema} and {model.couche.table}
+
 set DEP=${fd.departement}
 set FIC=${fd.name}
 
 :: Variable d'env pour pgsql
-SET PGPASSWORD=${model.modelDb.password}
+set PGPASSWORD=${model.modelDb.password}
 
 set SQL_FILE="${model.tempFolderPath}"\${fd.name}_${fd.departement}.sql
 

@@ -4,7 +4,7 @@ import main.Gui;
 import main.chargement_couches.model.ModelLoad;
 import main.common.controller.AController;
 import main.common.DbConnector;
-import main.ex.DbConnectionException;
+import main.common._excp.DbConnectionException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.awt.event.ActionEvent;

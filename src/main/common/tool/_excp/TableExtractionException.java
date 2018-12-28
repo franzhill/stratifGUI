@@ -1,5 +1,13 @@
 package main.common.tool._excp;
 
-public class TableExtractionException
+public class TableExtractionException  extends Exception
 {
+  public TableExtractionException(String message, Throwable cause)
+  { super(message, cause);
+  }
+
+  public TableExtractionException(String message)
+  { super(message);
+  }
+
 }

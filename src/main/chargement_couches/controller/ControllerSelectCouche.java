@@ -20,7 +20,8 @@ public class ControllerSelectCouche extends AController
     String coucheLc = e.getActionCommand().toLowerCase();
     logger.debug("Sélection de la couche : " + couche);
 
-    // Display in GUI
+    // 1. Do all the display-related actions on the GUI
+
     gui.txtDetectDep        .setText(gui.userConfig.getProp("couches." + coucheLc + ".detect_dep")          );
     gui.txtDetectFiles      .setText(gui.userConfig.getProp("couches." + coucheLc + ".detect_files")        );
     gui.txtFileExt          .setText(gui.userConfig.getProp("couches." + coucheLc + ".file_ext")            );
@@ -41,13 +42,15 @@ public class ControllerSelectCouche extends AController
 
     if (gui.rdoCoucheFoncier.isSelected())
     { gui.txtSchema           .setEnabled(false);
+      gui.txtLoadCmd          .setEnabled(false);
       gui.txtTable            .setEnabled(false);
     }
     else
     { gui.txtSchemaTableSource.setEnabled(false);
     }
 
-    // Update model
+    // 2. Update model
+
     updateModelCouche();
 
 

@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
+/**
+ * @author fhill
+ */
 public class SysCommand
 {
     private Logger logger = LoggerFactory.getLogger(SysCommand.class);

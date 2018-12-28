@@ -11,11 +11,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * The @ Getter annotations are there to let Freemarker be able to access the properties
+ *
  * @author fhill
  */
 public class ModelLoad extends AModel
 {
+  // The @ Getter annotations are there to let Freemarker be able to access the properties
+
   /**
    * DB info
    */
@@ -32,6 +34,7 @@ public class ModelLoad extends AModel
   /**
    * Files to be loaded in the DB
    * Store all depFiles matching all criteria - candidates for loading in DB
+   * // TODo rename FileDep in DepFile or depFiles in fileDeps
    */
   public List<FileDep> depFiles = new LinkedList<FileDep>();
 
@@ -47,6 +50,13 @@ public class ModelLoad extends AModel
    */
   @Getter private String tempFolderPath;
 
+  /**
+   * Full path
+   * Private because we need to to some reformating on set
+   */
+  @Getter private String foncierDumpExtractFilePath;
+
+
 
   public void setPostgresqlBinPath(String path)
   { // Path may have spaces so add ""
@@ -58,6 +68,10 @@ public class ModelLoad extends AModel
   public void setTempFolderPath(String path)
   { tempFolderPath = FilenameUtils.separatorsToSystem(path);   // TODO see if even necessary
   }
+
+
+
+
 
 
   /**

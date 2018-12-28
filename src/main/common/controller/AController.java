@@ -34,6 +34,7 @@ public abstract class AController implements ActionListener
 
     /**
      * Update the whole model, from what's in the GUI
+     * TODO refactor
      */
     protected void updateModel()
     {
@@ -68,7 +69,8 @@ public abstract class AController implements ActionListener
                                       gui.txtFileExt    .getText(),
                                       gui.txtSchema     .getText(),
                                       gui.txtTable      .getText(),
-                                      gui.txtLoadCmd    .getText()
+                                      gui.txtLoadCmd    .getText(),
+                                      gui.txtSchemaTableSource.getText()
       );
     }
 }

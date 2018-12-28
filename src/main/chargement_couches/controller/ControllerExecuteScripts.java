@@ -5,7 +5,7 @@ import main.chargement_couches.model.ModelLoad;
 import main.common.BatFolderExecutor;
 import main.common.controller.AController;
 import main.common.tool.streamGobblerOutputhandler.StreamGobblerOutputhandlerGui;
-import main.ex.DirException;
+import main.common._excp.DirException;
 
 import java.awt.event.ActionEvent;
 
@@ -25,6 +25,11 @@ public class ControllerExecuteScripts extends AController
       model.setTempFolderPath   (gui.txtTempDir.getText());
 
       executeBats();
+
+      // TODO since commands are launched in subprocesses there is not callback to this main thread when
+      // they finish so we don't know when to tell the user everything has been completed
+      // => find a way
+      // gui.loggerGui.info("Tous les scripts ont été exécutés.");
     }
 
 

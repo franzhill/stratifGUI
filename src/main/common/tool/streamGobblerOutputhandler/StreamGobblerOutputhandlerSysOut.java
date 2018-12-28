@@ -3,6 +3,9 @@ package main.common.tool.streamGobblerOutputhandler;
 import main.Gui;
 import main.common.tool.streamGobblerOutputhandler.IStreamGobblerOutputhandler;
 
+/**
+ * @author fhill
+ */
 public class StreamGobblerOutputhandlerSysOut implements IStreamGobblerOutputhandler
 {
     private Gui gui;

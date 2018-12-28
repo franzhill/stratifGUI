@@ -1,4 +1,4 @@
-package main.ex;
+package main.common._excp;
 
 /**
  * There was a problem with a provided directory path

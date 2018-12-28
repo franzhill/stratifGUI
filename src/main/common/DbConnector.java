@@ -1,7 +1,7 @@
 package main.common;
 
 import main.common.model.ModelDb;
-import main.ex.DbConnectionException;
+import main.common._excp.DbConnectionException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

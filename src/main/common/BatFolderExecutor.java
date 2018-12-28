@@ -3,7 +3,7 @@ package main.common;
 import main.common.tool.SysCommand;
 import main.common.tool.streamGobblerOutputhandler.IStreamGobblerOutputhandler;
 import main.utils.MyFileUtils;
-import main.ex.DirException;
+import main.common._excp.DirException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +11,7 @@ import java.io.File;
 
 /**
  * Execute all bat files contained in a dir
+ * @author fhill
  */
 public class BatFolderExecutor
 {
@@ -84,7 +85,7 @@ public class BatFolderExecutor
     logger.debug("f=" + f.getName());
     logger.debug("Moving file to WIP...");
     // Move to WIP
-    //File fwip = new File(wip + File.separator + f.getName());
+    //File fwip = new File(wip + File.separator + f.getName());    // TODO TODO TODO
 
     //f.renameTo(fwip);  // Moves the actual underlying system file // TODO seems not
     logger.debug("Done.");
