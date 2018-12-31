@@ -1,16 +1,16 @@
-package main.common.tool.streamGobblerOutputhandler;
+package main.common.tool.outputHandler;
 
 import main.Gui;
-import main.common.tool.streamGobblerOutputhandler.IStreamGobblerOutputhandler;
 
 /**
+ * Describe how to handle output such as to have it processed by a GUI
  * @author fhill
  */
-public class StreamGobblerOutputhandlerGui implements IStreamGobblerOutputhandler
+public class OutputHandlerGui implements IOutputHandler
 {
     private Gui gui;
 
-    public StreamGobblerOutputhandlerGui(Gui gui)
+    public OutputHandlerGui(Gui gui)
     {   this.gui = gui;
     }
 

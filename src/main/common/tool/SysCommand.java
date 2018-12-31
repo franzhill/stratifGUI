@@ -1,7 +1,7 @@
 package main.common.tool;
 
 import main.common.tool.streamGobbler.StreamGobbler;
-import main.common.tool.streamGobblerOutputhandler.IStreamGobblerOutputhandler;
+import main.common.tool.outputHandler.IOutputHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,14 +23,14 @@ public class SysCommand
     /**
      * Will handle the output from the system command calls (e.g. write messages in the GUI)
      */
-    private IStreamGobblerOutputhandler outputHandler;
+    private IOutputHandler outputHandler;
 
     /**
      * @param command will be executed by cmd.exe
      * @param args list of arguments to pass to the command
      * @param outputHandler will handle the output from the system command calls (e.g. write messages in the GUI)
      */
-    public SysCommand(String command, List<String> args, IStreamGobblerOutputhandler outputHandler)
+    public SysCommand(String command, List<String> args, IOutputHandler outputHandler)
     {   this(command, outputHandler);
         this.args    = args;
     }
@@ -42,7 +42,7 @@ public class SysCommand
      * @param command
      * @param outputHandler
      */
-    public SysCommand(String command, IStreamGobblerOutputhandler outputHandler)
+    public SysCommand(String command, IOutputHandler outputHandler)
     {
         this.command       = command;
         this.outputHandler = outputHandler;
@@ -72,14 +72,14 @@ public class SysCommand
             //errorGobbler.start();
             //outputGobbler.start();
             // Sys command exit status
-            /*
+
             try
             {   exitVal = proc.waitFor();
             }
             catch (InterruptedException e)
             {   e.printStackTrace();
                 exitVal=-1;
-            }*/
+            }
 
         }
         catch (IOException e)
@@ -88,5 +88,11 @@ public class SysCommand
         }
         logger.debug("System call command exited with value = " + exitVal);
         return exitVal;
+    }
+
+
+    @Override
+    public String toString()
+    {   return "cmd.exe /C " + command;  // TODO clean up
     }
 }

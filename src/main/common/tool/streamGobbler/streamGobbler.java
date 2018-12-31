@@ -1,6 +1,6 @@
 package main.common.tool.streamGobbler;
 
-import main.common.tool.streamGobblerOutputhandler.IStreamGobblerOutputhandler;
+import main.common.tool.outputHandler.IOutputHandler;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 
 
 /**
- * Used to catch output of executed system commannds (see class SysCommand)
+ * Used to catch output of executed system commands (see class SysCommand)
  *
  * @courtesy https://www.javaworld.com/article/2071275/core-java/when-runtime-exec---won-t.html?page=2
  */
@@ -22,14 +22,14 @@ public class StreamGobbler extends Thread
     public static final String TYPE_OUT = "STDO";
     public static final String TYPE_ERR = "STDE";
 
-    protected IStreamGobblerOutputhandler outputHandler;
+    protected IOutputHandler outputHandler;
 
     /**
      *
      * @param is
      * @param type one of StreamGobbler.TYPE_OUT or StreamGobbler.TYPE_ERR
      */
-    public StreamGobbler(InputStream is, String type, IStreamGobblerOutputhandler outputHandler)
+    public StreamGobbler(InputStream is, String type, IOutputHandler outputHandler)
     {
         this.is   = is;
         this.type = type;

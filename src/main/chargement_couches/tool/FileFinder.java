@@ -51,7 +51,7 @@ public class FileFinder
   {
     this.rootFolders            = rootFolders;
     this.fileExtensions         = MyFileUtils.split(fileExtensions.toUpperCase(),",");
-    this.fileDetectionPatterns = MyFileUtils.split(fileDetectionPattern.toUpperCase(),",");;
+    this.fileDetectionPatterns = MyFileUtils.split(fileDetectionPattern.toUpperCase(),",");
 
     if (isDepPattern) {this.depDetectionPattern = departement;} else {this.dep = departement;}
   }

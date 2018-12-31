@@ -78,13 +78,19 @@ public class Config
 
 
     /**
-     * Get a configuration property.
+     * Get a configuration property
      * @param name name of property (key)
      * @return value of property, null if property is not found
      */
     public String getProp(String name)
     {
         return config.getString(name);
+    }
+
+
+    public String getProp(String name, String default_val)
+    {
+        return (config.getString(name) != null) ? config.getString(name) : default_val;
     }
 
 

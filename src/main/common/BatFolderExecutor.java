@@ -1,7 +1,7 @@
 package main.common;
 
 import main.common.tool.SysCommand;
-import main.common.tool.streamGobblerOutputhandler.IStreamGobblerOutputhandler;
+import main.common.tool.outputHandler.IOutputHandler;
 import main.utils.MyFileUtils;
 import main.common._excp.DirException;
 import org.slf4j.Logger;
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 
 /**
- * Execute all bat files contained in a dir
+ * Execute all bat files contained in a folder
  * @author fhill
  */
 public class BatFolderExecutor
@@ -20,33 +20,33 @@ public class BatFolderExecutor
   /**
    * Dir containing all bat files (path of)
    */
-  private String dir;
+  protected String dir;
 
   /**
    * Work In Progress folder (path of)
    * Move bat files here just before executing them
    */
-  private String wip;
+  protected String wip;
 
   /**
    * Done folder (path of)
    * Move bat files here when done (sucessfully)
    */
-  private String done;
+  protected String done;
 
   /**
    * Done folder (path of)
    * Move bat files here when execution failed
    */
-  private String error;
+  protected String error;
 
   /**
    * Will handle the output from the system command calls (e.g. write messages in the GUI)
    */
-  private IStreamGobblerOutputhandler outputHandler;
+  protected IOutputHandler outputHandler;
 
 
-  public BatFolderExecutor(String dirPath, IStreamGobblerOutputhandler outputHandler)
+  public BatFolderExecutor(String dirPath, IOutputHandler outputHandler)
   {
     this.dir  = dirPath;
     this.wip  = this.dir + File.pathSeparator + "WIP";

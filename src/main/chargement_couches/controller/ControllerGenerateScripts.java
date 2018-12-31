@@ -84,7 +84,6 @@ public class ControllerGenerateScripts extends AController
     }
     catch (ExecutionException e1)
     { gui.showMessageError("Erreur lors du chargement des couches spécifiées. Vérifier les paramètres fournis, et réessayer, ou consulter les logs.", e1);
-      return;
     }
   }
 
@@ -111,11 +110,11 @@ public class ControllerGenerateScripts extends AController
   {
     if (gui.chbEmptyWorkDirFirst.isSelected())
     { try
-    { FileUtils.cleanDirectory(new File(model.getTempFolderPath()));
-    }
-    catch (IOException e)
-    {  throw new ExecutionException(String.format("Impossible de vider le répertoire des scripts (%s). Un fichier est peut-être verrouillé.", model.getTempFolderPath()), e);
-    }
+      { FileUtils.cleanDirectory(new File(model.getTempFolderPath()));
+      }
+      catch (IOException e)
+      {  throw new ExecutionException(String.format("Impossible de vider le répertoire des scripts (%s). Un fichier est peut-être verrouillé.", model.getTempFolderPath()), e);
+      }
     }
   }
 
@@ -131,8 +130,8 @@ public class ControllerGenerateScripts extends AController
     //   1.3 Generate the .bat file that plays (1) and (2)
 
     // Preparation for 1.2 and 1.3 - Involves processing a template
-    File template12 = new File (String.format("resources/reduce_table.foncier.ftl.sql"     )) ; // TODO  put in conf file ? / function
-    File template13 = new File (String.format("resources/chargement_couche.foncier.ftl.bat")) ; // TODO  put in conf file ? / function
+    File template12 = new File ("resources/reduce_table.foncier.ftl.sql") ; // TODO  put in conf file ? / function
+    File template13 = new File ("resources/chargement_couche.foncier.ftl.bat") ; // TODO  put in conf file ? / function
 
     tmplproc.addData("model", model);
 

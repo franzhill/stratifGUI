@@ -43,7 +43,7 @@ public class ControllerFindFiles extends AController
         updateModelCouche();
 
         if (model.parents.isEmpty())
-        {   String msg = String.format("Aucun fichier ou répertoire sélectionné !");
+        {   String msg = "Aucun fichier ou répertoire sélectionné !";
             logger.error(msg);
             gui.showMessageError(msg);
             return;
@@ -57,12 +57,12 @@ public class ControllerFindFiles extends AController
             model.depFiles = finder.find();
             if (model.depFiles.isEmpty())
             {
-              gui.showMessageError(String.format("Aucun fichier trouvé avec les critères actuels."));
+              gui.showMessageError("Aucun fichier trouvé avec les critères actuels.");
             }
           }
           catch (DepExtractionException excp)
           {
-            gui.showMessageError(String.format("Impossible de détecter un département : " + excp.getMessage()));
+            gui.showMessageError("Impossible de détecter un département : " + excp.getMessage());
             return;
           }
         }

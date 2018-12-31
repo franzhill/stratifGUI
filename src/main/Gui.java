@@ -30,6 +30,7 @@ import javax.swing.table.TableModel;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static javax.swing.UIManager.setLookAndFeel;
@@ -101,7 +102,8 @@ public class Gui
    * Will log in a dedicated area on the GUI, visible to the end user.
    * Is public for access from other classes in the MVC architecture
    */
-  public static Logger loggerGui;  // TODO unmake static ?
+  //public static Logger loggerGui;  // TODO unmake static ?
+  public static org.apache.logging.log4j.Logger loggerGui;  // TODO unmake static ?
 
   /**
    * Holds the details pertaining to the selected depFiles/folders.
@@ -320,7 +322,8 @@ public class Gui
     }
     guiLoggerConfig.addAppender(appender, null, null);  // Note ; could do the same for level and filter as we did for the pattern layout I guess
 
-    loggerGui = LoggerFactory.getLogger(GUI_LOGGER_REF);
+    //loggerGui = LoggerFactory.getLogger(GUI_LOGGER_REF);
+    loggerGui = org.apache.logging.log4j.LogManager.getLogger(GUI_LOGGER_REF);
   }
 
 
@@ -336,10 +339,11 @@ public class Gui
     logInGui(text, false);
   }
 
+
   /**
-   * Do not use directly.
+   * !! Do not use directly. !!
    * Use the loggerGui instead.
-   * Used by the loggerGui.
+   * @used_by the loggerGui.
    *
    * @param text
    * @param addNewLine
@@ -359,13 +363,16 @@ public class Gui
     {   userConfig = new Config(userConfigFilePath);
     }
     catch (ConfigAccessException e)
-    {   logger.error(String.format("Could  not load user conf file {%s}. Stack:\n {%s}", userConfigFilePath, e.getStackTrace())); // TODO stack trace print is KO, fix it
+    {   logger.error(String.format("Could  not load user conf file {%s}. Stack:\n {%s}", userConfigFilePath, Arrays.toString(e.getStackTrace()))); // TODO stack trace print is KO, fix it
       String usrMsg = String.format("Impossible de charger le fichier de conf {%s}. Indiquer les configurations à la main si besoin.", userConfigFilePath);
       showMessageError(usrMsg);
     }
   }
 
 
+  /**
+   * Initialise GUI display with config (config file)
+   */
   private void initUserConfigDisplay()  // TODO factorise with ControllerSelectCouche.addActionEvent
   { logger.debug("");
     txtDbHostname       .setText(userConfig.getProp("db.hostname"));
