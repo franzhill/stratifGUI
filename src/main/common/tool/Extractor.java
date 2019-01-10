@@ -11,6 +11,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
+ * Extract part(s) of a file
  * @author jbringuier / fhill
  */
 public class Extractor

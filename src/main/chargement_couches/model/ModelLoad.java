@@ -57,6 +57,13 @@ public class ModelLoad extends AModel
   @Getter private String foncierDumpExtractFilePath;
 
 
+  /**
+   * Max nb of threads to converse with DB with
+   * Private because we need to to some reformating on set
+   */
+  @Getter private int nbThreads;
+
+
 
   public void setPostgresqlBinPath(String path)
   { // Path may have spaces so add ""
@@ -68,6 +75,18 @@ public class ModelLoad extends AModel
   public void setTempFolderPath(String path)
   { tempFolderPath = FilenameUtils.separatorsToSystem(path);   // TODO see if even necessary
   }
+
+
+  public void setNbThreads(String nb)
+  { try
+    { nbThreads = Integer.parseInt(nb);
+    }
+    catch (Exception e)
+    { logger.warn("Nb de threads indiqué non correct => 1 seul thread d'exécution");
+      nbThreads = 1;
+    }
+  }
+
 
 
 

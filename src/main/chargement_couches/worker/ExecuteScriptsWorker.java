@@ -15,7 +15,16 @@ import java.util.List;
 
 
 /**
- * <Integer, LogMessage> = <result of execution ot this worker, type of information that the worker will use to inform (update) the application with its progress>
+ * By using a Swing worker, we'll avoid blocking the thread in which actionPerformed() is executed
+ * (the swing worker is executed in a separate thread).
+ * Some knots have to be tied here and there though (e.g. to warn the calling thread of the progress of
+ * the swing worker thread).
+ *
+ * From the thread this worker will be executing in, we'll launch the scripts that will load the
+ * data into the DB. (we can multi-thread these executions).
+ *
+ *
+ * The parametrized <Integer, LogMessage> is for <result of execution ot this worker, type of information that the worker will use to inform (update) the application with its progress>
  */
 public class ExecuteScriptsWorker extends SwingWorker<Integer, LogMessage>
 {
@@ -31,12 +40,21 @@ public class ExecuteScriptsWorker extends SwingWorker<Integer, LogMessage>
 
   private File folder;
 
+  private int nbThreads;
 
-  public ExecuteScriptsWorker(File folder, Logger logger, IOutputHandler outputHandler)
+  /**
+   *
+   * @param folder see MultiThreadedBatFolderExecutor
+   * @param logger see class
+   * @param outputHandler see MultiThreadedBatFolderExecutor
+   * @param nbThreads see MultiThreadedBatFolderExecutor
+   */
+  public ExecuteScriptsWorker(File folder, Logger logger, IOutputHandler outputHandler, int nbThreads)
   {
     this.folder = folder;
     guiLogger = logger;
     this.outputHandler = outputHandler;
+    this.nbThreads = nbThreads;
   }
 
 
@@ -47,24 +65,24 @@ public class ExecuteScriptsWorker extends SwingWorker<Integer, LogMessage>
     publish(new LogMessage(Level.INFO, "Démarrage de l'exécution des scripts..."));
     setProgress(1);
 
-
-    //int nbThreads = Integer.parseInt(this.gui.userConfig.getProp("couches.max_db_conn", "1"));  // TODO
-    int nbThreads = 5;
-    MultiThreadedBatFolderExecutor bfe = new MultiThreadedBatFolderExecutor(this.folder, this.outputHandler, nbThreads);
+    // TODO : code from the bfe could actually be here. This would allow us to monitor (and feedback) progress to user.
+    MultiThreadedBatFolderExecutor bfe = new MultiThreadedBatFolderExecutor(this.folder, guiLogger, this.outputHandler, nbThreads);
     try
-    { bfe.execute();  // TODO try executing in thread
+    {
+      // More work was done
+      publish(new LogMessage(Level.INFO, "Début de l'exécution des scripts en cours..."));
+      setProgress(0);
+
+      bfe.execute();
     }
     catch (DirException e)
     { e.printStackTrace(); // TODO handle
     }
 
 
-    // More work was done
-    publish(new LogMessage(Level.INFO, "Milieu de l'exécution des scripts..."));
-    setProgress(10);
 
     // Complete
-    publish(new LogMessage(Level.INFO, "Fin de l'exécution des scripts..."));
+    publish(new LogMessage(Level.INFO, "Fin de l'exécution des scripts."));
     setProgress(100);
     return 1;
   }

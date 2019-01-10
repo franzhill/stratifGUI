@@ -91,6 +91,7 @@ public class Gui
   public  JCheckBox    chbEmptyWorkDirFirst;
   private JTabbedPane tabbedPane2;
   public  JTextField   txtSchemaTableSource;
+  public  JTextField   txtNbThreads;
 
 
   /**
@@ -382,6 +383,10 @@ public class Gui
     txtDbName           .setText(userConfig.getProp("db.name"));
     txtPostgresqlBinDir .setText(userConfig.getProp("postgresql_bin_path"));
     txtTempDir          .setText(userConfig.getProp("temp_folder_path"));
+    txtNbThreads        .setText(userConfig.getProp("couches.max_db_conn", "1"));
+
+
+
 
     txtUnzipDir         .setText(userConfig.getProp("rep_dezip"));
     if (! txtDetectFiles.getText().isEmpty()) { chbDetectFilesSelect(true); }  else {chbDetectFilesSelect(false); }
@@ -430,7 +435,7 @@ public class Gui
   public void saveUserConfigDisplay()
   {   logger.info("Saving user config back to file...");
     try
-    {   userConfig.setProp("db.hostname"   , txtDbHostname.getText());
+    { userConfig.setProp("db.hostname"   , txtDbHostname.getText());
       userConfig.setProp("db.user"       , txtDbUser.getText());
       userConfig.setProp("db.password"   , txtDbPassword.getText());
       userConfig.setProp("db.port"       , txtDbPort.getText());
@@ -462,11 +467,11 @@ public class Gui
    */
   public void showMessageError(String usrMsg, Throwable e)
   { if (e != null)
-  {   usrMsg = usrMsg +
-          "\n \n" +
-          "Infos techniques : \n" +
-          MyExceptionUtils.getStackMessages(e);    // TODO wrap - these lines can be very long
-  }
+    {   usrMsg = usrMsg +
+            "\n \n" +
+            "Infos techniques : \n" +
+            MyExceptionUtils.getStackMessages(e);    // TODO wrap - these lines can be very long
+    }
     JOptionPane.showMessageDialog(rootPanel, usrMsg, "ERREUR", JOptionPane.WARNING_MESSAGE);
 
     // Also display in GUI log pane

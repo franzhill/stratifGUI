@@ -12,8 +12,9 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
+
 /**
- * Finds all files (shapefiles etc.) corresponding to GUI input settings
+ * Find all files (shapefiles etc.) corresponding to GUI input settings
  */
 public class ControllerFindFiles extends AController
 {

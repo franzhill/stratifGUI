@@ -1,4 +1,4 @@
-package main.common;
+package main.chargement_couches.tool;
 
 import main.common.tool.SysCommand;
 import main.common.tool.outputHandler.IOutputHandler;
@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 
 /**
- * Execute all bat files contained in a folder
+ * Execute all bat scripts contained in a folder
  * @author fhill
  */
 public class BatFolderExecutor
@@ -46,6 +46,11 @@ public class BatFolderExecutor
   protected IOutputHandler outputHandler;
 
 
+  /**
+   *
+   * @param dirPath see class
+   * @param outputHandler see class
+   */
   public BatFolderExecutor(String dirPath, IOutputHandler outputHandler)
   {
     this.dir  = dirPath;

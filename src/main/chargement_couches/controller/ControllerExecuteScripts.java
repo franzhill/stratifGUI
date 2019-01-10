@@ -5,54 +5,69 @@ import main.chargement_couches.model.ModelLoad;
 import main.chargement_couches.tool.MultiThreadedBatFolderExecutor;
 import main.chargement_couches.worker.ExecuteScriptsWorker;
 import main.common.controller.AController;
+import main.common.tool.outputHandler.IOutputHandler;
 import main.common.tool.outputHandler.OutputHandlerGui;
 import main.common._excp.DirException;
+import main.common.tool.outputHandler.OutputHandlerNull;
+import main.common.tool.outputHandler.OutputHandlerSysOut;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
 
+
+/**
+ * Execute all scripts that have been pre-generated and placed in the script folder
+ */
 public class ControllerExecuteScripts extends AController
 {
-    public ControllerExecuteScripts(Gui gui, ModelLoad model)
-    {   super(gui, model);
+  public ControllerExecuteScripts(Gui gui, ModelLoad model)
+  {   super(gui, model);
+  }
+
+  /**
+   * @param e
+   */
+  @Override
+  public void actionPerformed(ActionEvent e)
+  {
+
+    model.setTempFolderPath   (gui.txtTempDir.getText());
+    model.setNbThreads        (gui.txtNbThreads.getText());
+
+    //executeBats();  // Old method - New one below leverages a SwingWorker
+
+    // We'll be using a Swing worker to avoid blocking the thread in which actionPerformed() is executed.
+    // This thread is the one in which the refreshing of the GUI happens. So blocking it is not too good...
+
+    // Outputhandler : choose one of the following:
+    //IOutputHandler ouh = new OutputHandlerSysOut();  // will log output of scripts on STDO
+    //IOutputHandler ouh = new OutputHandlerGui(gui);  // will log output of scripts in GUI
+    IOutputHandler ouh = new OutputHandlerNull();  // silent
+
+    ExecuteScriptsWorker esw = new ExecuteScriptsWorker(new File(model.getTempFolderPath()), Gui.loggerGui, ouh, model.getNbThreads());
+    esw.execute();
+
+    // gui.loggerGui.info("Tous les scripts ont été exécutés.");  // Do not indicate termination here, cause tasks are run asynchronously (threads)
+                                                                  // so we might very likely go through here before the tasks are finished
+  }
+
+
+  /**
+   * @deprecated
+   */
+  private void executeBats()
+  {
+    //BatFolderExecutor bfe = new BatFolderExecutor(model.getTempFolderPath(), new OutputHandlerGui(this.gui));
+    // Experimental :
+    int nbThreads = Integer.parseInt(this.gui.userConfig.getProp("couches.max_db_conn", "1"));
+    MultiThreadedBatFolderExecutor bfe = new MultiThreadedBatFolderExecutor(new File(model.getTempFolderPath()),  Gui.loggerGui, new OutputHandlerGui(this.gui), nbThreads);
+    try
+    { bfe.execute();  // TODO try executing in thread
     }
-
-    /**
-     * @param e
-     */
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-
-      model.setTempFolderPath   (gui.txtTempDir.getText());
-
-      //executeBats();
-
-      ExecuteScriptsWorker esw = new ExecuteScriptsWorker(new File(model.getTempFolderPath()), Gui.loggerGui, new OutputHandlerGui(gui));
-      esw.execute();
-
-
-      // TODO since commands are launched in subprocesses there is no callback to this main thread when
-      // they finish so we don't know when to tell the user everything has been completed
-      // => find a way
-       gui.loggerGui.info("Tous les scripts ont été exécutés.");
+    catch (DirException e)
+    { e.printStackTrace(); // TODO handle
     }
-
-
-
-    private void executeBats()
-    {
-      //BatFolderExecutor bfe = new BatFolderExecutor(model.getTempFolderPath(), new OutputHandlerGui(this.gui));
-      // Experimental :
-      int nbThreads = Integer.parseInt(this.gui.userConfig.getProp("couches.max_db_conn", "1"));
-      MultiThreadedBatFolderExecutor bfe = new MultiThreadedBatFolderExecutor(new File(model.getTempFolderPath()), new OutputHandlerGui(this.gui), nbThreads);
-      try
-      { bfe.execute();  // TODO try executing in thread
-      }
-      catch (DirException e)
-      { e.printStackTrace(); // TODO handle
-      }
-    }
+  }
 
 }

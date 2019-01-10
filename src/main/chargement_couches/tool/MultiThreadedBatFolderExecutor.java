@@ -1,10 +1,10 @@
 package main.chargement_couches.tool;
 
-import main.common.BatFolderExecutor;
 import main.common._excp.DirException;
 import main.common.tool.SysCommand;
 import main.common.tool.outputHandler.IOutputHandler;
 import main.utils.MyFileUtils;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.concurrent.ExecutorService;
@@ -14,9 +14,21 @@ public class MultiThreadedBatFolderExecutor extends BatFolderExecutor
 {
   private int nbThreads = 1;
 
-  public MultiThreadedBatFolderExecutor(File folder, IOutputHandler outputHandler, int nbThreads)
+  /**
+   * To log messages from this thread or subsequent child threads
+   */
+  private Logger guiLogger;
+
+  /**
+   *
+   * @param folder see parent
+   * @param outputHandler see parent
+   * @param nbThreads max number of threads to launch at same time to execute scripts found in folder
+   */
+  public MultiThreadedBatFolderExecutor(File folder, Logger logger, IOutputHandler outputHandler, int nbThreads)
   {
     super(folder.getAbsolutePath(), outputHandler);
+    guiLogger = logger;
     this.nbThreads = nbThreads;
   }
 
@@ -38,12 +50,14 @@ public class MultiThreadedBatFolderExecutor extends BatFolderExecutor
       // If it's a bat file, execute it
       if (MyFileUtils.isBatfile(f))
       {
-        Runnable worker = new WorkerThread(new SysCommand(f.getAbsolutePath(), this.outputHandler));
+        //Runnable worker = new WorkerThread(new SysCommand(f.getAbsolutePath(), this.outputHandler));
+        Runnable worker = new BatFolderScriptExecutor(this.dir, guiLogger, outputHandler, f);
         executor.execute(worker);
       }
     }
-    executor.shutdown();
+    executor.shutdown();  // will wait for all running threads to finish
     while (!executor.isTerminated()) {/* nothing */}
+    guiLogger.info("Tous les scripts ont été exécutés. Vérifier le répertoire des scripts pour constater leur bonne exécution.");
     System.out.println("Finished all threads");
   }
 }

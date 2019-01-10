@@ -21,6 +21,10 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * Geenrate all scripts, as per inputs provided by user through the GUI
+ */
 public class ControllerGenerateScripts extends AController
 {
   /**
