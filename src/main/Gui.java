@@ -4,11 +4,11 @@ import main.chargement_couches.controller.*;
 import main.chargement_couches.model.FileDep;
 import main.chargement_couches.model.ModelCouche;
 import main.chargement_couches.model.ModelLoad;
-import main.common.*;
 import main.common.controller.ControllerSelectFile;
 import main.common.controller.ControllerTest;
 import main.common._excp.ConfigAccessException;
-import main.gui.GuiLogOutputStream;
+import main.common.gui.GuiLogOutputStream;
+import main.common.tool.config.Config;
 import main.utils.MyExceptionUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.Level;
@@ -49,7 +49,7 @@ public class Gui
   public  JTextArea    txtaLog;
   private JButton      buttSelectFiles;
   public  JTextArea    txtaSelectedFiles;
-  private JButton buttExecuteScripts;
+  public  JButton      buttExecuteScripts;
   public  JTextField   txtDbHostname;
   public  JTextField   txtDbUser;
   public  JTextField   txtDbPassword;
@@ -92,6 +92,9 @@ public class Gui
   private JTabbedPane tabbedPane2;
   public  JTextField   txtSchemaTableSource;
   public  JTextField   txtNbThreads;
+  private JButton buttStratSelectFiles;
+  private JTextArea txtaStratSelectedFiles;
+  public  JProgressBar progbCouche;
 
 
   /**
@@ -198,7 +201,7 @@ public class Gui
     buttTest              .addActionListener(new ControllerTest              (this));
     buttTestDbConnectivity.addActionListener(new ControllerTestDbConnectivity(this, modelLoad));
     buttSelectFiles       .addActionListener(new ControllerSelectParentFiles (this, modelLoad, txtaSelectedFiles, JFileChooser.DIRECTORIES_ONLY, true , userConfig.getProp("dir_couches")));
-    buttSelectUnzipDir    .addActionListener(new ControllerSelectFile        (this, txtUnzipDir,                  JFileChooser.DIRECTORIES_ONLY, false, null));
+//    buttSelectUnzipDir    .addActionListener(new ControllerSelectFile        (this, txtUnzipDir,                  JFileChooser.DIRECTORIES_ONLY, false, null));
     buttComputeFiles      .addActionListener(new ControllerFindFiles         (this, modelLoad));
     buttGenerateScripts   .addActionListener(new ControllerGenerateScripts   (this, modelLoad));
     buttExecuteScripts    .addActionListener(new ControllerExecuteScripts    (this, modelLoad));

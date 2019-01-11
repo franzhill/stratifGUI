@@ -1,4 +1,4 @@
-package main.common._excp;
+package main.z_deprecated;
 
 import main.utils.MyExceptionUtils;
 

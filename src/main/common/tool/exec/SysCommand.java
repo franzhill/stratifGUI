@@ -1,7 +1,6 @@
-package main.common.tool;
+package main.common.tool.exec;
 
-import main.common.tool.streamGobbler.StreamGobbler;
-import main.common.tool.outputHandler.IOutputHandler;
+import main.common.tool.exec.outputHandler.IOutputHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

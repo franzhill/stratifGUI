@@ -5,12 +5,12 @@ import freemarker.template.Template;
 import main.Gui;
 import main.chargement_couches.model.FileDep;
 import main.chargement_couches.model.ModelLoad;
+import main.chargement_couches.swingWorker.SwingWorkerGenerateScripts;
 import main.common.controller.AController;
-import main.common.tool.MaskPlaceHolderReplacer;
-import main.common.tool.TableExtractor;
+import main.common.tool.exec.outputHandler.IOutputHandler;
+import main.common.tool.exec.outputHandler.OutputHandlerNull;
 import main.common._excp.ExecutionException;
-import main.common.tool.TemplateProcessor;
-import main.common.tool._excp.TableExtractionException;
+import main.common.tool.bat.TemplateProcessor;
 import org.apache.commons.io.FileUtils;
 
 import java.awt.event.ActionEvent;
@@ -122,72 +122,23 @@ public class ControllerGenerateScripts extends AController
     }
   }
 
+
   /**
-   * TODO refactor
-   * @throws ExecutionException
+   * This operation might be long so we'll be doing it in a swing worker
    */
-  private void generateScriptsFoncier()  throws ExecutionException
+  private void generateScriptsFoncier()
   {
-    // 1. For each file (.sql dump for departement) provided by the user,
-    //   1.1 Generate the dump extract (for the relevant table) part and store it in a .sql file (1)
-    //   1.2 Generate the reduce table commands, in a .sql file (2)
-    //   1.3 Generate the .bat file that plays (1) and (2)
+    // Outputhandler : choose one of the following:
+    //IOutputHandler ouh = new OutputHandlerSysOut();  // will log output of scripts on STDO
+    //IOutputHandler ouh = new OutputHandlerGui(gui);  // will log output of scripts in GUI
+    IOutputHandler ouh = new OutputHandlerNull();  // silent
+    SwingWorkerGenerateScripts gssw = new SwingWorkerGenerateScripts(gui, model, new File(model.getTempFolderPath()));
+    gssw.addPropertyChangeListener(gssw);
+    gssw.execute();
 
-    // Preparation for 1.2 and 1.3 - Involves processing a template
-    File template12 = new File ("resources/reduce_table.foncier.ftl.sql") ; // TODO  put in conf file ? / function
-    File template13 = new File ("resources/chargement_couche.foncier.ftl.bat") ; // TODO  put in conf file ? / function
-
-    tmplproc.addData("model", model);
-
-    // Do 1.1 through 1.3
-    for (FileDep fd : model.depFiles)
-    { logger.debug("Processing file : " + fd.toString());
-
-      File sqlFile11  = new File(model.getTempFolderPath() + File.separator + String.format(       "dump_table_%s_%s_%s.sql", model.couche.type, fd.getName(), fd.departement)); // TODO put in conf file)
-      File sqlFile12  = new File(model.getTempFolderPath() + File.separator + String.format(     "reduce_table_%s_%s_%s.sql", model.couche.type, fd.getName(), fd.departement)); // TODO put in conf file)
-      File batFile13  = new File(model.getTempFolderPath() + File.separator + String.format("chargement_couche_%s_%s_%s.bat", model.couche.type, fd.getName(), fd.departement)); // TODO put in conf file
-
-
-      gui.loggerGui.info("Traitement du fichier : {} ... ", fd.toString());
-      if (fd.departement.isEmpty())
-      { throw new ExecutionException(String.format("Département manquant pour le fichier {%s}.", fd.file.getAbsolutePath()));
-      }
-
-      // 1.1
-      String tableName = model.couche.schemaTableSource;
-             tableName = new MaskPlaceHolderReplacer(tableName).addDep(fd.departement).replace();
-      // Original table name is something like :  ff_d16_2017.d16_2017_pnb10_parcelle
-      // => replace the schema
-      String tableNameNew = "ff." + tableName.split("\\.")[1];  // TODO brittle. Extract, put in conf file
-      // Store new table name in model, will be of use when generating the "reducing" sql command
-      fd.schemaTable = tableNameNew;
-      fd.table       = tableNameNew.split("\\.")[1];  // (remove the schema part)
-      // Where we're going to output the extract, and store it in the model, same as above : will be of use when generating the .bat
-      fd.sqlFile1 = sqlFile11;
-      fd.sqlFile2 = sqlFile12;
-
-      // Finally do the extract
-      TableExtractor tableExtractor = new TableExtractor(fd.file, tableName, tableNameNew);
-      try
-      { tableExtractor.extract(fd.sqlFile1);
-      }
-      catch (TableExtractionException e)
-      { throw new ExecutionException(String.format("Erreur lors de la génération du sql de restore pour le fichier {%s}.", fd.file.getAbsolutePath()), e);
-      }
-
-      // 1.2 and 1.3 - Involves processing a template
-      tmplproc.addData("fd", fd);
-      try
-      { tmplproc.process(template12, fd.sqlFile2);
-        tmplproc.process(template13, batFile13);
-      }
-      catch (Exception e)
-      { throw new ExecutionException(String.format("Erreur lors de la fabrication du script bat de chargement à partir du template, pour type de couche = {%s}, département = {%s}.", model.couche.type, fd.departement), e);
-      }
-
-      // 2. That should be it then ;o)
-    }
   }
+
+
 
 
 

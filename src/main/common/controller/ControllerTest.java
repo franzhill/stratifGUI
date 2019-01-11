@@ -1,8 +1,8 @@
 package main.common.controller;
 
 import main.Gui;
-import main.common.tool.SysCommand;
-import main.common.tool.outputHandler.OutputHandlerGui;
+import main.common.tool.exec.SysCommand;
+import main.common.tool.exec.outputHandler.OutputHandlerGui;
 
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;

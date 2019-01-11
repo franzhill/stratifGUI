@@ -3,7 +3,7 @@ package main.chargement_couches.controller;
 import main.Gui;
 import main.chargement_couches.model.ModelLoad;
 import main.common.controller.AController;
-import main.common.DbConnector;
+import main.common.tool.DbConnector;
 import main.common._excp.DbConnectionException;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 

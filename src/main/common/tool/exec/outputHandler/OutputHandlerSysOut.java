@@ -1,6 +1,4 @@
-package main.common.tool.outputHandler;
-
-import main.Gui;
+package main.common.tool.exec.outputHandler;
 
 /**
  * @author fhill

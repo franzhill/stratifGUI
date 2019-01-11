@@ -1,4 +1,4 @@
-package main.common;
+package main.common.tool;
 
 import main.common.model.ModelDb;
 import main.common._excp.DbConnectionException;

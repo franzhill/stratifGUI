@@ -1,6 +1,6 @@
-package main.chargement_couches.tool;
+package main.z_deprecated;
 
-import main.common.tool.SysCommand;
+import main.common.tool.exec.SysCommand;
 
 public class WorkerThread implements Runnable
 {

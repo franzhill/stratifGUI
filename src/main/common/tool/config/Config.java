@@ -1,4 +1,4 @@
-package main.common;
+package main.common.tool.config;
 
 import main.common._excp.ConfigAccessException;
 import org.apache.commons.configuration2.Configuration;

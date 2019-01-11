@@ -1,6 +1,6 @@
-package main.common.tool.streamGobbler;
+package main.common.tool.exec;
 
-import main.common.tool.outputHandler.IOutputHandler;
+import main.common.tool.exec.outputHandler.IOutputHandler;
 
 import java.io.BufferedReader;
 import java.io.IOException;

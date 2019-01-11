@@ -1,14 +1,12 @@
-package main.common.tool;
+package main.common.tool.sql;
 
-import main.common.tool._excp.ExtractionException;
 import main.common.tool._excp.TableExtractionException;
-import main.utils.MyFileUtils;
+import main.common.tool.sql.Extractor;
 import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * Extract the commands to restore a table, from a SQL dump

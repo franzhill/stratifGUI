@@ -1,4 +1,4 @@
-package main.common.tool.outputHandler;
+package main.common.tool.exec.outputHandler;
 
 /**
  * Describe how to handle the output (messages) from threads, syscommands etc.

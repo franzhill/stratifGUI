@@ -1,4 +1,4 @@
-package main.common.tool.log;
+package main.common.tool.swingWorker;
 
 import lombok.Getter;
 import org.apache.logging.log4j.Level;

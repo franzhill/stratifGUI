@@ -1,16 +1,12 @@
-package main.gui;
+package main.common.gui;
 
 
 import main.Gui;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.apache.commons.lang3.ArrayUtils.toArray;
 
 /**
  * Outpustream which is bound to a Gui

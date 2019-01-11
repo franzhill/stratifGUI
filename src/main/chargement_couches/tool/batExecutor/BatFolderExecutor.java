@@ -1,7 +1,7 @@
-package main.chargement_couches.tool;
+package main.chargement_couches.tool.batExecutor;
 
-import main.common.tool.SysCommand;
-import main.common.tool.outputHandler.IOutputHandler;
+import main.common.tool.exec.SysCommand;
+import main.common.tool.exec.outputHandler.IOutputHandler;
 import main.utils.MyFileUtils;
 import main.common._excp.DirException;
 import org.slf4j.Logger;

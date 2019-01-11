@@ -2,15 +2,13 @@ package main.chargement_couches.controller;
 
 import main.Gui;
 import main.chargement_couches.model.ModelLoad;
-import main.chargement_couches.tool.MultiThreadedBatFolderExecutor;
-import main.chargement_couches.worker.ExecuteScriptsWorker;
+import main.chargement_couches.swingWorker.SwingWorkerExecuteScripts;
+import main.chargement_couches.tool.batExecutor.MultiThreadedBatFolderExecutor;
 import main.common.controller.AController;
-import main.common.tool.outputHandler.IOutputHandler;
-import main.common.tool.outputHandler.OutputHandlerGui;
+import main.common.tool.exec.outputHandler.IOutputHandler;
+import main.common.tool.exec.outputHandler.OutputHandlerGui;
 import main.common._excp.DirException;
-import main.common.tool.outputHandler.OutputHandlerNull;
-import main.common.tool.outputHandler.OutputHandlerSysOut;
-import org.apache.logging.log4j.Logger;
+import main.common.tool.exec.outputHandler.OutputHandlerNull;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -45,7 +43,8 @@ public class ControllerExecuteScripts extends AController
     //IOutputHandler ouh = new OutputHandlerGui(gui);  // will log output of scripts in GUI
     IOutputHandler ouh = new OutputHandlerNull();  // silent
 
-    ExecuteScriptsWorker esw = new ExecuteScriptsWorker(new File(model.getTempFolderPath()), Gui.loggerGui, ouh, model.getNbThreads());
+    SwingWorkerExecuteScripts esw = new SwingWorkerExecuteScripts(gui, model, new File(model.getTempFolderPath()), ouh, model.getNbThreads());
+
     esw.execute();
 
     // gui.loggerGui.info("Tous les scripts ont été exécutés.");  // Do not indicate termination here, cause tasks are run asynchronously (threads)
