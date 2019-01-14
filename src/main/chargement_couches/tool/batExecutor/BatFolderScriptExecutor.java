@@ -70,9 +70,9 @@ public class BatFolderScriptExecutor implements Runnable
     this.f              = f;
 
 
-    this.wip  = new File(this.dir + File.separator + "WIP");
-    this.done = new File(this.dir + File.separator + "DONE");
-    this.error= new File(this.dir + File.separator + "ERROR");
+    this.wip  = new File(this.dir + File.separator + "EN_COURS");
+    this.done = new File(this.dir + File.separator + "FINI");
+    this.error= new File(this.dir + File.separator + "ERREUR");
 
     this.wip  .mkdir();
     this.done .mkdir();

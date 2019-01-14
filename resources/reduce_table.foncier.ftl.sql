@@ -1,19 +1,20 @@
 -- <#-- (Freemarker comment)
--- Réduction de la table de données issue de la couche "foncier".
--- Une fois la table de données issue du dump sql du fichier foncier insérée
--- dans notre base finale, l'idée est de supprimer les colonnes qui ne nous
--- intéressent pas afin de ne conserver qu'une poignée de colonnes.
-
--- Ce fichier est un "template Freemarker" c'est à dire qu'il sera prétraité
--- par Java avant exécution par psql.
--- Ce prétraitement permet de remplacer les "placholders" du type "${...}".
+--
+-- Ce fichier contient les commandes SQL permetttant de "réduire" la table de données issue de la couche "foncier".
+-- (càd supprimer les colonnes non utilisées pour la stratification).
+--
+-- Ce fichier est "appelé" par le script bat 'chargement.foncier...bat' (pour le département en cours),
+-- une fois les données issues de la couche foncier chargées en BD.
+--
+-- Techniquement, ce fichier n'est pas un SQL, il s'agit d'un "template Freemarker" c'est à dire qu'il sera prétraité
+-- par Java avant d'être un fichier SQL pur. Ce prétraitement permet de remplacer les "placholders" du type "${...}".
 -- Exemple :
 --   "${fd.schemaTable}" sera remplacé par le vrai nom de la table, par exemple  "ff.d16_2017_pnb10_parcelle"
-
-
--- La manière la plus simple de procéder est de lister (écrire) dans le DROP tous
--- les champs de la table d'origine (>130 champs) puis de commenter les champs
--- qui doivent être conservés.
+--
+-- En ce qui concerne la "réduction" à proprement parler (suppression des colonnes inutiles) la manière la plus simple
+-- de procéder est de lister (écrire) dans le DROP tous les champs de la table d'origine (>130 champs) puis de commenter
+-- les champs qui doivent être conservés.
+--
 -- (Freemarker comment end) -->
 
 

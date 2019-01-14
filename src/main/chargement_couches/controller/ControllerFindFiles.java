@@ -86,7 +86,7 @@ public class ControllerFindFiles extends AController
      * Unzipping zip depFiles : e.g. BDT_2-2_SHP_LAMB93_D018-ED181.7z takes ~ 10s to unzip
      * @deprecated
      */
-    private void loadZipFile(File f)
+   /* private void loadZipFile(File f)
     {
         logger.debug(String.format("Loading file {%s}...", f.toString() ));
 
@@ -100,6 +100,6 @@ public class ControllerFindFiles extends AController
             logger.error(msg + "\n Stack Trace = \n" + ExceptionUtils.getStackTrace(e));
             gui.showMessageError(msg);
         }
-    }
+    }*/
 
 }

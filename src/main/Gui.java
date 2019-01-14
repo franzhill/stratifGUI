@@ -55,7 +55,7 @@ public class Gui
   public  JTextField   txtDbPassword;
   public  JTextField   txtDbName;
   public  JTextField   txtDbPort;
-  public  JTextField   txtUnzipDir;
+  //public  JTextField   txtUnzipDir;
   public  JTextField   txtDetectDep;
 
   private JButton      buttSelectUnzipDir;
@@ -96,6 +96,18 @@ public class Gui
   private JTextArea txtaStratSelectedFiles;
   public  JProgressBar progbCouche;
 
+
+  ///**
+  // * I was not able to find a way to package the app in a jar, and have the log4j2 conf file outside of that jar,
+  // * and have log4j2 still find it. It seems it should be possible by adding the location of the conf file to the
+  // * Manifest's class path, however I wasn't able to make it work
+  // * (see https://stackoverflow.com/questions/2594689/external-log4j-xml-file/2594704#2594704
+  // *  and https://stackoverflow.com/questions/8897528/should-log4-properties-be-on-the-classpath )
+  // * So the next best thing is to use the system property to tell log4j where the conf file lies.
+  // */
+  //static
+  //{ System.setProperty("log4j.configurationFile", "conf/log4j2.xml");
+  //}
 
   /**
    * Internal logger
@@ -387,11 +399,7 @@ public class Gui
     txtPostgresqlBinDir .setText(userConfig.getProp("postgresql_bin_path"));
     txtTempDir          .setText(userConfig.getProp("temp_folder_path"));
     txtNbThreads        .setText(userConfig.getProp("couches.max_db_conn", "1"));
-
-
-
-
-    txtUnzipDir         .setText(userConfig.getProp("rep_dezip"));
+    //txtUnzipDir         .setText(userConfig.getProp("rep_dezip"));
     if (! txtDetectFiles.getText().isEmpty()) { chbDetectFilesSelect(true); }  else {chbDetectFilesSelect(false); }
   }
 
@@ -443,7 +451,7 @@ public class Gui
       userConfig.setProp("db.password"   , txtDbPassword.getText());
       userConfig.setProp("db.port"       , txtDbPort.getText());
       userConfig.setProp("db.name"       , txtDbName.getText());
-      userConfig.setProp("rep_dezip"     , txtUnzipDir.getText());
+      //userConfig.setProp("rep_dezip"     , txtUnzipDir.getText());
       // TODO gérer les couches
 
     }
@@ -499,10 +507,10 @@ public class Gui
    *
    * @return absolute path
    */
-  public String getUnzipDir()
-  {
-    return txtUnzipDir.getText();
-  }
+  //public String getUnzipDir()
+  //{
+  //  return txtUnzipDir.getText();
+  //}
 
   public void displaySelectedFiles(List<File> selectedFiles)
   {
@@ -518,9 +526,9 @@ public class Gui
 
   }
 
-  public void displaySelectedUnzipDir(File unzipDir)
-  {   txtUnzipDir.setText(unzipDir.getAbsolutePath());
-  }
+  //  public void displaySelectedUnzipDir(File unzipDir)
+  //{   txtUnzipDir.setText(unzipDir.getAbsolutePath());
+  //}
 
 
 
