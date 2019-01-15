@@ -20,36 +20,40 @@ public class ControllerFindFiles extends AControllerCharg
 
 
   @Override
-  protected void updateModel__()
+  protected void updateGui(ActionEvent e)
   {
-    // First, reinitialise the list of found files :
-    // - in the model
-    model.depFiles.clear();
+    // Reinitialise the list of found files :
     // - in the GUI
     gui.displayFoundFiles();  // TODO move somewhere else
   }
 
-
-  /**
-   *
-   * @param e
-   */
   @Override
-  public void actionPerformed(ActionEvent e)
+  protected void updateModel__()
   {
-    gui.loggerGui.info("Button findFiles was pressed");
+    // Reinitialise the list of found files :
+    // - in the model
+    model.depFiles.clear();
+  }
 
-    updateModel();
-
-
+  @Override
+  protected boolean preDoChecks()
+  {
     if (model.parents.isEmpty())
     {   String msg = "Aucun fichier ou répertoire sélectionné !";
       logger.error(msg);
       gui.showMessageError(msg);
-      return;
+      return false;
     }
-    else
-    { FileFinder finder = new FileFinder(model.parents,
+    else return true;
+  }
+
+
+  @Override
+  public void doo()
+  {
+    gui.loggerGui.info("Button findFiles was pressed");
+
+      FileFinder finder = new FileFinder(model.parents,
                                          model.couche.fileExt,
                                          model.couche.detectFiles,
                                          model.couche.dep,
@@ -69,7 +73,7 @@ public class ControllerFindFiles extends AControllerCharg
         gui.showMessageError("Impossible de détecter un département : " + excp.getMessage());
         return;
       }
-    }
+
 
     // Update (pseudo) View
     gui.displayFoundFiles();

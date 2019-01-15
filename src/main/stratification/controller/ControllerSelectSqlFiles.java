@@ -23,12 +23,6 @@ public class ControllerSelectSqlFiles extends ControllerSelectFile
   }
 
   @Override
-  public void actionPerformed(ActionEvent e)
-  {
-    super.actionPerformed(e);
-  }
-
-  @Override
   protected void processHook(JFileChooser fc)
   {   // Another way than having the exact Model type as a parameter (see AController<M extends AModel>)
     // is to simply cast the model as the Model type.

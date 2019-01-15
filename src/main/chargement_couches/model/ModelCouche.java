@@ -8,7 +8,7 @@ import lombok.Getter;
 public class ModelCouche
 {
   /**
-   * Kinds of layer (couche)
+   * Kinds of layers (couche)
    */
   public final static String TOPO    = "TOPO";
   public final static String ALTI    = "ALTI";

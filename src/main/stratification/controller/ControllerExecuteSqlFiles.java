@@ -1,16 +1,9 @@
 package main.stratification.controller;
 
 import main.Gui;
-import main.chargement_couches.controller.AControllerCharg;
-import main.chargement_couches.model.ModelCharg;
-import main.chargement_couches.swingWorker.SwingWorkerExecuteScripts;
-import main.chargement_couches.tool.batExecutor.MultiThreadedBatFolderExecutor;
-import main.common._excp.DirException;
 import main.common.tool.exec.outputHandler.IOutputHandler;
-import main.common.tool.exec.outputHandler.OutputHandlerGui;
 import main.common.tool.exec.outputHandler.OutputHandlerNull;
 import main.stratification.model.ModelStrat;
-import main.stratification.swingWorker.SwingWorkerExecuteSqlFiles;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -25,15 +18,11 @@ public class ControllerExecuteSqlFiles extends AControllerStrat
   {   super(gui, model);
   }
 
-  /**
-   * @param e
-   */
-  @Override
-  public void actionPerformed(ActionEvent e)
-  {
-    updateModel(); // TODO move in parent
 
-    for (File f : model.sqlFiles)
+  @Override
+  public void doo()
+  {
+     for (File f : model.sqlFiles)
     {
       gui.loggerGui.debug("Traitement du fichier : {}", f.getAbsolutePath());
     }

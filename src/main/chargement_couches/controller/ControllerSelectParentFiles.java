@@ -26,12 +26,6 @@ public class ControllerSelectParentFiles extends ControllerSelectFile
         this.model = model;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent e)
-    {
-        super.actionPerformed(e);
-    }
-
 
     @Override
     protected void processHook(JFileChooser fc)

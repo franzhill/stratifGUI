@@ -1,4 +1,4 @@
-package main.common.swingWorker;
+package main.common.swing_worker;
 
 
 import main.Gui;

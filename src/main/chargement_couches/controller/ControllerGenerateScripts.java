@@ -5,8 +5,7 @@ import freemarker.template.Template;
 import main.Gui;
 import main.chargement_couches.model.FileDep;
 import main.chargement_couches.model.ModelCharg;
-import main.chargement_couches.swingWorker.SwingWorkerGenerateScripts;
-import main.common.controller.AController;
+import main.chargement_couches.swing_worker.SwingWorkerGenerateScripts;
 import main.common.tool.exec.outputHandler.IOutputHandler;
 import main.common.tool.exec.outputHandler.OutputHandlerNull;
 import main.common._excp.ExecutionException;
@@ -45,7 +44,7 @@ public class ControllerGenerateScripts extends AControllerCharg
       //updateModelDb(); // Done in parent functions
       model.setPostgresqlBinPath        (gui.txtPostgresqlBinDir .getText());
       model.setTempFolderPath           (gui.txtTempDir          .getText());
-      model.couche.schemaTableSource =   gui.txtSchemaTableSource.getText() ;
+      //model.couche.schemaTableSource =   gui.txtSchemaTableSource.getText() ;
     }
     catch (NullPointerException e)
     { gui.showMessageError("Il manque probablement des paramètres. Vérifier que tous les éléments nécéssaires ont été indiqués.");
@@ -56,54 +55,49 @@ public class ControllerGenerateScripts extends AControllerCharg
    * TODO Refactor refactor refactor
    * TODO use SwingWorker - otherwise repainting the GUi happens only at the end of the execution of this
    *      so messages in the GUI log pane appear only at the end ...
-   * @param e
    */
   @Override
-  public void actionPerformed(ActionEvent e)
+  public void doo()
   {
     gui.loggerGui.info("Génération des scripts... Veuillez patienter...");
     gui.loggerGui.info("...");
-
-    updateModel();
 
     // Save configs (they might have been edited by user)
     // TODO for the time being we won't be saving the config
     //gui.saveUserConfigDisplay();
 
-    // Perform some checks : have all details been provided?
-    if (model.isIncomplete())
-    {
-      gui.showMessageError("Il manque des paramètres. Vérifier que tous les éléments nécéssaires ont été indiqués.");
-      return;
-    }
-
-    // Do
     try
-    { do_();
+    { emptyWorkDir();
+      if (gui.rdoCoucheFoncier.isSelected())
+      { generateScriptsFoncier();
+      }
+      else
+      { generateScripts();
+      }
       gui.loggerGui.info("Tous les scripts ont été générés.");
     }
-    catch (ExecutionException e1)
+    catch (Exception e1)
     { gui.showMessageError("Erreur lors du chargement des couches spécifiées. Vérifier les paramètres fournis, et réessayer, ou consulter les logs.", e1);
     }
   }
 
 
-  protected void preDoChecks()
+  protected boolean preDoChecks()
   {
-
+    // Perform some checks : have all details been provided?
+    if (model.isIncomplete())
+    {
+      gui.showMessageError("Il manque des paramètres. Vérifier que tous les éléments nécéssaires ont été indiqués.");
+      return false;
+    }
+    /*else if (model.depFiles.isEmpty())
+    {
+      gui.showMessageError("Aucun fichier sélectionné !");
+      return false;
+    }*/
+    else return true;
   }
 
-
-  @Override
-  protected void do_() throws ExecutionException
-  { emptyWorkDir();
-    if (gui.rdoCoucheFoncier.isSelected())
-    { generateScriptsFoncier();
-    }
-    else
-    { generateScripts();
-    }
-  }
 
 
   private void emptyWorkDir() throws ExecutionException
@@ -112,8 +106,8 @@ public class ControllerGenerateScripts extends AControllerCharg
     { try
       { FileUtils.cleanDirectory(new File(model.getTempFolderPath()));
       }
-      catch (IOException e)
-      {  throw new ExecutionException(String.format("Impossible de vider le répertoire des scripts (%s). Un fichier est peut-être verrouillé.", model.getTempFolderPath()), e);
+      catch (Exception e)
+      {  throw new ExecutionException(String.format("Impossible de vider le répertoire des scripts (%s). Existe-t-il bien ? Un fichier y est peut-être verrouillé ?", model.getTempFolderPath()), e);
       }
     }
   }

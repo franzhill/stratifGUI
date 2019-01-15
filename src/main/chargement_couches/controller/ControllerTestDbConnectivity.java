@@ -17,10 +17,8 @@ public class ControllerTestDbConnectivity extends AController
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void doo()
     {   gui.loggerGui.info("Test de connectivité ...");
-
-        updateModel();
 
         DbConnector dbc = new DbConnector(model.modelDb);
         try
@@ -35,6 +33,9 @@ public class ControllerTestDbConnectivity extends AController
                          "\n Exception stack trace = \n " + ExceptionUtils.getStackTrace(ex) );
         }
     }
+
+
+
 
 
     @Override

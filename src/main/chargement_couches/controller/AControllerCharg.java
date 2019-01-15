@@ -8,16 +8,6 @@ import main.common.model.AModel;
 
 public abstract class AControllerCharg extends AController<ModelCharg>
 {
-// DOES NOT WORK
-//
-//  /**
-//   * This field effectively hides the one declared in parent class.
-//   * Not considered a best practise, but it's the only way I've found
-//   * to avoid having to explicitly cast every mention to this.model to a ModelCharg
-//   */
-//  protected ModelCharg model;
-
-
   public AControllerCharg(Gui gui, ModelCharg model)
   { super(gui);
     this.model = model;
@@ -31,13 +21,24 @@ public abstract class AControllerCharg extends AController<ModelCharg>
     updateModel__();
   }
 
-
+  /**
+   * Called by updateModel() eventually.
+   * In this function, the parts of the model needed for the action should be updated
+   * with what was given by the user through the GUI.
+   * So in an nutshell : update parts of the model
+   *   - where user might have modified input
+   *   - that directly impact the present action
+   */
   protected abstract void updateModel__();
 
 
   private void updateModelCouche()
   {
-    String coucheType = gui.getRdoCoucheSelected().getActionCommand();  // TODO getRdoCoucheSelected() could be null if so this means couche was not selected by user => warning popup on GUI
+    if ( gui.getRdoCoucheSelected() ==  null )
+    { // User hasn't selected the couche yet => return (and deal with the problem later along the processing of the action)
+      return;
+    }
+    String coucheType = gui.getRdoCoucheSelected().getActionCommand();
 
     // Set on model
     model.couche = new ModelCouche(

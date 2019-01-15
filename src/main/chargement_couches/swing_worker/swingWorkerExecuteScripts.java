@@ -1,25 +1,25 @@
-package main.stratification.swingWorker;
+package main.chargement_couches.swing_worker;
 
 
 import main.Gui;
 import main.chargement_couches.model.ModelCharg;
 import main.chargement_couches.tool.batExecutor.MultiThreadedBatFolderExecutor;
 import main.common._excp.DirException;
-import main.common.swingWorker.ASwingWorker;
-import main.common.tool.exec.outputHandler.IOutputHandler;
+import main.common.swing_worker.ASwingWorker;
 import main.common.tool.swingWorker.LogMessage;
+import main.common.tool.exec.outputHandler.IOutputHandler;
 import org.apache.logging.log4j.Level;
 
 import java.io.File;
 
 
 /**
- * From the thread this worker will be executing in, we'll play the sql files
- * onto the DB. (we can multi-thread).
+ * From the thread this worker will be executing in, we'll launch the scripts that will load the
+ * data into the DB. (we can multi-thread these executions).
  *
  * @author fhill
  */
-public class SwingWorkerExecuteSqlFiles extends ASwingWorker
+public class SwingWorkerExecuteScripts extends ASwingWorker
 {
   /**
    * To log messages from processes launched from this thread or child threads
@@ -42,7 +42,7 @@ public class SwingWorkerExecuteSqlFiles extends ASwingWorker
    * @param outputHandler see MultiThreadedBatFolderExecutor
    * @param nbThreads see MultiThreadedBatFolderExecutor
    */
-  public SwingWorkerExecuteSqlFiles(Gui gui, ModelCharg model, File folder, IOutputHandler outputHandler, int nbThreads)
+  public SwingWorkerExecuteScripts(Gui gui, ModelCharg model, File folder, IOutputHandler outputHandler, int nbThreads)
   {
     super(gui, model);
     this.folder = folder;

@@ -32,10 +32,15 @@ public class ModelCharg extends AModel
   public List<FileDep> depFiles = new LinkedList<FileDep>();
 
 
-
+  /**
+   * Model is incomplete if final action (here, generate of execute scripts) cannot take place
+   * @return
+   */
   public boolean isIncomplete_()
   {
-    return  MyStringUtils.isNullOrEmpty(postgresqlBinPath) ||
+    return  depFiles.isEmpty() ||
+            couche == null     ||
+            MyStringUtils.isNullOrEmpty(postgresqlBinPath) ||
             MyStringUtils.isNullOrEmpty(tempFolderPath);
   }
 

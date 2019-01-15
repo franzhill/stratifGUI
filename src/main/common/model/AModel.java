@@ -72,8 +72,8 @@ public abstract class AModel
    * @return true when some info necessary to the processing (action) of the "form", is missing
    */
   public final boolean isIncomplete()
-  { logger.debug("modelDb.isIncomplete()=%b", modelDb.isIncomplete());
-    logger.debug("isIncomplete_()=%b"       , isIncomplete_()       );
+  { logger.debug("modelDb.isIncomplete()={}", modelDb.isIncomplete());
+    logger.debug("isIncomplete_()={}"       , isIncomplete_()       );
     return  modelDb.isIncomplete() || isIncomplete_();
   }
 

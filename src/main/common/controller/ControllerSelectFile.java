@@ -41,7 +41,7 @@ public class ControllerSelectFile extends AController
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void doo()
     {   gui.loggerGui.debug("Button for " + txtComponent.getName() + " was pressed.");
 
         // Open file selection dialog box
@@ -75,14 +75,13 @@ public class ControllerSelectFile extends AController
 
     @Override
     protected void updateModel_()
-    {
-
+    {   // Nothing
     }
 
 
     /**
      * Hook to provide possibility for extending classes to do processing on the selected files
-     * To be overriden by extending classes
+     * Open for overriding
      * @param fc
      */
     protected void processHook(JFileChooser fc)

@@ -2,9 +2,8 @@ package main.chargement_couches.controller;
 
 import main.Gui;
 import main.chargement_couches.model.ModelCharg;
-import main.chargement_couches.swingWorker.SwingWorkerExecuteScripts;
+import main.chargement_couches.swing_worker.SwingWorkerExecuteScripts;
 import main.chargement_couches.tool.batExecutor.MultiThreadedBatFolderExecutor;
-import main.common.controller.AController;
 import main.common.tool.exec.outputHandler.IOutputHandler;
 import main.common.tool.exec.outputHandler.OutputHandlerGui;
 import main.common._excp.DirException;
@@ -32,16 +31,12 @@ public class ControllerExecuteScripts extends AControllerCharg
 
 
 
-  /**
-   * @param e
-   */
   @Override
-  public void actionPerformed(ActionEvent e)
+  public void doo()
   {
     gui.loggerGui.info("Exécution des scripts... Veuillez patienter...");
     gui.loggerGui.info("...");
 
-    updateModel();
 
     //executeBats();  // Old method - New one below leverages a SwingWorker
 

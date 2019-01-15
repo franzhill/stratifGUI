@@ -16,8 +16,6 @@ public abstract class AController<M extends AModel> implements ActionListener
     protected Gui    gui;
     protected M      model;
 
-
-
     public AController(Gui gui, M model)
     {   this.gui   = gui;
         this.model = model;
@@ -30,17 +28,22 @@ public abstract class AController<M extends AModel> implements ActionListener
     }
 
     @Override
-    abstract public void actionPerformed(ActionEvent e);
-
-
-
-    protected void do_() throws Exception {};
+    public final void actionPerformed(ActionEvent e)
+    {
+      updateModel();
+      updateGui(e);
+      if (!preDoChecks())
+      { return;
+      }
+      doo();
+      postDo();
+    }
 
 
   /**
    * Update the parts of the model that need to be updated from the GUI input.
-   * Should be called before the action is done.
-   * TODO refactor should be called  by the parent actionPerformed()
+   * Called before the action is done.
+   * Do not override directly, override updateModel_() instead
    */
   protected final void updateModel()
   {
@@ -49,7 +52,32 @@ public abstract class AController<M extends AModel> implements ActionListener
   }
 
   /**
+   * Open for overriding
+   */
+  protected void updateGui(ActionEvent e) {}
+
+  /**
+   * Should be "do()" but do is a reserved word
+   * Open for overriding
+   */
+  protected void doo() {}
+
+  /**
+   * Open for overriding
+   * True for continue actions
+   * False for abort
+   */
+  protected boolean preDoChecks() {return true;}
+
+  /**
+   * Open for overriding
+   */
+  protected void postDo() {}
+
+
+  /**
    * Called by updateModel()
+   * Open for overriding
    * In this function, the parts of the model needed for the action should be updated
    * with what was given by the user through the GUI.
    * So in an nutshell : update parts of the model

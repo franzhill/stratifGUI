@@ -1,11 +1,11 @@
-package main.chargement_couches.swingWorker;
+package main.chargement_couches.swing_worker;
 
 
 import main.Gui;
 import main.chargement_couches.model.FileDep;
 import main.chargement_couches.model.ModelCharg;
 import main.common._excp.ExecutionException;
-import main.common.swingWorker.ASwingWorker;
+import main.common.swing_worker.ASwingWorker;
 import main.common.tool._excp.TableExtractionException;
 import main.common.tool.bat.MaskPlaceHolderReplacer;
 import main.common.tool.bat.TemplateProcessor;

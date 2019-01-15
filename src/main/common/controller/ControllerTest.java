@@ -18,7 +18,7 @@ public class ControllerTest extends AController
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void doo()
     {
         gui.loggerGui.info("logging this following press of button");
 

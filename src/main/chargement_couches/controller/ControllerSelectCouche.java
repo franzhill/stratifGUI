@@ -14,7 +14,7 @@ public class ControllerSelectCouche extends AControllerCharg
   }
 
   @Override
-  public void actionPerformed(ActionEvent e)
+  public void updateGui(ActionEvent e)
   {
     String couche   = e.getActionCommand();
     String coucheLc = e.getActionCommand().toLowerCase();
@@ -48,13 +48,8 @@ public class ControllerSelectCouche extends AControllerCharg
     else
     { gui.txtSchemaTableSource.setEnabled(false);
     }
-
-    // 2. Update model
-
-    updateModel();
-    logger.debug("model.couche.type= " + model.couche.type);
-
   }
+
 
   @Override
   protected void updateModel__()
