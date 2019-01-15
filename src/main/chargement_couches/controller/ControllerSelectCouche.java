@@ -1,15 +1,15 @@
 package main.chargement_couches.controller;
 
 import main.Gui;
-import main.chargement_couches.model.ModelLoad;
+import main.chargement_couches.model.ModelCharg;
 import main.common.controller.AController;
 
 import java.awt.event.ActionEvent;
 
-public class ControllerSelectCouche extends AController
+public class ControllerSelectCouche extends AControllerCharg
 {
 
-  public ControllerSelectCouche(Gui gui, ModelLoad model)
+  public ControllerSelectCouche(Gui gui, ModelCharg model)
   {   super(gui, model);
   }
 
@@ -51,12 +51,16 @@ public class ControllerSelectCouche extends AController
 
     // 2. Update model
 
-    updateModelCouche();
-
-
+    updateModel();
     logger.debug("model.couche.type= " + model.couche.type);
 
   }
+
+  @Override
+  protected void updateModel__()
+  { // Nothing
+  }
+
 
 
 

@@ -2,10 +2,9 @@ package main.common.swingWorker;
 
 
 import main.Gui;
-import main.chargement_couches.model.ModelLoad;
+import main.chargement_couches.model.ModelCharg;
 import main.common.tool.swingWorker.LogMessage;
 import main.utils.MyExceptionUtils;
-import org.apache.logging.log4j.Level;
 import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
@@ -26,9 +25,9 @@ public abstract class ASwingWorker extends SwingWorker<Integer, LogMessage> impl
   protected org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 
   protected Gui gui;
-  protected ModelLoad model;
+  protected ModelCharg model;
 
-  public ASwingWorker(Gui gui, ModelLoad model)
+  public ASwingWorker(Gui gui, ModelCharg model)
   { this.gui   = gui;
     this.model = model;
   }

@@ -1,8 +1,7 @@
 package main.common.controller;
 
 import main.Gui;
-import main.chargement_couches.model.ModelCouche;
-import main.chargement_couches.model.ModelLoad;
+import main.common.model.AModel;
 import main.common.model.ModelDb;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,15 +9,16 @@ import org.slf4j.LoggerFactory;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public abstract class AController implements ActionListener
+public abstract class AController<M extends AModel> implements ActionListener
 {
     protected Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 
-    protected Gui gui;
-    protected ModelLoad model;
+    protected Gui    gui;
+    protected M      model;
 
 
-    public AController(Gui gui, ModelLoad model)
+
+    public AController(Gui gui, M model)
     {   this.gui   = gui;
         this.model = model;
     }
@@ -32,18 +32,31 @@ public abstract class AController implements ActionListener
     @Override
     abstract public void actionPerformed(ActionEvent e);
 
-    /**
-     * Update the whole model, from what's in the GUI
-     * TODO refactor
-     */
-    protected void updateModel()
-    {
-        updateModelCouche();
-    }
 
 
     protected void do_() throws Exception {};
 
+
+  /**
+   * Update the parts of the model that need to be updated from the GUI input.
+   * Should be called before the action is done.
+   * TODO refactor should be called  by the parent actionPerformed()
+   */
+  protected final void updateModel()
+  {
+    updateModelDb();
+    updateModel_();
+  }
+
+  /**
+   * Called by updateModel()
+   * In this function, the parts of the model needed for the action should be updated
+   * with what was given by the user through the GUI.
+   * So in an nutshell : update parts of the model
+   *   - where user might have modified input
+   *   - that directly impact the present action
+   */
+  protected abstract void updateModel_();
 
 
   protected void updateModelDb()
@@ -57,20 +70,4 @@ public abstract class AController implements ActionListener
   }
 
 
-    protected void updateModelCouche()
-    {
-      String coucheType = gui.getRdoCoucheSelected().getActionCommand();  // TODO getRdoCoucheSelected() could be null if so this means couche was not selected by user => warning popup on GUI
-
-      // Set on model
-      model.couche = new ModelCouche( coucheType,
-                                      gui.rdoDepDetect.isSelected() ? gui.txtDetectDep  .getText()
-                                                                    : gui.txtDep        .getText(),
-                                      gui.chbDetectFiles.isSelected() ? gui.txtDetectFiles.getText() : "",
-                                      gui.txtFileExt    .getText(),
-                                      gui.txtSchema     .getText(),
-                                      gui.txtTable      .getText(),
-                                      gui.txtLoadCmd    .getText(),
-                                      gui.txtSchemaTableSource.getText()
-      );
-    }
 }

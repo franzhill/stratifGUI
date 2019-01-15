@@ -1,7 +1,7 @@
 package main.chargement_couches.controller;
 
 import main.Gui;
-import main.chargement_couches.model.ModelLoad;
+import main.chargement_couches.model.ModelCharg;
 import main.common.controller.AController;
 import main.common.tool.DbConnector;
 import main.common._excp.DbConnectionException;
@@ -12,7 +12,7 @@ import java.awt.event.ActionEvent;
 
 public class ControllerTestDbConnectivity extends AController
 {
-    public ControllerTestDbConnectivity(Gui gui, ModelLoad model)
+    public ControllerTestDbConnectivity(Gui gui, ModelCharg model)
     {   super(gui, model);
     }
 
@@ -20,7 +20,7 @@ public class ControllerTestDbConnectivity extends AController
     public void actionPerformed(ActionEvent e)
     {   gui.loggerGui.info("Test de connectivité ...");
 
-        updateModelDb();
+        updateModel();
 
         DbConnector dbc = new DbConnector(model.modelDb);
         try
@@ -37,6 +37,9 @@ public class ControllerTestDbConnectivity extends AController
     }
 
 
-
+    @Override
+    protected void updateModel_()
+    { // Nothing
+    }
 
 }

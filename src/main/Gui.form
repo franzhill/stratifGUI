@@ -356,7 +356,7 @@
                         </properties>
                         <border type="none"/>
                         <children>
-                          <grid id="39be" layout-manager="GridLayoutManager" row-count="2" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                          <grid id="39be" layout-manager="GridLayoutManager" row-count="4" column-count="7" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                             <margin top="0" left="0" bottom="0" right="0"/>
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -366,7 +366,7 @@
                             <children>
                               <vspacer id="a8524">
                                 <constraints>
-                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
+                                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
                                 </constraints>
                               </vspacer>
                               <component id="37857" class="javax.swing.JLabel">
@@ -382,29 +382,95 @@
                               </component>
                               <scrollpane id="45691">
                                 <constraints>
-                                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                  <grid row="0" column="1" row-span="1" col-span="3" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
                                     <preferred-size width="0" height="83"/>
                                   </grid>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>
                                 <children>
-                                  <component id="e2fa4" class="javax.swing.JTextArea" binding="txtaStratSelectedFiles">
+                                  <scrollpane id="3c44e">
                                     <constraints/>
-                                    <properties>
-                                      <text value=""/>
-                                    </properties>
-                                  </component>
+                                    <properties/>
+                                    <border type="none"/>
+                                    <children>
+                                      <component id="e2fa4" class="javax.swing.JTextArea" binding="txtaStratSelectedFiles">
+                                        <constraints/>
+                                        <properties>
+                                          <font size="11"/>
+                                          <text value=""/>
+                                        </properties>
+                                      </component>
+                                    </children>
+                                  </scrollpane>
                                 </children>
                               </scrollpane>
+                              <component id="967" class="javax.swing.JRadioButton" binding="rdoStratDepTous">
+                                <constraints>
+                                  <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <selected value="true"/>
+                                  <text value="tous"/>
+                                </properties>
+                              </component>
+                              <component id="5f5df" class="javax.swing.JLabel">
+                                <constraints>
+                                  <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="Appliquer aux départements :"/>
+                                </properties>
+                              </component>
+                              <component id="ecaee" class="javax.swing.JRadioButton" binding="rdoStratDepSelect">
+                                <constraints>
+                                  <grid row="1" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="sélection :"/>
+                                  <toolTipText value="liste des départements, séparés par des virgules"/>
+                                </properties>
+                              </component>
+                              <component id="b34d5" class="javax.swing.JLabel">
+                                <constraints>
+                                  <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="Placeholder :"/>
+                                </properties>
+                              </component>
                               <component id="bca69" class="javax.swing.JButton" binding="buttStratSelectFiles">
                                 <constraints>
-                                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
                                     <preferred-size width="72" height="83"/>
                                   </grid>
                                 </constraints>
                                 <properties>
                                   <text value="..."/>
+                                </properties>
+                              </component>
+                              <component id="8c7" class="javax.swing.JTextField" binding="txtStratDepPlacheholder">
+                                <constraints>
+                                  <grid row="2" column="1" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                                    <preferred-size width="150" height="-1"/>
+                                  </grid>
+                                </constraints>
+                                <properties/>
+                              </component>
+                              <component id="d8aa" class="javax.swing.JButton" binding="buttStratDo">
+                                <constraints>
+                                  <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <text value="Exécuter"/>
+                                </properties>
+                              </component>
+                              <component id="7085a" class="javax.swing.JTextArea" binding="txtaStratDepSelect">
+                                <constraints>
+                                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                </constraints>
+                                <properties>
+                                  <enabled value="false"/>
                                 </properties>
                               </component>
                             </children>
@@ -570,7 +636,9 @@
                   </component>
                   <component id="c1779" class="javax.swing.JTextField" binding="txtNbThreads">
                     <constraints>
-                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+                      <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
+                        <preferred-size width="50" height="-1"/>
+                      </grid>
                     </constraints>
                     <properties/>
                   </component>
@@ -704,6 +772,10 @@
       <member id="42af6"/>
       <member id="38080"/>
       <member id="b02fc"/>
+    </group>
+    <group name="rdoStratDep">
+      <member id="967"/>
+      <member id="ecaee"/>
     </group>
   </buttonGroups>
 </form>

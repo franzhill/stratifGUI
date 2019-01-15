@@ -1,7 +1,7 @@
 package main.chargement_couches.controller;
 
 import main.Gui;
-import main.chargement_couches.model.ModelLoad;
+import main.chargement_couches.model.ModelCharg;
 import main.chargement_couches.swingWorker.SwingWorkerExecuteScripts;
 import main.chargement_couches.tool.batExecutor.MultiThreadedBatFolderExecutor;
 import main.common.controller.AController;
@@ -17,11 +17,20 @@ import java.io.File;
 /**
  * Execute all scripts that have been pre-generated and placed in the script folder
  */
-public class ControllerExecuteScripts extends AController
+public class ControllerExecuteScripts extends AControllerCharg
 {
-  public ControllerExecuteScripts(Gui gui, ModelLoad model)
+  public ControllerExecuteScripts(Gui gui, ModelCharg model)
   {   super(gui, model);
   }
+
+
+  @Override
+  protected void updateModel__()
+  { model.setTempFolderPath   (gui.txtTempDir.getText());
+    model.setNbThreads        (gui.txtNbThreads.getText());
+  }
+
+
 
   /**
    * @param e
@@ -29,9 +38,10 @@ public class ControllerExecuteScripts extends AController
   @Override
   public void actionPerformed(ActionEvent e)
   {
+    gui.loggerGui.info("Exécution des scripts... Veuillez patienter...");
+    gui.loggerGui.info("...");
 
-    model.setTempFolderPath   (gui.txtTempDir.getText());
-    model.setNbThreads        (gui.txtNbThreads.getText());
+    updateModel();
 
     //executeBats();  // Old method - New one below leverages a SwingWorker
 

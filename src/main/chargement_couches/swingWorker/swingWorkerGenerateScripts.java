@@ -3,22 +3,18 @@ package main.chargement_couches.swingWorker;
 
 import main.Gui;
 import main.chargement_couches.model.FileDep;
-import main.chargement_couches.model.ModelLoad;
+import main.chargement_couches.model.ModelCharg;
 import main.common._excp.ExecutionException;
 import main.common.swingWorker.ASwingWorker;
 import main.common.tool._excp.TableExtractionException;
 import main.common.tool.bat.MaskPlaceHolderReplacer;
 import main.common.tool.bat.TemplateProcessor;
-import main.common.tool.exec.outputHandler.IOutputHandler;
 import main.common.tool.sql.TableExtractor;
 import main.common.tool.swingWorker.LogMessage;
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.swing.*;
 import java.io.File;
-import java.util.List;
 
 
 /**
@@ -51,7 +47,7 @@ public class SwingWorkerGenerateScripts extends ASwingWorker
    *
    * @param folder see class
    */
-  public SwingWorkerGenerateScripts(Gui gui, ModelLoad model, File folder)
+  public SwingWorkerGenerateScripts(Gui gui, ModelCharg model, File folder)
   {
     super(gui, model);
     this.folder = folder;

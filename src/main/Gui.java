@@ -3,12 +3,15 @@ package main;
 import main.chargement_couches.controller.*;
 import main.chargement_couches.model.FileDep;
 import main.chargement_couches.model.ModelCouche;
-import main.chargement_couches.model.ModelLoad;
+import main.chargement_couches.model.ModelCharg;
 import main.common.controller.ControllerSelectFile;
 import main.common.controller.ControllerTest;
 import main.common._excp.ConfigAccessException;
 import main.common.gui.GuiLogOutputStream;
 import main.common.tool.config.Config;
+import main.stratification.controller.ControllerExecuteSqlFiles;
+import main.stratification.controller.ControllerSelectSqlFiles;
+import main.stratification.model.ModelStrat;
 import main.utils.MyExceptionUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.Level;
@@ -47,67 +50,62 @@ public class Gui
   private JButton      buttTest;
   private JTabbedPane  tabbedPane1;
   public  JTextArea    txtaLog;
-  private JButton      buttSelectFiles;
-  public  JTextArea    txtaSelectedFiles;
-  public  JButton      buttExecuteScripts;
+
+  // Db settings
+
   public  JTextField   txtDbHostname;
   public  JTextField   txtDbUser;
   public  JTextField   txtDbPassword;
   public  JTextField   txtDbName;
   public  JTextField   txtDbPort;
-  //public  JTextField   txtUnzipDir;
   public  JTextField   txtDetectDep;
-
-  private JButton      buttSelectUnzipDir;
   private JButton      buttTestDbConnectivity;
+
+
+  // Tab : Chargement couche
+
   private JButton      buttComputeFiles;
   public  JTable       tableDetectedFiles;
-
-  public JCheckBox     chbDetectFiles;
-  public JTextField    txtDetectFiles;
-
-
-  private JPanel pannel;
-
+  public  JCheckBox    chbDetectFiles;
+  public  JTextField   txtDetectFiles;
+  private JPanel       pannel;
   public  JRadioButton rdoCoucheTopo;
   public  JRadioButton rdoCoucheAlti;
   public  JRadioButton rdoCoucheForet;
   public  JRadioButton rdoCoucheFoncier;
-
   public  JTextField   txtSchema;
-
   public  JTextField   txtTable;
   public  JTextField   txtFileExt;
   public  JTextField   txtLoadCmd;
   public  JRadioButton rdoDepDetect;
   public  JRadioButton rdoDep;
   public  JTextField   txtDep;
-
   public  JTextField   txtPostgresqlBinDir;
   public  JTextField   txtTempDir;
   public  JButton      buttSelectPostgresqlBinDir;
   public  JButton      buttSelectTempDir;
   public  JButton      buttGenerateScripts;
   public  JCheckBox    chbEmptyWorkDirFirst;
-  private JTabbedPane tabbedPane2;
+  private JTabbedPane  tabbedPane2;
   public  JTextField   txtSchemaTableSource;
   public  JTextField   txtNbThreads;
-  private JButton buttStratSelectFiles;
-  private JTextArea txtaStratSelectedFiles;
+  private JButton      buttSelectUnzipDir;
+  //public  JTextField   txtUnzipDir;
+  private JButton      buttSelectFiles;
+  public  JTextArea    txtaSelectedFiles;
+  public  JButton      buttExecuteScripts;
   public  JProgressBar progbCouche;
 
+  // Tab : Stratif
 
-  ///**
-  // * I was not able to find a way to package the app in a jar, and have the log4j2 conf file outside of that jar,
-  // * and have log4j2 still find it. It seems it should be possible by adding the location of the conf file to the
-  // * Manifest's class path, however I wasn't able to make it work
-  // * (see https://stackoverflow.com/questions/2594689/external-log4j-xml-file/2594704#2594704
-  // *  and https://stackoverflow.com/questions/8897528/should-log4-properties-be-on-the-classpath )
-  // * So the next best thing is to use the system property to tell log4j where the conf file lies.
-  // */
-  //static
-  //{ System.setProperty("log4j.configurationFile", "conf/log4j2.xml");
-  //}
+  private JButton      buttStratSelectFiles;
+  public  JTextArea    txtaStratSelectedFiles;
+  public  JRadioButton rdoStratDepTous;
+  public  JRadioButton rdoStratDepSelect;
+  public  JTextArea    txtaStratDepSelect;
+  public  JTextField   txtStratDepPlacheholder;
+  private JButton      buttStratDo;
+
 
   /**
    * Internal logger
@@ -122,9 +120,15 @@ public class Gui
   public static org.apache.logging.log4j.Logger loggerGui;  // TODO unmake static ?
 
   /**
-   * Holds the details pertaining to the selected depFiles/folders.
+   * User input is stored in this model (for "chargement couche")
    */
-  private ModelLoad modelLoad = new ModelLoad();
+  private ModelCharg modelCharg = new ModelCharg();
+
+  /**
+   * User input is stored in this model (for "stratification")
+   */
+  private ModelStrat modelStrat = new ModelStrat();
+
 
   /**
    * Holds the userConfig loaded from user conf file
@@ -200,51 +204,60 @@ public class Gui
 
   private void addActionListeners()
   {
-    // The action command allows to identify the radio button that has been selected
-    rdoCoucheTopo    .setActionCommand(ModelCouche.TOPO);
-    rdoCoucheAlti    .setActionCommand(ModelCouche.ALTI);
-    rdoCoucheForet   .setActionCommand(ModelCouche.FORET);
-    rdoCoucheFoncier .setActionCommand(ModelCouche.FONCIER);
+    ControllerSelectCouche rdoCoucheCtrl = new ControllerSelectCouche        (this, modelCharg);
+
+    // Make it possible to identify the radio button that has been selected
+    rdoCoucheTopo              .setActionCommand(ModelCouche.TOPO);
+    rdoCoucheAlti              .setActionCommand(ModelCouche.ALTI);
+    rdoCoucheForet             .setActionCommand(ModelCouche.FORET);
+    rdoCoucheFoncier           .setActionCommand(ModelCouche.FONCIER);
 
     // Attach actions
-    buttSelectPostgresqlBinDir
-            .addActionListener(new ControllerSelectFile        (this, txtPostgresqlBinDir, JFileChooser.DIRECTORIES_ONLY, false, null));
-    buttSelectTempDir     .addActionListener(new ControllerSelectFile        (this, txtTempDir         , JFileChooser.DIRECTORIES_ONLY, false, null));
-    buttTest              .addActionListener(new ControllerTest              (this));
-    buttTestDbConnectivity.addActionListener(new ControllerTestDbConnectivity(this, modelLoad));
-    buttSelectFiles       .addActionListener(new ControllerSelectParentFiles (this, modelLoad, txtaSelectedFiles, JFileChooser.DIRECTORIES_ONLY, true , userConfig.getProp("dir_couches")));
-//    buttSelectUnzipDir    .addActionListener(new ControllerSelectFile        (this, txtUnzipDir,                  JFileChooser.DIRECTORIES_ONLY, false, null));
-    buttComputeFiles      .addActionListener(new ControllerFindFiles         (this, modelLoad));
-    buttGenerateScripts   .addActionListener(new ControllerGenerateScripts   (this, modelLoad));
-    buttExecuteScripts    .addActionListener(new ControllerExecuteScripts    (this, modelLoad));
+    buttSelectPostgresqlBinDir .addActionListener(new ControllerSelectFile        (this, txtPostgresqlBinDir, JFileChooser.DIRECTORIES_ONLY, false, null));
+    buttSelectTempDir          .addActionListener(new ControllerSelectFile        (this, txtTempDir         , JFileChooser.DIRECTORIES_ONLY, false, null));
+    buttTest                   .addActionListener(new ControllerTest              (this));
+    buttTestDbConnectivity     .addActionListener(new ControllerTestDbConnectivity(this, modelCharg));
+    buttSelectFiles            .addActionListener(new ControllerSelectParentFiles (this, modelCharg, txtaSelectedFiles, JFileChooser.DIRECTORIES_ONLY, true , userConfig.getProp("dir_couches")));
+    buttComputeFiles           .addActionListener(new ControllerFindFiles         (this, modelCharg));
+    buttGenerateScripts        .addActionListener(new ControllerGenerateScripts   (this, modelCharg));
+    buttExecuteScripts         .addActionListener(new ControllerExecuteScripts    (this, modelCharg));
+    rdoCoucheTopo              .addActionListener(rdoCoucheCtrl);
+    rdoCoucheAlti              .addActionListener(rdoCoucheCtrl);
+    rdoCoucheForet             .addActionListener(rdoCoucheCtrl);
+    rdoCoucheFoncier           .addActionListener(rdoCoucheCtrl);
+    //buttSelectUnzipDir         .addActionListener(new ControllerSelectFile        (this, txtUnzipDir,                  JFileChooser.DIRECTORIES_ONLY, false, null));
+    buttStratSelectFiles       .addActionListener(new ControllerSelectSqlFiles(this, modelStrat, txtaStratSelectedFiles, JFileChooser.FILES_ONLY, true , userConfig.getProp("dir_strat_scripts_sql")));
+    buttStratDo                .addActionListener(new ControllerExecuteSqlFiles(this, modelStrat));
 
-    ControllerSelectCouche rdoCoucheCtrl = new ControllerSelectCouche        (this, modelLoad);
-
-    rdoCoucheTopo         .addActionListener(rdoCoucheCtrl);
-    rdoCoucheAlti         .addActionListener(rdoCoucheCtrl);
-    rdoCoucheForet        .addActionListener(rdoCoucheCtrl);
-    rdoCoucheFoncier      .addActionListener(rdoCoucheCtrl);
 
 
     // According to selections made, some components should be disabled/selected etc.:
-
     chbDetectFiles.addActionListener(new AbstractAction("chbDetectFiles")
     { public void actionPerformed(ActionEvent e)
-    { if (chbDetectFiles.isSelected()) {chbDetectFilesSelect(true);} else {chbDetectFilesSelect(false);}
-    }
+      { if (chbDetectFiles.isSelected()) {chbDetectFilesSelect(true);} else {chbDetectFilesSelect(false);}
+      }
     });
-
     rdoDep.addActionListener(new AbstractAction("rdoDep")
     { public void actionPerformed(ActionEvent e)
-    { if (rdoDep      .isSelected()) {rdoDepDetectSelect(false);}
+      { if (rdoDep      .isSelected()) {rdoDepDetectSelect(false);}
+      }
+    });
+    rdoDepDetect.addActionListener(new AbstractAction("rdoDepDetect")
+    { public void actionPerformed(ActionEvent e)
+      { if (rdoDepDetect.isSelected()) {rdoDepDetectSelect(true); }
+      }
+    });
+    rdoStratDepTous.addActionListener(new AbstractAction("rdoStratDepTous")
+    { public void actionPerformed(ActionEvent e)
+      { if (rdoStratDepTous.isSelected()) {rdoStratDepTousSelect(true); }
+      }
+    });
+    rdoStratDepSelect.addActionListener(new AbstractAction("rdoStratDepSelect")
+    { public void actionPerformed(ActionEvent e)
+    { if (rdoStratDepSelect.isSelected()) {rdoStratDepTousSelect(false); }
     }
     });
 
-    rdoDepDetect.addActionListener(new AbstractAction("rdoDepDetect")
-    { public void actionPerformed(ActionEvent e)
-    { if (rdoDepDetect.isSelected()) {rdoDepDetectSelect(true); }
-    }
-    });
 
 
 
@@ -391,14 +404,15 @@ public class Gui
    */
   private void initUserConfigDisplay()  // TODO factorise with ControllerSelectCouche.addActionEvent
   { logger.debug("");
-    txtDbHostname       .setText(userConfig.getProp("db.hostname"));
-    txtDbUser           .setText(userConfig.getProp("db.user"));
-    txtDbPassword       .setText(userConfig.getProp("db.password"));
-    txtDbPort           .setText(userConfig.getProp("db.port"));
-    txtDbName           .setText(userConfig.getProp("db.name"));
-    txtPostgresqlBinDir .setText(userConfig.getProp("postgresql_bin_path"));
-    txtTempDir          .setText(userConfig.getProp("temp_folder_path"));
-    txtNbThreads        .setText(userConfig.getProp("couches.max_db_conn", "1"));
+    txtDbHostname          .setText(userConfig.getProp("db.hostname"));
+    txtDbUser              .setText(userConfig.getProp("db.user"));
+    txtDbPassword          .setText(userConfig.getProp("db.password"));
+    txtDbPort              .setText(userConfig.getProp("db.port"));
+    txtDbName              .setText(userConfig.getProp("db.name"));
+    txtPostgresqlBinDir    .setText(userConfig.getProp("postgresql_bin_path"));
+    txtTempDir             .setText(userConfig.getProp("temp_folder_path"));
+    txtNbThreads           .setText(userConfig.getProp("couches.max_db_conn", "1"));
+    txtStratDepPlacheholder.setText(userConfig.getProp("strat.dep_placeholder"));
     //txtUnzipDir         .setText(userConfig.getProp("rep_dezip"));
     if (! txtDetectFiles.getText().isEmpty()) { chbDetectFilesSelect(true); }  else {chbDetectFilesSelect(false); }
   }
@@ -426,6 +440,21 @@ public class Gui
     txtDetectDep.setEnabled(b);
     txtDep.setEnabled(!b);
   }
+
+
+  /**
+   * Selecting or deselecting rdoStratDepTous has consequences on other components
+   * so we're binding their behaviours through this function
+   * @param b select (true) or deselect (false)
+   */
+  public void rdoStratDepTousSelect (boolean b)
+  {
+    txtaStratDepSelect.setEnabled(!b);
+    //txtaStratDepSelect.setForeground(b ? Color.WHITE : Color.BLACK);  // doesn't work
+  }
+
+
+
 
 
   /**
@@ -541,7 +570,7 @@ public class Gui
     cols.add("Fichier");
 
     // Add depFiles for display in GUI
-    for (FileDep df : modelLoad.depFiles)
+    for (FileDep df : modelCharg.depFiles)
     { vals.add(new String[]{df.departement, df.file.getAbsolutePath()});
     }
 

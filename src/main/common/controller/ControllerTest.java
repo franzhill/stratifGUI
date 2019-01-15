@@ -26,4 +26,10 @@ public class ControllerTest extends AController
         SysCommand cmd = new SysCommand("dir", new ArrayList<String>(Arrays.asList(".")),  new OutputHandlerGui(this.gui));
         cmd.execute();
     }
+
+
+    @Override
+    protected void updateModel_()
+    {   // Nothing
+    }
 }

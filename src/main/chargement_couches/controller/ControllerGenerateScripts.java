@@ -4,7 +4,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import main.Gui;
 import main.chargement_couches.model.FileDep;
-import main.chargement_couches.model.ModelLoad;
+import main.chargement_couches.model.ModelCharg;
 import main.chargement_couches.swingWorker.SwingWorkerGenerateScripts;
 import main.common.controller.AController;
 import main.common.tool.exec.outputHandler.IOutputHandler;
@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Geenrate all scripts, as per inputs provided by user through the GUI
  */
-public class ControllerGenerateScripts extends AController
+public class ControllerGenerateScripts extends AControllerCharg
 {
   /**
    * Used to process (interpolate) the script templates
@@ -33,20 +33,16 @@ public class ControllerGenerateScripts extends AController
   TemplateProcessor tmplproc = new TemplateProcessor();
 
 
-  public ControllerGenerateScripts(Gui gui, ModelLoad model)
+  public ControllerGenerateScripts(Gui gui, ModelCharg model)
   {   super(gui, model);
   }
 
 
-  /**
-   * Update parts of the model
-   *  - where user might have modified input
-   *  - that directly impact the present action
-   */
-  private void updateModel_()
+  @Override
+  protected void updateModel__()
   { try
     {
-      updateModelDb();
+      //updateModelDb(); // Done in parent functions
       model.setPostgresqlBinPath        (gui.txtPostgresqlBinDir .getText());
       model.setTempFolderPath           (gui.txtTempDir          .getText());
       model.couche.schemaTableSource =   gui.txtSchemaTableSource.getText() ;
@@ -68,7 +64,7 @@ public class ControllerGenerateScripts extends AController
     gui.loggerGui.info("Génération des scripts... Veuillez patienter...");
     gui.loggerGui.info("...");
 
-    updateModel_();
+    updateModel();
 
     // Save configs (they might have been edited by user)
     // TODO for the time being we won't be saving the config

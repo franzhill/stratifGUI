@@ -1,7 +1,7 @@
 package main.chargement_couches.controller;
 
 import main.Gui;
-import main.chargement_couches.model.ModelLoad;
+import main.chargement_couches.model.ModelCharg;
 import main.common.controller.ControllerSelectFile;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,18 +12,15 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+/**
+ * Handles parent files selection dialog and display of selected file(s) in associated text field, and model update
+ */
 public class ControllerSelectParentFiles extends ControllerSelectFile
 {
     /**
      * See parent constructor
-     * @param gui
-     * @param model
-     * @param textComponent
-     * @param mode
-     * @param enableMultiSelection
-     * @param homeDir
      */
-    public ControllerSelectParentFiles(Gui gui, ModelLoad model, JTextComponent textComponent, int mode, boolean enableMultiSelection, @Nullable String homeDir)
+    public ControllerSelectParentFiles(Gui gui, ModelCharg model, JTextComponent textComponent, int mode, boolean enableMultiSelection, @Nullable String homeDir)
     {
         super(gui, textComponent, mode, enableMultiSelection, homeDir);
         this.model = model;
@@ -35,10 +32,11 @@ public class ControllerSelectParentFiles extends ControllerSelectFile
         super.actionPerformed(e);
     }
 
+
     @Override
     protected void processHook(JFileChooser fc)
     {
-        model.parents = new LinkedList<File>(Arrays.asList(fc.getSelectedFiles()));
+        ((ModelCharg) model).parents = new LinkedList<File>(Arrays.asList(fc.getSelectedFiles()));
     }
 
 
