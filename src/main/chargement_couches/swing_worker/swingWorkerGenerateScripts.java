@@ -19,13 +19,9 @@ import java.io.File;
 
 
 /**
- * By using a Swing worker, we'll avoid blocking the thread in which actionPerformed() is executed
- * (the swing worker is executed in a separate thread).
- * Some knots have to be tied here and there though (e.g. to warn the calling thread of the progress of
- * the swing worker thread).
- *
  * From the thread this worker will be executing in, we'll be generating the bat scripts.
- *
+ * We'll be doing it only for the "couche Foncier" scripts, which takes time. Generating the scripts for the other "couches"
+ * is quick so it can be done in the Event Dispatch Thread
  *
  * The parametrized <Integer, LogMessage> is for <result of execution ot this worker, type of information that the worker will use to inform (update) the application with its progress>
  */
@@ -46,6 +42,10 @@ public class SwingWorkerGenerateScripts extends ASwingWorker<ModelCharg>
 
   /**
    *
+   * @param gui
+   * @param model
+   * @param actionButton
+   * @param progressBar pass null if no progressBar to manage
    * @param folder see class
    */
   public SwingWorkerGenerateScripts(Gui gui, ModelCharg model, JButton actionButton, JProgressBar progressBar, File folder)

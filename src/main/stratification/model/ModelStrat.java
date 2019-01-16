@@ -9,6 +9,7 @@ import main.utils.MyStringUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,6 +20,8 @@ import java.util.List;
 public class ModelStrat extends AModel
 {
   public List<File> sqlFiles = new LinkedList<File>();
+
+  private static final List<String> ALL_DEPS = new ArrayList<>(Arrays.asList("001", "002", "003", "004"));
 
   /**
    * Process all départements or only a selection?
@@ -46,6 +49,15 @@ public class ModelStrat extends AModel
     return  false; // TODO
   }
 
+  /**
+   * Call just before performing action
+   */
+  public void finalize()
+  {
+    if (processAllDeps)
+    { selDeps = ALL_DEPS;
+    }
+  }
 
   /**
    * Finalise : do all transformations and stuff before final use (i.e. injection in template)

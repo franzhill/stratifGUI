@@ -104,7 +104,7 @@ public class Gui
   public  JRadioButton rdoStratDepSelect;
   public  JTextArea    txtaStratDepSelect;
   public  JTextField   txtStratDepPlacheholder;
-  private JButton      buttStratDo;
+  public  JButton      buttStratDo;
 
 
   /**

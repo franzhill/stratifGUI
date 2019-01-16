@@ -13,8 +13,8 @@ public abstract class AController<M extends AModel> implements ActionListener
 {
     protected Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 
-    protected Gui    gui;
-    protected M      model;
+    protected final Gui    gui;
+    protected       M      model;
 
     public AController(Gui gui, M model)
     {   this.gui   = gui;

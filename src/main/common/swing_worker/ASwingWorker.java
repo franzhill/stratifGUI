@@ -31,6 +31,13 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
   protected final JProgressBar progressBar;
 
 
+  /**
+   *
+   * @param gui
+   * @param model
+   * @param actionButton the action button originating in the launch of this workers
+   * @param progressBar  pass null if no progressBar to manage
+   */
   public ASwingWorker(Gui gui, M model, JButton actionButton, JProgressBar progressBar)
   { this.gui          = gui;
     this.model        = model;
@@ -118,16 +125,20 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
 
   // TODO doesn't seem to work very well
   protected void resetProgressBar()
-  {
-    // Now reinitialize progress bar
-    try
-    { Thread.sleep(2000); // To allow user to see the bar is complete before it is reset
+  { if (progressBar != null)
+    {
+      // Now reinitialize progress bar
+      try
+      {
+        Thread.sleep(2000); // To allow user to see the bar is complete before it is reset
+      }
+      catch (InterruptedException e)
+      {
+        logger.error("Thread was interrupted while waiting to reset progress bar : " + MyExceptionUtils.getStackMessages(e));
+      }
+      progressBar.setValue(0);
+      progressBar.setStringPainted(false);  // not sure
     }
-    catch (InterruptedException e)
-    { logger.error("Thread was interrupted while waiting to reset progress bar : " + MyExceptionUtils.getStackMessages(e));
-    }
-    progressBar.setValue(0);
-    progressBar.setStringPainted(false);  // not sure
   }
 
 
@@ -140,7 +151,9 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
     if ("progress" == evt.getPropertyName())
     {
       int progress = (Integer) evt.getNewValue();
-      progressBar.setValue(progress);
+      if (progressBar != null)
+      { progressBar.setValue(progress);
+      }
     }
   }
 }

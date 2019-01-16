@@ -39,9 +39,13 @@ public class SwingWorkerExecuteScripts extends ASwingWorker<ModelCharg>
 
   /**
    *
-   * @param folder see MultiThreadedBatFolderExecutor
+   * @param gui
+   * @param model
+   * @param actionButton
+   * @param progressBar  pass null if no progressBar to manage
+   * @param folder        see MultiThreadedBatFolderExecutor
    * @param outputHandler see MultiThreadedBatFolderExecutor
-   * @param nbThreads see MultiThreadedBatFolderExecutor
+   * @param nbThreads     see MultiThreadedBatFolderExecutor
    */
   public SwingWorkerExecuteScripts(Gui gui, ModelCharg model, JButton actionButton, JProgressBar progressBar, File folder, IOutputHandler outputHandler, int nbThreads)
   {
