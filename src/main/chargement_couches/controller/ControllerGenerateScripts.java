@@ -74,7 +74,6 @@ public class ControllerGenerateScripts extends AControllerCharg
       else
       { generateScripts();
       }
-      gui.loggerGui.info("Tous les scripts ont été générés.");
     }
     catch (Exception e1)
     { gui.showMessageError("Erreur lors du chargement des couches spécifiées. Vérifier les paramètres fournis, et réessayer, ou consulter les logs.", e1);
@@ -122,7 +121,7 @@ public class ControllerGenerateScripts extends AControllerCharg
     //IOutputHandler ouh = new OutputHandlerSysOut();  // will log output of scripts on STDO
     //IOutputHandler ouh = new OutputHandlerGui(gui);  // will log output of scripts in GUI
     IOutputHandler ouh = new OutputHandlerNull();  // silent
-    SwingWorkerGenerateScripts gssw = new SwingWorkerGenerateScripts(gui, model, new File(model.getTempFolderPath()));
+    SwingWorkerGenerateScripts gssw = new SwingWorkerGenerateScripts(gui, model, gui.buttGenerateScripts, gui.progbCouche, new File(model.getTempFolderPath()));
     gssw.addPropertyChangeListener(gssw);
     gssw.execute();
 

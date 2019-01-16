@@ -9,7 +9,6 @@ import main.common.tool.exec.outputHandler.OutputHandlerGui;
 import main.common._excp.DirException;
 import main.common.tool.exec.outputHandler.OutputHandlerNull;
 
-import java.awt.event.ActionEvent;
 import java.io.File;
 
 
@@ -48,7 +47,7 @@ public class ControllerExecuteScripts extends AControllerCharg
     //IOutputHandler ouh = new OutputHandlerGui(gui);  // will log output of scripts in GUI
     IOutputHandler ouh = new OutputHandlerNull();  // silent
 
-    SwingWorkerExecuteScripts esw = new SwingWorkerExecuteScripts(gui, model, new File(model.getTempFolderPath()), ouh, model.getNbThreads());
+    SwingWorkerExecuteScripts esw = new SwingWorkerExecuteScripts(gui, model, gui.buttExecuteScripts, gui.progbCouche, new File(model.getTempFolderPath()), ouh, model.getNbThreads());
 
     esw.execute();
 

@@ -6,9 +6,8 @@ import org.apache.commons.io.LineIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Extract part(s) of a file
@@ -60,10 +59,14 @@ public class Extractor
   public void extract(String startPattern, String endPattern, String startPatternReplacement, String endPatternReplacement, boolean append) throws IOException, ExtractionException
   {
     LineIterator it = null;
-    FileWriter writer = null;
+    //FileWriter writer = null;
+    Writer writer = null;
     try
     { it = FileUtils.lineIterator(inputFile, this.encoding);
-      writer = new FileWriter(outputFile,append);
+      //
+      // writer = new FileWriter(outputFile,append);
+      writer = new OutputStreamWriter(new FileOutputStream(outputFile, append), StandardCharsets.UTF_8);
+
       boolean hasExtractionStarted = false;
       boolean wasExtractionSuccessful = false;
       logger.debug("Extracting from line starting with {} to line ending with {} ",startPattern, endPattern);

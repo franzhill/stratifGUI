@@ -10,6 +10,7 @@ import main.common.tool.swingWorker.LogMessage;
 import main.common.tool.exec.outputHandler.IOutputHandler;
 import org.apache.logging.log4j.Level;
 
+import javax.swing.*;
 import java.io.File;
 
 
@@ -19,7 +20,7 @@ import java.io.File;
  *
  * @author fhill
  */
-public class SwingWorkerExecuteScripts extends ASwingWorker
+public class SwingWorkerExecuteScripts extends ASwingWorker<ModelCharg>
 {
   /**
    * To log messages from processes launched from this thread or child threads
@@ -42,9 +43,9 @@ public class SwingWorkerExecuteScripts extends ASwingWorker
    * @param outputHandler see MultiThreadedBatFolderExecutor
    * @param nbThreads see MultiThreadedBatFolderExecutor
    */
-  public SwingWorkerExecuteScripts(Gui gui, ModelCharg model, File folder, IOutputHandler outputHandler, int nbThreads)
+  public SwingWorkerExecuteScripts(Gui gui, ModelCharg model, JButton actionButton, JProgressBar progressBar, File folder, IOutputHandler outputHandler, int nbThreads)
   {
-    super(gui, model);
+    super(gui, model, actionButton, progressBar);
     this.folder = folder;
     this.outputHandler = outputHandler;
     this.nbThreads = nbThreads;
@@ -79,18 +80,5 @@ public class SwingWorkerExecuteScripts extends ASwingWorker
     publish(new LogMessage(Level.INFO, "Fin de l'exécution des scripts."));
     return 1;
   }
-
-
-
-  @Override
-  protected void start_()
-  { gui.buttExecuteScripts.setEnabled(false);
-  }
-
-  @Override
-  protected void done_()
-  { gui.buttExecuteScripts.setEnabled(true);
-  }
-
 
 }

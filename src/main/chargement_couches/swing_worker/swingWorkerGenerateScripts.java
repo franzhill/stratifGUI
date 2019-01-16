@@ -14,6 +14,7 @@ import main.common.tool.swingWorker.LogMessage;
 import org.apache.logging.log4j.Level;
 import org.slf4j.LoggerFactory;
 
+import javax.swing.*;
 import java.io.File;
 
 
@@ -28,7 +29,7 @@ import java.io.File;
  *
  * The parametrized <Integer, LogMessage> is for <result of execution ot this worker, type of information that the worker will use to inform (update) the application with its progress>
  */
-public class SwingWorkerGenerateScripts extends ASwingWorker
+public class SwingWorkerGenerateScripts extends ASwingWorker<ModelCharg>
 {
   protected org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 
@@ -47,9 +48,9 @@ public class SwingWorkerGenerateScripts extends ASwingWorker
    *
    * @param folder see class
    */
-  public SwingWorkerGenerateScripts(Gui gui, ModelCharg model, File folder)
+  public SwingWorkerGenerateScripts(Gui gui, ModelCharg model, JButton actionButton, JProgressBar progressBar, File folder)
   {
-    super(gui, model);
+    super(gui, model, actionButton, progressBar);
     this.folder = folder;
   }
 
@@ -64,7 +65,7 @@ public class SwingWorkerGenerateScripts extends ASwingWorker
     try
     {
       // More work was done
-      publish(new LogMessage(Level.INFO, "Exécution des scripts en cours..."));
+      publish(new LogMessage(Level.INFO, "Génération des scripts en cours..."));
       setProgress(0);
       generateScriptsFoncier();
     }
@@ -77,18 +78,6 @@ public class SwingWorkerGenerateScripts extends ASwingWorker
 
     return 1;
   }
-
-
-  @Override
-  protected void start_()
-  { gui.buttGenerateScripts.setEnabled(false);
-  }
-
-  @Override
-  protected void done_()
-  { gui.buttGenerateScripts.setEnabled(true);
-  }
-
 
 
   /**
@@ -111,7 +100,7 @@ public class SwingWorkerGenerateScripts extends ASwingWorker
     // Do 1.1 through 1.3
     int nb_files_done=0;
     for (FileDep fd : model.depFiles)
-    { setProgress_(nb_files_done++, model.depFiles.size());
+    { setProgressFiles(nb_files_done++, model.depFiles.size());
       logger.debug("Processing file : " + fd.toString());
 
       File sqlFile11  = new File(model.getTempFolderPath() + File.separator + String.format(       "dump_table_%s_%s_%s.sql", model.couche.type, fd.getName(), fd.departement)); // TODO put in conf file)

@@ -27,7 +27,7 @@ public class SwingWorkerExecuteSqlFiles extends ASwingWorker
   private IOutputHandler outputHandler;
 
   /**
-   * Folder containing scripts
+   * Work folder where to copy sql files
    */
   private File folder;
 

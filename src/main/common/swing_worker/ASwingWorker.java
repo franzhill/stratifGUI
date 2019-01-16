@@ -3,6 +3,7 @@ package main.common.swing_worker;
 
 import main.Gui;
 import main.chargement_couches.model.ModelCharg;
+import main.common.model.AModel;
 import main.common.tool.swingWorker.LogMessage;
 import main.utils.MyExceptionUtils;
 import org.slf4j.LoggerFactory;
@@ -20,49 +21,72 @@ import java.util.List;
  *
  * The parametrized <Integer, LogMessage> is for <result of execution ot this worker, type of information that the worker will use to inform (update) the application with its progress>
  */
-public abstract class ASwingWorker extends SwingWorker<Integer, LogMessage> implements PropertyChangeListener
+public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer, LogMessage> implements PropertyChangeListener
 {
   protected org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 
-  protected Gui gui;
-  protected ModelCharg model;
+  protected final Gui          gui;
+  protected final M            model;
+  protected final JButton      actionButton;
+  protected final JProgressBar progressBar;
 
-  public ASwingWorker(Gui gui, ModelCharg model)
-  { this.gui   = gui;
-    this.model = model;
+
+  public ASwingWorker(Gui gui, M model, JButton actionButton, JProgressBar progressBar)
+  { this.gui          = gui;
+    this.model        = model;
+    this.actionButton = actionButton;
+    this.progressBar  = progressBar;
   }
 
 
   @Override
-  protected Integer doInBackground() throws Exception
+  protected final Integer doInBackground() throws Exception
   { start();
     return doInBackground_();
   }
 
-  protected void start()
+
+  protected final void start()
   { resetProgressBar();
+    actionButton.setEnabled(false);
     start_();
   }
 
+
   @Override
-  protected void done()
+  protected final void done()
   { setProgress(100);
-    gui.progbCouche.setValue(100);   // might be redundant with the above?
+    progressBar.setValue(100);   // might be redundant with the above?
+    actionButton.setEnabled(true);
     done_();
   }
 
 
+  /**
+   * Open for overriding
+   * Extending classes should add here behaviour to be executed on doInBackground()
+   */
   protected abstract Integer doInBackground_() throws Exception;
 
-  protected abstract void start_();
 
-  protected abstract void done_();
-
-
-  @Override
   /**
-   * This gets called regularly by the event dispatcher thread, not by the thread this worker will be executing in.
+   * Open for overriding
+   * Extending classes may add here behaviour to be executed on start()
    */
+  protected void start_() {};
+
+
+  /**
+   * Open for overriding
+   * Extending classes may add here behaviour to be executed on done()
+   */
+  protected void done_() {};
+
+
+  /**
+   * This gets called "automatically" regularly by the event dispatcher thread, not by the thread this worker will be executing in.
+   */
+  @Override
   protected void process(List< LogMessage> chunks)
   {
     // Messages received from the doInBackground() (when invoking the publish() method)
@@ -85,14 +109,14 @@ public abstract class ASwingWorker extends SwingWorker<Integer, LogMessage> impl
    * @param nb_files_done
    * @param total nb of files to be processed
    */
-  public void setProgress_(int nb_files_done, int total)
+  public void setProgressFiles(int nb_files_done, int total)
   {
     setProgress(Math.floorDiv(nb_files_done, total));
   }
 
 
 
-
+  // TODO doesn't seem to work very well
   protected void resetProgressBar()
   {
     // Now reinitialize progress bar
@@ -102,13 +126,13 @@ public abstract class ASwingWorker extends SwingWorker<Integer, LogMessage> impl
     catch (InterruptedException e)
     { logger.error("Thread was interrupted while waiting to reset progress bar : " + MyExceptionUtils.getStackMessages(e));
     }
-    gui.progbCouche.setValue(0);
-    gui.progbCouche.setStringPainted(false);  // not sure
+    progressBar.setValue(0);
+    progressBar.setStringPainted(false);  // not sure
   }
 
 
   /**
-   * Invoked when task's progress property changes.
+   * Invoked "automatically" when task's progress property changes.
    * Used to show progress in the progress bar
    */
   public void propertyChange(PropertyChangeEvent evt)
@@ -116,7 +140,7 @@ public abstract class ASwingWorker extends SwingWorker<Integer, LogMessage> impl
     if ("progress" == evt.getPropertyName())
     {
       int progress = (Integer) evt.getNewValue();
-      gui.progbCouche.setValue(progress);
+      progressBar.setValue(progress);
     }
   }
 }
