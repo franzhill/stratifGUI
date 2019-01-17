@@ -47,7 +47,7 @@ public class MultiThreadedBatFolderExecutor extends BatFolderExecutor
       // Checking dir.isDirectory() above would not be sufficient
       // to avoid race conditions with another process that deletes
       // directories.
-      throw new DirException(String.format("Erreur de lecture du répertoire des .bat spécifié : {%s}", dir.getAbsolutePath()));
+      throw new DirException(String.format("Erreur de lecture du répertoire des .bat spécifié : [%s]", dir.getAbsolutePath()));
     }
     ExecutorService executor = Executors.newFixedThreadPool(nbThreads);
     for (File f : directoryListing)
