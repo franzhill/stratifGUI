@@ -8,7 +8,7 @@ set FIC=${fd.name}
 :: Variable d'env pour pgsql
 set PGPASSWORD=${model.modelDb.password}
 
-set SQL_FILE="${model.tempFolderPath}"\${fd.name}_${fd.departement}.sql
+set SQL_FILE="${model.workFolder}"\${fd.name}_${fd.departement}.sql
 
 
 

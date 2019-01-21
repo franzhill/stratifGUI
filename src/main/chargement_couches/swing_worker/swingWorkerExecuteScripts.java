@@ -3,7 +3,7 @@ package main.chargement_couches.swing_worker;
 
 import main.Gui;
 import main.chargement_couches.model.ModelCharg;
-import main.chargement_couches.tool.batExecutor.MultiThreadedBatFolderExecutor;
+import main.common.tool.batExecutor.MultiThreadedBatFolderExecutor;
 import main.common._excp.DirException;
 import main.common.swing_worker.ASwingWorker;
 import main.common.tool.swingWorker.LogMessage;

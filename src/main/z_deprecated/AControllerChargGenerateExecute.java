@@ -1,6 +1,7 @@
-package main.chargement_couches.controller;
+package main.z_deprecated;
 
 import main.Gui;
+import main.chargement_couches.controller.AControllerCharg;
 import main.chargement_couches.model.ModelCharg;
 
 import java.io.File;
@@ -29,11 +30,11 @@ public abstract class AControllerChargGenerateExecute extends AControllerCharg
 
 
   @Override
-  protected boolean preDoChecks()
+  protected void preDoChecks()
   {
     // Create workdir if not exists
     workFolder.mkdir();
-    return preDoChecks_();
+    //return preDoChecks_();
   }
 
 

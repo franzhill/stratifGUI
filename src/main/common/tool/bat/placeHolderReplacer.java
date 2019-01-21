@@ -11,17 +11,17 @@ import org.slf4j.LoggerFactory;
  *   %DEPxx%
  *   %ANNEE%
  *   ...
- * with their real values in a given mask (a string containing these placeholders)
+ * with their real values in a given string containing these placeholders
  * @author fhill
  */
-public class MaskPlaceHolderReplacer
+public class PlaceHolderReplacer
 {
   private static Logger logger = LoggerFactory.getLogger(Extractor.class);
 
   /**
-   * The mask with placeholders to be replaced
+   * The string with placeholders to be replaced
    */
-  private String mask;
+  private String target;
 
   /**
    * Departement. On 3 characters
@@ -34,8 +34,8 @@ public class MaskPlaceHolderReplacer
   private String year = "INCONNU";
 
 
-  public MaskPlaceHolderReplacer(String mask)
-  { this.mask = mask;
+  public PlaceHolderReplacer(String target)
+  { this.target = target;
   }
 
   /**
@@ -43,7 +43,7 @@ public class MaskPlaceHolderReplacer
    * @param dep
    * @return
    */
-  public MaskPlaceHolderReplacer addDep(String dep)
+  public PlaceHolderReplacer addDep(String dep)
   { this.dep = dep;
     return this;
   }
@@ -54,7 +54,7 @@ public class MaskPlaceHolderReplacer
    * @param year
    * @return
    */
-  public MaskPlaceHolderReplacer addYear(String year)
+  public PlaceHolderReplacer addYear(String year)
   { this.year = year;
     return this;
   }
@@ -62,7 +62,7 @@ public class MaskPlaceHolderReplacer
 
   public String replace()
   {
-    return mask.replace("%DEP%", dep).replace("%DEPxx%", dep.substring(1)).replace("%ANNEE%", year);
+    return target.replace("%DEP%", dep).replace("%DEPxx%", dep.substring(1)).replace("%ANNEE%", year);
   }
 
 }

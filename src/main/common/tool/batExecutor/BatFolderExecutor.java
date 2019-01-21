@@ -1,4 +1,4 @@
-package main.chargement_couches.tool.batExecutor;
+package main.common.tool.batExecutor;
 
 import main.common.tool.exec.SysCommand;
 import main.common.tool.exec.outputHandler.IOutputHandler;

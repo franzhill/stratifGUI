@@ -2,6 +2,7 @@ package main.chargement_couches.controller;
 
 import main.Gui;
 import main.chargement_couches.model.ModelCharg;
+import main.common._excp.ExecutionException;
 import main.common.controller.AController;
 import main.chargement_couches.tool.FileFinder;
 import main.common._excp.DepExtractionException;
@@ -36,15 +37,11 @@ public class ControllerFindFiles extends AControllerCharg
   }
 
   @Override
-  protected boolean preDoChecks()
+  protected void preDoChecks() throws Exception
   {
     if (model.parents.isEmpty())
-    {   String msg = "Aucun fichier ou répertoire sélectionné !";
-      logger.error(msg);
-      gui.showMessageError(msg);
-      return false;
+    { throw new ExecutionException("Aucun fichier ou répertoire sélectionné !");
     }
-    else return true;
   }
 
 

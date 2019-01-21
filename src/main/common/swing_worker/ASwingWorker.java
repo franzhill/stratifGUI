@@ -42,7 +42,9 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
   { this.gui          = gui;
     this.model        = model;
     this.actionButton = actionButton;
-    this.progressBar  = progressBar;
+    // Since null is an acceptable value, and to avoid having to programm defensively against null, we'll assign a dummy object
+    this.progressBar  = (progressBar != null) ? progressBar
+                                              : new JProgressBar();
   }
 
 
@@ -55,14 +57,15 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
 
   protected final void start()
   { resetProgressBar();
-    actionButton.setEnabled(false);
+    actionButton.setEnabled(false);  // If we disable button then if swingworker does not finish properly (i;e. done() doesn't get called) then user will not be able to call it again
     start_();
   }
 
 
   @Override
   protected final void done()
-  { setProgress(100);
+  { logger.debug("");
+    setProgress(100);
     progressBar.setValue(100);   // might be redundant with the above?
     actionButton.setEnabled(true);
     done_();
@@ -125,8 +128,8 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
 
   // TODO doesn't seem to work very well
   protected void resetProgressBar()
-  { if (progressBar != null)
-    {
+  { //if (progressBar != null)
+    //{
       // Now reinitialize progress bar
       try
       {
@@ -138,7 +141,7 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
       }
       progressBar.setValue(0);
       progressBar.setStringPainted(false);  // not sure
-    }
+    //}
   }
 
 
@@ -151,7 +154,7 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
     if ("progress" == evt.getPropertyName())
     {
       int progress = (Integer) evt.getNewValue();
-      if (progressBar != null)
+      //if (progressBar != null)
       { progressBar.setValue(progress);
       }
     }

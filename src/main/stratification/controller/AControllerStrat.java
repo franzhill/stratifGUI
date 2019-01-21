@@ -14,6 +14,14 @@ public abstract class AControllerStrat extends AController<ModelStrat>
     this.model = model;
   }
 
+  @Override
+  protected final void updateModel_()
+  {
+    updateModel__();
+  }
 
-
+  /**
+   * Open for overriding
+   */
+  protected void updateModel__() {};
 }

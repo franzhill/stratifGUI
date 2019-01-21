@@ -22,6 +22,8 @@ public abstract class AControllerCharg extends AController<ModelCharg>
   }
 
   /**
+   * Open for overriding
+   *
    * Called by updateModel() eventually.
    * In this function, the parts of the model needed for the action should be updated
    * with what was given by the user through the GUI.
@@ -29,7 +31,7 @@ public abstract class AControllerCharg extends AController<ModelCharg>
    *   - where user might have modified input
    *   - that directly impact the present action
    */
-  protected abstract void updateModel__();
+  protected void updateModel__() {};
 
 
   private void updateModelCouche()

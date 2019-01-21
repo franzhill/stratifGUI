@@ -2,19 +2,22 @@
 @ECHO OFF
 
 
-set DEP=${fd.departement}
-set FIC=${fd.name}
-
 :: Variable d'env pour pgsql
 set PGPASSWORD=${model.modelDb.password}
 
+:: Répertoire contenant tous les fichiers sql à jouer (pour le département en cours)
+set SQL_FILE_DIR="${model.workFolder}"\${dep}
 
-set SQL_FILE="${model.tempFolderPath}"\${model.sqlFile}
+:: Executer tous les scripts sql contenus dans le répertoire
 
 
 :: Execute sql commands
-echo "Executing SQL commands..."
-"${model.postgresqlBinPath}"\psql -p ${model.modelDb.port} -d ${model.modelDb.name}  -h ${model.modelDb.hostname} -U ${model.modelDb.user} -f %SQL_FILE%
+echo "Exécution des fichiers sql..."
+
+cd %SQL_FILE_DIR%
+:: Apparamment, la commande suivante les traite dans l'ordre alphabétique, tant mieux c'est ce que l'on veut ;o)
+::for %%f in (*.sql) do echo executing %%f ...
+for %%f in (*.sql) do (echo "Execution de %%f ..." & "${model.postgresqlBinPath}"\psql -p ${model.modelDb.port} -d ${model.modelDb.name}  -h ${model.modelDb.hostname} -U ${model.modelDb.user} -f %%f)
 
 
 

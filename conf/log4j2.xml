@@ -5,10 +5,29 @@
         <Appender type="Console" name="STDOUT">
             <Layout type="PatternLayout" pattern="%d{yyyy-MM-dd HH:mm:ss} %c{1} %-5p %L: %m%n"/>
         </Appender>
+        <RollingFile name="ROLLING_FILE" fileName="logs/general.log" filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+            <PatternLayout>
+                <Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <!-- Le fichier de log ne fera jamais plus de la taille indiquée ci-dessous : -->
+                <SizeBasedTriggeringPolicy size="32 kB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="0"/>
+        </RollingFile>
+<!--
+        <Appender type="RollingFile" name="GENERAL_LOG_FILE" fileName="logs/general.log">
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+            <Layout type="PatternLayout" pattern="%d{yyyy-MM-dd HH:mm:ss} %c{1} %-5p %L: %m%n"/>
+        </Appender>
+-->
         <!-- Dummy appender that only serves as a place to define the layout for the Gui appender.
              For technical reasons the Gui appender has to be built programmatically. In the
-             process of doing so we'll "extract" the layout defined here and "reimplant" it on
-             the real (programmatically-built) Gui appender
+             process of doing so we'll "extract" the layout defined here and reimplant it on
+             the real (programmatically-built) Gui appender.
              -->
         <Appender type="Console" name="gui_logger">
             <Layout type="PatternLayout" pattern="%d{yyyy-MM-dd HH:mm:ss} %c{1} %-5p %L: %m%n"/>
@@ -18,9 +37,11 @@
     <Loggers>
         <Root level="trace">
             <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="ROLLING_FILE"/>
         </Root>
         <Logger name="main.Gui" level="trace" additivity="false">
             <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="ROLLING_FILE"/>
         </Logger>
         <!-- Logger used to log in the GUI -->
         <Logger name="gui_logger" level="trace" additivity="false">

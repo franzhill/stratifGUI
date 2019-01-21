@@ -1,7 +1,5 @@
-package main.chargement_couches.tool.batExecutor;
+package main.common.tool.batExecutor;
 
-import main.chargement_couches.tool.batExecutor.BatFolderExecutor;
-import main.chargement_couches.tool.batExecutor.BatFolderScriptExecutor;
 import main.common._excp.DirException;
 import main.common.tool.exec.outputHandler.IOutputHandler;
 import main.utils.MyFileUtils;

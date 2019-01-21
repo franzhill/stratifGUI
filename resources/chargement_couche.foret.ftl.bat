@@ -7,8 +7,8 @@ set FIC=${fd.name}
 :: Variable d'env pour pgsql
 set PGPASSWORD=${model.modelDb.password}
 
-set SQL_FILE_INDEX="${model.tempFolderPath}"\index_${model.couche.type}_${fd.name}_${fd.departement}.sql
-set SQL_FILE="${model.tempFolderPath}"\${model.couche.type}_${fd.name}_${fd.departement}.sql
+set SQL_FILE_INDEX="${model.workFolder}"\index_${model.couche.type}_${fd.name}_${fd.departement}.sql
+set SQL_FILE="${model.workFolder}"\${model.couche.type}_${fd.name}_${fd.departement}.sql
 
 
 echo "Write SQL command to create index for file..."

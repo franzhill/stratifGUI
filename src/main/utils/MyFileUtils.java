@@ -50,30 +50,38 @@ public class MyFileUtils
 
 
 
-  public static void replace(File f, String search, String replace) throws Exception
+  public static void replace(File f, String search, String replace, File dest) throws Exception
   {
-    replace(f, search, replace, "UTF-8");
+    replace(f, search, replace, dest, "UTF-8");
   }
 
 
   /**
-   * In place pattern replacement in a file.
+   * Pattern replacement in a file.
    * Loads file in mem so use only for small files.
-   * @param f
+   * @param src
    * @param search
    * @param replace
    * @param encoding if null defaults to "UTF-8"
+   * @param dest if null, do the replacement directly in the src file. If provided, leave src untouched
+   *             and put result in dest (create if necessary).
    * @throws Exception a wrapped IOException
    */
-  public static void replace(File f, String search, String replace, String encoding) throws Exception
+  public static void replace(File src, String search, String replace, File dest, String encoding) throws Exception
   { if (encoding == null) encoding = "UTF-8";
     try
-    { String content = FileUtils.readFileToString(f, encoding);
+    { String content = FileUtils.readFileToString(src, encoding);
       content = content.replace(search, replace);
-      FileUtils.writeStringToFile(f, content, encoding);
+      if (dest == null)
+      { // Write back to src :
+        FileUtils.writeStringToFile(src, content, encoding);
+      }
+      else
+      { FileUtils.writeStringToFile(dest, content, encoding);  // creates dest if not exists
+      }
     }
     catch (IOException e)
-    { throw new Exception(String.format("Erreur dans le remplacement dans le fichier [%s] de [%s] par [%s].",  f.getAbsolutePath(), search, replace), e);
+    { throw new Exception(String.format("Erreur dans le remplacement dans le fichier [%s] de [%s] par [%s].",  src.getAbsolutePath(), search, replace), e);
     }
   }
 
@@ -86,7 +94,6 @@ public class MyFileUtils
    */
   public static File moveToDirectory(File f, File destDir, boolean createDestDir) throws IOException
   {
-
     FileUtils.moveToDirectory(f, destDir, true);
     // cant seem to be able to modify the actual file in place ... renameTo does not seem to work ... so returning new file
     // Anyway appartently File is immutable ...

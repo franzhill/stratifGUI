@@ -3,6 +3,7 @@ package main.common.controller;
 import main.Gui;
 import main.common.model.AModel;
 import main.common.model.ModelDb;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,8 +33,13 @@ public abstract class AController<M extends AModel> implements ActionListener
     {
       updateModel();
       updateGui(e);
-      if (!preDoChecks())
-      { return;
+      try
+      { preDoChecks();
+      }
+      catch (Exception excp)
+      { logger.error(ExceptionUtils.getStackTrace(excp));
+        gui.showMessageError("Certains des paramètres fournis ne sont pas valides.", excp);
+        return;
       }
       doo();
       postDo();
@@ -49,6 +55,7 @@ public abstract class AController<M extends AModel> implements ActionListener
   {
     updateModelDb();
     updateModel_();
+    model.finalize();
   }
 
   /**
@@ -60,14 +67,15 @@ public abstract class AController<M extends AModel> implements ActionListener
    * Should be "do()" but do is a reserved word
    * Open for overriding
    */
-  protected void doo() {}
+  protected abstract void doo();
 
   /**
    * Open for overriding
-   * True for continue actions
-   * False for abort
+   * Throw exception (with message to display to user via GUI) to abort action.
+   * Do nothing to continue.
+   * Design note: here we're using Exceptions in the normal flow of events, which some people might find offensive ;o)
    */
-  protected boolean preDoChecks() {return true;}
+  protected void preDoChecks() throws Exception {}
 
   /**
    * Open for overriding
@@ -93,7 +101,7 @@ public abstract class AController<M extends AModel> implements ActionListener
     model.modelDb = new ModelDb(gui.txtDbHostname.getText(),
                                 gui.txtDbPort    .getText(),
                                 gui.txtDbUser    .getText(),
-                                gui.txtDbPassword.getText(),
+                     new String(gui.pwdDbPassword.getPassword()),
                                 gui.txtDbName    .getText() );
   }
 

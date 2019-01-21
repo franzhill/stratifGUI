@@ -52,6 +52,13 @@ public class ControllerSelectCouche extends AControllerCharg
 
 
   @Override
+  protected void doo()
+  { // Nothing to do here, everything is done in the other functions
+  }
+
+
+
+  @Override
   protected void updateModel__()
   { // Nothing
   }

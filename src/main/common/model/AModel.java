@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public abstract class AModel
 {
@@ -35,12 +36,35 @@ public abstract class AModel
   @Getter protected String tempFolderPath;
 
   /**
+   * The effective work folder where scripts will be written to and processed from.
+   * Based on tempFolderPath.
+   * Example :
+   *  - for chargement_couche it will be something like tempFolderPath/CHARG_COUCHE
+   *  - for stratification    it will be something like tempFolderPath/STRATIF
+   */
+  public File workFolder;
+
+  /**
    * Max nb of threads to converse with DB with
    * Private because we need to to some reformating on set
    */
   @Getter
   private int nbThreads;
 
+  /**
+   * Should be called just before performing action;
+   * Finalize model data so that it's ready for action.
+   */
+  public abstract void finalize();
+
+
+  /**
+   * Used by Freemarker
+   * Do not use to get the actual File, use direct access instead.
+   */
+  public String getWorkFolder()
+  { return workFolder.getAbsolutePath();
+  }
 
 
   public void setPostgresqlBinPath(String path)

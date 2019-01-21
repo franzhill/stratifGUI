@@ -10,6 +10,7 @@ import main.common._excp.ConfigAccessException;
 import main.common.gui.GuiLogOutputStream;
 import main.common.tool.config.Config;
 import main.stratification.controller.ControllerExecuteSqlFiles;
+import main.stratification.controller.ControllerGenerateSqlFiles;
 import main.stratification.controller.ControllerSelectSqlFiles;
 import main.stratification.model.ModelStrat;
 import main.utils.MyExceptionUtils;
@@ -55,7 +56,7 @@ public class Gui
 
   public  JTextField   txtDbHostname;
   public  JTextField   txtDbUser;
-  public  JTextField   txtDbPassword;
+  public  JPasswordField pwdDbPassword;
   public  JTextField   txtDbName;
   public  JTextField   txtDbPort;
   public  JTextField   txtDetectDep;
@@ -104,7 +105,14 @@ public class Gui
   public  JRadioButton rdoStratDepSelect;
   public  JTextArea    txtaStratDepSelect;
   public  JTextField   txtStratDepPlacheholder;
-  public  JButton      buttStratDo;
+  public  JButton      buttStratGenerate;
+  public  JButton      buttStratExecute;
+
+  public  JCheckBox    chbStratEmptyWorkDirFirst;
+
+  // Tab: About
+  private JTextPane développéEtTestéPourTextPane;
+
 
 
   /**
@@ -128,7 +136,6 @@ public class Gui
    * User input is stored in this model (for "stratification")
    */
   private ModelStrat modelStrat = new ModelStrat();
-
 
   /**
    * Holds the userConfig loaded from user conf file
@@ -226,8 +233,9 @@ public class Gui
     rdoCoucheForet             .addActionListener(rdoCoucheCtrl);
     rdoCoucheFoncier           .addActionListener(rdoCoucheCtrl);
     //buttSelectUnzipDir         .addActionListener(new ControllerSelectFile        (this, txtUnzipDir,                  JFileChooser.DIRECTORIES_ONLY, false, null));
-    buttStratSelectFiles       .addActionListener(new ControllerSelectSqlFiles(this, modelStrat, txtaStratSelectedFiles, JFileChooser.FILES_ONLY, true , userConfig.getProp("dir_strat_scripts_sql")));
-    buttStratDo                .addActionListener(new ControllerExecuteSqlFiles(this, modelStrat));
+    buttStratSelectFiles       .addActionListener(new ControllerSelectSqlFiles  (this, modelStrat, txtaStratSelectedFiles, JFileChooser.FILES_ONLY, true , userConfig.getProp("dir_strat_scripts_sql")));
+    buttStratGenerate          .addActionListener(new ControllerGenerateSqlFiles(this, modelStrat));
+    buttStratExecute           .addActionListener(new ControllerExecuteSqlFiles (this, modelStrat));
 
 
 
@@ -282,12 +290,13 @@ public class Gui
 
     logger.debug("initialising gui logger...");
     gui.initGuiLogger();
-    loggerGui.trace("Testing the loggerGui àéè...");
+    loggerGui.info ("Bienvenue dans l'interface de stratification.");
+    /*loggerGui.trace("Testing the loggerGui àéè...");
     loggerGui.debug("Testing the loggerGui àéè...");
     loggerGui.info ("Testing the loggerGui àéè...");
     loggerGui.warn ("Testing the loggerGui àéè...");
     loggerGui.error("Testing the loggerGui àéè...");
-    logger.debug("logger, debug");
+    logger.debug("logger, debug");*/
 
     gui.initUserConfigDisplay();
   }
@@ -392,7 +401,7 @@ public class Gui
     {   userConfig = new Config(userConfigFilePath);
     }
     catch (ConfigAccessException e)
-    {   logger.error(String.format("Could  not load user conf file {%s}. Stack:\n {%s}", userConfigFilePath, Arrays.toString(e.getStackTrace()))); // TODO stack trace print is KO, fix it
+    { logger.error(String.format("Could  not load user conf file {%s}. Stack:\n {%s}", userConfigFilePath, Arrays.toString(e.getStackTrace()))); // TODO stack trace print is KO, fix it
       String usrMsg = String.format("Impossible de charger le fichier de conf {%s}. Indiquer les configurations à la main si besoin.", userConfigFilePath);
       showMessageError(usrMsg);
     }
@@ -406,7 +415,7 @@ public class Gui
   { logger.debug("");
     txtDbHostname          .setText(userConfig.getProp("db.hostname"));
     txtDbUser              .setText(userConfig.getProp("db.user"));
-    txtDbPassword          .setText(userConfig.getProp("db.password"));
+    pwdDbPassword          .setText(userConfig.getProp("db.password"));
     txtDbPort              .setText(userConfig.getProp("db.port"));
     txtDbName              .setText(userConfig.getProp("db.name"));
     txtPostgresqlBinDir    .setText(userConfig.getProp("postgresql_bin_path"));
@@ -477,7 +486,7 @@ public class Gui
     try
     { userConfig.setProp("db.hostname"   , txtDbHostname.getText());
       userConfig.setProp("db.user"       , txtDbUser.getText());
-      userConfig.setProp("db.password"   , txtDbPassword.getText());
+      userConfig.setProp("db.password"   , new String(pwdDbPassword.getPassword()));
       userConfig.setProp("db.port"       , txtDbPort.getText());
       userConfig.setProp("db.name"       , txtDbName.getText());
       //userConfig.setProp("rep_dezip"     , txtUnzipDir.getText());

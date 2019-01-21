@@ -7,7 +7,7 @@ import main.chargement_couches.model.ModelCharg;
 import main.common._excp.ExecutionException;
 import main.common.swing_worker.ASwingWorker;
 import main.common.tool._excp.TableExtractionException;
-import main.common.tool.bat.MaskPlaceHolderReplacer;
+import main.common.tool.bat.PlaceHolderReplacer;
 import main.common.tool.bat.TemplateProcessor;
 import main.common.tool.sql.TableExtractor;
 import main.common.tool.swingWorker.LogMessage;
@@ -115,7 +115,7 @@ public class SwingWorkerGenerateScripts extends ASwingWorker<ModelCharg>
 
       // 1.1
       String tableName = model.couche.schemaTableSource;
-      tableName = new MaskPlaceHolderReplacer(tableName).addDep(fd.departement).replace();
+      tableName = new PlaceHolderReplacer(tableName).addDep(fd.departement).replace();
       // Original table name is something like :  ff_d16_2017.d16_2017_pnb10_parcelle
       // => replace the schema
       String tableNameNew = "ff." + tableName.split("\\.")[1];  // TODO brittle. Extract, put in conf file

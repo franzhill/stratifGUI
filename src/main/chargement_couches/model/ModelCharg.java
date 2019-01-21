@@ -45,8 +45,11 @@ public class ModelCharg extends AModel
   }
 
 
-  /**
-   * Finalise : do all transformations and stuff before final use (i.e. injection in template)
-   */
+  @Override
+  public void finalize()
+  {
+    workFolder = new File(getTempFolderPath() + File.separator + "CHARG_COUCHE");
+  }
+
 
 }

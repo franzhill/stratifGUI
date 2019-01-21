@@ -3,13 +3,11 @@ package main.chargement_couches.controller;
 import main.Gui;
 import main.chargement_couches.model.ModelCharg;
 import main.chargement_couches.swing_worker.SwingWorkerExecuteScripts;
-import main.chargement_couches.tool.batExecutor.MultiThreadedBatFolderExecutor;
+import main.common.tool.batExecutor.MultiThreadedBatFolderExecutor;
 import main.common.tool.exec.outputHandler.IOutputHandler;
 import main.common.tool.exec.outputHandler.OutputHandlerGui;
 import main.common._excp.DirException;
 import main.common.tool.exec.outputHandler.OutputHandlerNull;
-
-import java.io.File;
 
 
 /**
@@ -24,10 +22,17 @@ public class ControllerExecuteScripts extends AControllerCharg
 
   @Override
   protected void updateModel__()
-  { model.setTempFolderPath   (gui.txtTempDir.getText());
+  {
+    model.setTempFolderPath   (gui.txtTempDir.getText());
     model.setNbThreads        (gui.txtNbThreads.getText());
   }
 
+
+  @Override
+  protected void preDoChecks()
+  { // Create workdir if not exists
+    model.workFolder.mkdir();
+  }
 
 
   @Override
@@ -47,7 +52,7 @@ public class ControllerExecuteScripts extends AControllerCharg
     //IOutputHandler ouh = new OutputHandlerGui(gui);  // will log output of scripts in GUI
     IOutputHandler ouh = new OutputHandlerNull();  // silent
 
-    SwingWorkerExecuteScripts esw = new SwingWorkerExecuteScripts(gui, model, gui.buttExecuteScripts, gui.progbCouche, new File(model.getTempFolderPath()), ouh, model.getNbThreads());
+    SwingWorkerExecuteScripts esw = new SwingWorkerExecuteScripts(gui, model, gui.buttExecuteScripts, gui.progbCouche, model.workFolder, ouh, model.getNbThreads());
 
     esw.execute();
 
@@ -61,10 +66,11 @@ public class ControllerExecuteScripts extends AControllerCharg
    */
   private void executeBats()
   {
-    //BatFolderExecutor bfe = new BatFolderExecutor(model.getTempFolderPath(), new OutputHandlerGui(this.gui));
-    // Experimental :
+    // Monothread:
+    //BatFolderExecutor bfe = new BatFolderExecutor(workFolder, new OutputHandlerGui(this.gui));
+    // Multithread:
     int nbThreads = Integer.parseInt(this.gui.userConfig.getProp("couches.max_db_conn", "1"));
-    MultiThreadedBatFolderExecutor bfe = new MultiThreadedBatFolderExecutor(new File(model.getTempFolderPath()),  Gui.loggerGui, new OutputHandlerGui(this.gui), nbThreads);
+    MultiThreadedBatFolderExecutor bfe = new MultiThreadedBatFolderExecutor(model.workFolder,  Gui.loggerGui, new OutputHandlerGui(this.gui), nbThreads);
     try
     { bfe.execute();  // TODO try executing in thread
     }
