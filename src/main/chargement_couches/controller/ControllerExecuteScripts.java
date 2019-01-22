@@ -49,8 +49,8 @@ public class ControllerExecuteScripts extends AControllerCharg
 
     // Outputhandler : choose one of the following:
     //IOutputHandler ouh = new OutputHandlerSysOut();  // will log output of scripts on STDO
-    //IOutputHandler ouh = new OutputHandlerGui(gui);  // will log output of scripts in GUI
-    IOutputHandler ouh = new OutputHandlerNull();  // silent
+    IOutputHandler ouh = new OutputHandlerGui(gui);  // will log output of scripts in GUI
+    //IOutputHandler ouh = new OutputHandlerNull();  // silent
 
     SwingWorkerExecuteScripts esw = new SwingWorkerExecuteScripts(gui, model, gui.buttExecuteScripts, gui.progbCouche, model.workFolder, ouh, model.getNbThreads());
 

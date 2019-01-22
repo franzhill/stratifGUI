@@ -129,7 +129,7 @@ public class ControllerGenerateScripts extends AControllerCharg
     {
       logger.debug("Processing file : " + fd.toString());
       if (fd.departement.isEmpty())
-      { throw new ExecutionException(String.format("Département manquant pour le fichier {%s}.", fd.file.getAbsolutePath()));
+      { throw new ExecutionException(String.format("Département manquant pour le fichier [%s].", fd.file.getAbsolutePath()));
       }
 
       // Provide templating engine with remaining data for interpolation

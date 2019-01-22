@@ -110,7 +110,7 @@ public class SwingWorkerGenerateScripts extends ASwingWorker<ModelCharg>
 
       gui.loggerGui.info("Traitement du fichier : {} ... ", fd.toString());
       if (fd.departement.isEmpty())
-      { throw new ExecutionException(String.format("Département manquant pour le fichier {%s}.", fd.file.getAbsolutePath()));
+      { throw new ExecutionException(String.format("Département manquant pour le fichier [%s].", fd.file.getAbsolutePath()));
       }
 
       // 1.1
@@ -132,7 +132,7 @@ public class SwingWorkerGenerateScripts extends ASwingWorker<ModelCharg>
       { tableExtractor.extract(fd.sqlFile1);
       }
       catch (TableExtractionException e)
-      { throw new ExecutionException(String.format("Erreur lors de la génération du sql de restore pour le fichier {%s}.", fd.file.getAbsolutePath()), e);
+      { throw new ExecutionException(String.format("Erreur lors de la génération du sql de restore pour le fichier [%s].", fd.file.getAbsolutePath()), e);
       }
 
       // 1.2 and 1.3 - Involves processing a template
