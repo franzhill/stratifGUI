@@ -18,7 +18,7 @@ public class ControllerExecuteSqlFiles extends AControllerStrat
 
 
   @Override
-  public void doo()
+  protected void doo_()
   {
 /*     for (File f : model.sqlFiles)
     {

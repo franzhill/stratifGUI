@@ -3,6 +3,7 @@ package main.chargement_couches.controller;
 import main.Gui;
 import main.chargement_couches.model.ModelCharg;
 import main.common._excp.ExecutionException;
+import main.common._excp.UserLevelException;
 import main.common.controller.AController;
 import main.chargement_couches.tool.FileFinder;
 import main.common._excp.DepExtractionException;
@@ -46,7 +47,7 @@ public class ControllerFindFiles extends AControllerCharg
 
 
   @Override
-  public void doo()
+  protected void doo_() throws UserLevelException
   {
     gui.loggerGui.info("Button findFiles was pressed");
 
@@ -61,14 +62,14 @@ public class ControllerFindFiles extends AControllerCharg
       {
         model.depFiles = finder.find();
         if (model.depFiles.isEmpty())
-        {
-          gui.showMessageError("Aucun fichier trouvé avec les critères actuels.");
+        { throw new UserLevelException("Aucun fichier trouvé avec les critères actuels.");
+          //gui.showMessageError("Aucun fichier trouvé avec les critères actuels.");
         }
       }
       catch (DepExtractionException excp)
-      {
-        gui.showMessageError("Impossible de détecter un département : " + excp.getMessage());
-        return;
+      { throw new UserLevelException("Impossible de détecter un département : " + excp.getMessage());
+        //gui.showMessageError("Impossible de détecter un département : " + excp.getMessage());
+        //return;
       }
 
 

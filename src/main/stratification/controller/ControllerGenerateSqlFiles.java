@@ -2,6 +2,7 @@ package main.stratification.controller;
 
 import main.Gui;
 import main.common._excp.ExecutionException;
+import main.common._excp.UserLevelException;
 import main.common.tool.bat.TemplateProcessor;
 import main.stratification.model.ModelStrat;
 import main.utils.MyFileUtils;
@@ -29,7 +30,7 @@ public class ControllerGenerateSqlFiles extends AControllerStrat
 
 
   @Override
-  public void doo()
+  protected void doo_() throws UserLevelException
   { // Since generating the scripts doesn't take too long we can do it here in the Event Dispatcher Thread (i.e. here),
     // sparing ourselves the need for a SwingWorker.
 
@@ -66,9 +67,10 @@ public class ControllerGenerateSqlFiles extends AControllerStrat
       }
     }
     catch (Exception e)
-    { gui.showMessageError("Erreur lors de la génération des scripts de stratification. Consulter les logs.", e);
+    { throw new UserLevelException("Erreur lors de la génération des scripts de stratification.", e);
     }
 
+    // Operations are not executed asynchronously via a swingworker so it will make sense to display a everything OK message to the user here:
     gui.loggerGui.info("Génération des scripts sql et des scripts bat terminée.");
   }
 

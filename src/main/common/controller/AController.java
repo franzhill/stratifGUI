@@ -1,6 +1,7 @@
 package main.common.controller;
 
 import main.Gui;
+import main.common._excp.UserLevelException;
 import main.common.model.AModel;
 import main.common.model.ModelDb;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -10,40 +11,47 @@ import org.slf4j.LoggerFactory;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The mother of all controllers
+ * @param <M> either the model used for "chargement couches", or the model for "stratification"
+ */
 public abstract class AController<M extends AModel> implements ActionListener
 {
-    protected Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
+  protected Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
 
-    protected final Gui    gui;
-    protected       M      model;
+  protected final Gui    gui;
+  protected       M      model;
 
-    public AController(Gui gui, M model)
-    {   this.gui   = gui;
-        this.model = model;
+
+  public AController(Gui gui, M model)
+  {   this.gui   = gui;
+    this.model = model;
+  }
+
+
+  public AController(Gui gui)
+  {
+    super();
+    this.gui = gui;
+  }
+
+
+  @Override
+  public final void actionPerformed(ActionEvent e)
+  {
+    updateModel();
+    updateGui(e);
+    try
+    { preDoChecks();
     }
-
-    public AController(Gui gui)
-    {
-        super();
-        this.gui = gui;
+    catch (Exception excp)
+    { logger.error(ExceptionUtils.getStackTrace(excp));
+      gui.showMessageError("Certains des paramètres fournis ne sont pas valides.", excp);
+      return;
     }
-
-    @Override
-    public final void actionPerformed(ActionEvent e)
-    {
-      updateModel();
-      updateGui(e);
-      try
-      { preDoChecks();
-      }
-      catch (Exception excp)
-      { logger.error(ExceptionUtils.getStackTrace(excp));
-        gui.showMessageError("Certains des paramètres fournis ne sont pas valides.", excp);
-        return;
-      }
-      doo();
-      postDo();
-    }
+    doo();
+    postDo();
+  }
 
 
   /**
@@ -51,23 +59,38 @@ public abstract class AController<M extends AModel> implements ActionListener
    * Called before the action is done.
    * Do not override directly, override updateModel_() instead
    */
-  protected final void updateModel()
+  private final void updateModel()
   {
     updateModelDb();
     updateModel_();
     model.finalize();
   }
 
+
   /**
    * Open for overriding
    */
   protected void updateGui(ActionEvent e) {}
 
+
   /**
    * Should be "do()" but do is a reserved word
-   * Open for overriding
+   * Do not override directly, override doo_() instead
    */
-  protected abstract void doo();
+  private final void doo()
+  { try
+    { doo_();
+    }
+    catch (UserLevelException ule)
+    { String msg = ule.getMessage();
+      if (ule.getCause() != null)
+      { //msg += "\n\n Infos techniques : \n" + ExceptionUtils.getStackTrace(ule.getCause()); // TODO limit size of printed stack
+        msg += "\n\n Infos techniques : \n" + ExceptionUtils.getRootCauseMessage(ule.getCause());  // from the doc : "getRootCauseMessage =   Gets a short message summarising the root cause exception"
+      }
+      gui.showMessageError(msg);
+    }
+  }
+
 
   /**
    * Open for overriding
@@ -76,6 +99,13 @@ public abstract class AController<M extends AModel> implements ActionListener
    * Design note: here we're using Exceptions in the normal flow of events, which some people might find offensive ;o)
    */
   protected void preDoChecks() throws Exception {}
+
+
+  /**
+   * Open for overriding
+   */
+  protected void doo_() throws UserLevelException {}
+
 
   /**
    * Open for overriding
@@ -99,11 +129,9 @@ public abstract class AController<M extends AModel> implements ActionListener
   {
     // Get the model info from the (pseudo-MVC) View
     model.modelDb = new ModelDb(gui.txtDbHostname.getText(),
-                                gui.txtDbPort    .getText(),
-                                gui.txtDbUser    .getText(),
-                     new String(gui.pwdDbPassword.getPassword()),
-                                gui.txtDbName    .getText() );
+            gui.txtDbPort    .getText(),
+            gui.txtDbUser    .getText(),
+            new String(gui.pwdDbPassword.getPassword()),
+            gui.txtDbName    .getText() );
   }
-
-
 }

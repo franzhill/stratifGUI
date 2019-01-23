@@ -30,7 +30,12 @@ import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
@@ -51,6 +56,7 @@ public class Gui
   private JButton      buttTest;
   private JTabbedPane  tabbedPane1;
   public  JTextArea    txtaLog;
+  public  JTextPane    txtpLog;
 
   // Db settings
 
@@ -125,7 +131,18 @@ public class Gui
    * Is public for access from other classes in the MVC architecture
    */
   //public static Logger loggerGui;  // TODO unmake static ?
-  public static org.apache.logging.log4j.Logger loggerGui;  // TODO unmake static ?
+  public org.apache.logging.log4j.Logger loggerGui;
+
+  /**
+   * Will log in a secondary dedicated area on the GUI, visible to the end user.
+   * Used for output from the execution of the bat scripts.
+   */
+  public org.apache.logging.log4j.Logger loggerGui2;
+
+
+  private static final String GUI_LOGGER_REF = "gui_logger";  // Name used for the dummy counterparts in the config depFiles, and for the final logger
+  private static final String GUI_LOGGER2_REF = "gui_logger2";  // Name used for the dummy counterparts in the config depFiles, and for the final logger
+
 
   /**
    * User input is stored in this model (for "chargement couche")
@@ -290,7 +307,7 @@ public class Gui
 
     logger.debug("initialising gui logger...");
     gui.initGuiLogger();
-    loggerGui.info ("Bienvenue dans l'interface de stratification.");
+    gui.loggerGui.info ("Bienvenue dans l'interface de stratification.");
     /*loggerGui.trace("Testing the loggerGui àéè...");
     loggerGui.debug("Testing the loggerGui àéè...");
     loggerGui.info ("Testing the loggerGui àéè...");
@@ -303,39 +320,43 @@ public class Gui
 
 
   /**
-   * Intialise the GUI logger
+   * Initialise the GUI logger(s)
    *
-   * The GUI logger logs in a text area visible to the end user and may be used to display valuable information
+   * The GUI loggers log in a text areas visible to the end user and may be used to display valuable information
    * (as well as possibly relevant logging messages).
-   * We are using a Log4J2 dedicated appender to write inside the dedicated GUI text area, via a
+   * We are using a Log4J2 dedicated appender to write inside the dedicated GUI text areas, via a
    * special outpustream. The construction of such an appender may not be made via config files, it
    * has to be done programmatically (and consequently same goes for the logger) (here).
-   * However we will be making it possible to store as much configs as possible in the Log4J2 config file,
-   * by placing them in dummy appender and logger, in the config file, and then retrieving these configs programmatically
-   * here to insert them in the real appender and logger.
+   * However we will be making it possible to store as much configuration as possible in the Log4J2 config file,
+   * by placing it in dummy appenders and loggers, in the config file, and then retrieving these configs programmatically
+   * (here) to pogrammatically insert them in the real appender and logger.
    *
    * Note : we're tightly coupling to the Log4j2 logging solution here ...)
-   *
    */
   private void initGuiLogger()
   {
-    String GUI_LOGGER_REF = "gui_logger";  // Name used for the dummy counterparts in the config depFiles, and for the final logger
+    loggerGui  = initGuiLogger_(Gui.GUI_LOGGER_REF);
+    loggerGui2 = initGuiLogger_(Gui.GUI_LOGGER2_REF);
+  }
 
+
+  private org.apache.logging.log4j.Logger initGuiLogger_(String loggerName)
+  {
     // 1. Create the dedicated appender, and add it to the Log4J2 config
     // Get the Log4J2 context, config and stuff
     final LoggerContext context = LoggerContext.getContext(false);
-    final Configuration config = context.getConfiguration();
-    final LoggerContext ctx = (LoggerContext) LogManager.getContext(false);
+    final Configuration config  = context.getConfiguration();
+    final LoggerContext ctx     = (LoggerContext) LogManager.getContext(false);
 
     // Special outpustream that redirects to the logging area
-    final GuiLogOutputStream guilos = new GuiLogOutputStream(this);
+    final GuiLogOutputStream guilos = new GuiLogOutputStream(this, loggerName);
 
     // Pattern layout for the dedicated appender
     PatternLayout layout = PatternLayout.createDefaultLayout(config);
 
     // Overwrite with the the layout defined in the "dummy" gui appender in conf file, if exists
-    if (config.getAppenders().get(GUI_LOGGER_REF) != null) { // TODO constant
-      layout = (PatternLayout) config.getAppenders().get(GUI_LOGGER_REF).getLayout();
+    if (config.getAppenders().get(loggerName) != null)
+    { layout = (PatternLayout) config.getAppenders().get(loggerName).getLayout();
       // TODO check if layout is really a pattern layout, display error if not
       //      or catch ClassCastException
     }
@@ -346,22 +367,21 @@ public class Gui
 
     // 2. Add the newly created appender to the log4J2 logger we'll be dedicating to GUI logging
 
-    LoggerConfig guiLoggerConfig =  config.getLoggers().get(GUI_LOGGER_REF);
+    LoggerConfig guiLoggerConfig =  config.getLoggers().get(loggerName);
     if (null == guiLoggerConfig )  // not declared in config file ...
     {   // Create one with some default params
       AppenderRef[] refs = new AppenderRef[] {};
-      LoggerConfig loggerConfig = LoggerConfig.createLogger(false, Level.INFO, GUI_LOGGER_REF,"true", refs, null, config, null );
+      LoggerConfig loggerConfig = LoggerConfig.createLogger(false, Level.INFO, loggerName,"true", refs, null, config, null );
       loggerConfig.addAppender(appender, null, null);
-      config.addLogger(GUI_LOGGER_REF, loggerConfig);
+      config.addLogger(loggerName, loggerConfig);
       ctx.updateLoggers();
-      guiLoggerConfig =  config.getLoggers().get(GUI_LOGGER_REF);
+      guiLoggerConfig =  config.getLoggers().get(loggerName);
 
-      logger.info("Le logger " + GUI_LOGGER_REF + " n'est pas déclaré dans la configuration de Log4J. Création avec des valeurs par défaut");
+      logger.info("Le logger " + loggerName + " n'est pas déclaré dans la configuration de Log4J. Création avec des valeurs par défaut");
     }
     guiLoggerConfig.addAppender(appender, null, null);  // Note ; could do the same for level and filter as we did for the pattern layout I guess
 
-    //loggerGui = LoggerFactory.getLogger(GUI_LOGGER_REF);
-    loggerGui = org.apache.logging.log4j.LogManager.getLogger(GUI_LOGGER_REF);
+    return org.apache.logging.log4j.LogManager.getLogger(loggerName);
   }
 
 
@@ -392,6 +412,43 @@ public class Gui
     txtaLog.append( text) ;//+ (addNewLine ? logInGuiNewline : "")); //+ logInGuiNewline);
     // scrolls the text area to the end of data
     txtaLog.setCaretPosition(txtaLog.getDocument().getLength());
+  }
+
+
+  /**
+   *
+   * @param text text to log
+   * @param loggerName one of the constants Gui.GUI_LOGGERx_REF
+   */
+  public void logInGui(String text, String loggerName)
+  {
+    switch (loggerName)
+    { case Gui.GUI_LOGGER_REF :
+        txtaLog.append( text) ;//+ (addNewLine ? logInGuiNewline : "")); //+ logInGuiNewline);
+        // scrolls the text area to the end of data
+        txtaLog.setCaretPosition(txtaLog.getDocument().getLength());
+        break;
+      case Gui.GUI_LOGGER2_REF :
+        appendToPane(txtpLog, text, Color.DARK_GRAY);
+        break;
+      default: logger.warn("Programmatic error : GUI logger name not known : {}.", loggerName);
+    }
+  }
+
+
+  private void appendToPane(JTextPane tp, String msg, Color c)
+  {
+    StyleContext sc = StyleContext.getDefaultStyleContext();
+    AttributeSet aset = sc.addAttribute(SimpleAttributeSet.EMPTY, StyleConstants.Foreground, c == null ? Color.BLACK : c);
+
+    aset = sc.addAttribute(aset, StyleConstants.FontFamily, "Courier New"); // "Lucida Console"
+    aset = sc.addAttribute(aset, StyleConstants.FontSize  , 11); // "Lucida Console"
+    aset = sc.addAttribute(aset, StyleConstants.Alignment , StyleConstants.ALIGN_JUSTIFIED);
+
+    int len = tp.getDocument().getLength();
+    tp.setCaretPosition(len);
+    tp.setCharacterAttributes(aset, false);
+    tp.replaceSelection(msg);
   }
 
 

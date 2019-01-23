@@ -36,7 +36,7 @@ public class ControllerExecuteScripts extends AControllerCharg
 
 
   @Override
-  public void doo()
+  protected void doo_()
   {
     gui.loggerGui.info("Exécution des scripts... Veuillez patienter...");
     gui.loggerGui.info("...");
@@ -70,7 +70,7 @@ public class ControllerExecuteScripts extends AControllerCharg
     //BatFolderExecutor bfe = new BatFolderExecutor(workFolder, new OutputHandlerGui(this.gui));
     // Multithread:
     int nbThreads = Integer.parseInt(this.gui.userConfig.getProp("couches.max_db_conn", "1"));
-    MultiThreadedBatFolderExecutor bfe = new MultiThreadedBatFolderExecutor(model.workFolder,  Gui.loggerGui, new OutputHandlerGui(this.gui), nbThreads);
+    MultiThreadedBatFolderExecutor bfe = new MultiThreadedBatFolderExecutor(model.workFolder,  gui.loggerGui, new OutputHandlerGui(this.gui), nbThreads);
     try
     { bfe.execute();  // TODO try executing in thread
     }

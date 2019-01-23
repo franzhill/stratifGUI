@@ -20,18 +20,24 @@ import java.util.List;
  */
 public class GuiLogOutputStream extends OutputStream
 {
-    private Gui gui;
+  private Gui gui;
 
-    /** The internal memory for the written bytes. */
-    private String mem;
+  /**
+   * Name of logger which will be using this outputsream
+   */
+  private String loggerName;
 
-    /** The internal memory for the written bytes. */
-    List<Byte> lBytes = new ArrayList<>();
+  /** The internal memory for the written bytes. */
+  private String mem;
+
+  /** The internal memory for the written bytes. */
+  List<Byte> lBytes = new ArrayList<>();
 
 
-    public GuiLogOutputStream(Gui gui)
-    {   this.gui = gui;
-    }
+  public GuiLogOutputStream(Gui gui, String loggerName)
+  { this.gui = gui;
+    this.loggerName = loggerName;
+  }
 
 /*
     @Override
@@ -81,7 +87,7 @@ public class GuiLogOutputStream extends OutputStream
       byte[] abytes =  ArrayUtils.toPrimitive(aBytes);
 
       // Now we can log a String to GUI
-      gui.logInGui(  new String( abytes ) );   //, true);
+      gui.logInGui(  new String( abytes ), loggerName );   //, true);
       lBytes.clear();
     }
   }
@@ -91,13 +97,13 @@ public class GuiLogOutputStream extends OutputStream
 
 
 
-    /**
-     * Flushes the output stream.
-     */
-    public void flush ()
-    {
-        // redirect data to the GUI
-        gui.logInGui(mem);//, true);
-        mem = "";
-    }
+  /**
+   * Flushes the output stream.
+   */
+  public void flush ()
+  {
+    // redirect data to the GUI
+    gui.logInGui(mem);//, true);
+    mem = "";
+  }
 }

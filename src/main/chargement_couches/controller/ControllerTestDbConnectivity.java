@@ -2,6 +2,7 @@ package main.chargement_couches.controller;
 
 import main.Gui;
 import main.chargement_couches.model.ModelCharg;
+import main.common._excp.UserLevelException;
 import main.common.controller.AController;
 import main.common.tool.DbConnector;
 import main.common._excp.DbConnectionException;
@@ -17,7 +18,7 @@ public class ControllerTestDbConnectivity extends AController
     }
 
     @Override
-    public void doo()
+    protected void doo_() throws UserLevelException
     {   gui.loggerGui.info("Test de connectivité ...");
 
         DbConnector dbc = new DbConnector(model.modelDb);
@@ -27,10 +28,10 @@ public class ControllerTestDbConnectivity extends AController
             gui.showMessageInfo("Connexion à la BD OK.");
         }
         catch (DbConnectionException ex)
-        {
-            gui.showMessageInfo("Echec de la connexion à la BD ! \n\n Infos techniques : \n" + ExceptionUtils.getStackTrace(ex));
-            logger.error("failure to connect to the DB : DbConnectionException message = " + ex.getMessage() +
-                         "\n Exception stack trace = \n " + ExceptionUtils.getStackTrace(ex) );
+        {   throw new UserLevelException("Echec de la connexion à la BD !", ex);
+            //gui.showMessageInfo("Echec de la connexion à la BD ! \n\n Infos techniques : \n" + ExceptionUtils.getStackTrace(ex));
+            //logger.error("failure to connect to the DB : DbConnectionException message = " + ex.getMessage() +
+            //             "\n Exception stack trace = \n " + ExceptionUtils.getStackTrace(ex) );
         }
     }
 

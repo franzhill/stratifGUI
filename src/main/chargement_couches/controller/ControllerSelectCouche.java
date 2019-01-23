@@ -52,7 +52,7 @@ public class ControllerSelectCouche extends AControllerCharg
 
 
   @Override
-  protected void doo()
+  protected void doo_()
   { // Nothing to do here, everything is done in the other functions
   }
 

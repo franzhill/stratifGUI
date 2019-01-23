@@ -41,7 +41,7 @@ public class ControllerSelectFile extends AController
     }
 
     @Override
-    public void doo()
+    protected void doo_()
     {   gui.loggerGui.debug("Button for " + txtComponent.getName() + " was pressed.");
 
         // Open file selection dialog box
@@ -72,6 +72,7 @@ public class ControllerSelectFile extends AController
         {   logger.debug("Open command cancelled by user.");
         }
     }
+
 
     @Override
     protected void updateModel_()

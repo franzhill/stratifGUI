@@ -18,7 +18,7 @@ public class OutputHandlerGui implements IOutputHandler
     public void handleOutput(String message, String type)
     {
         //gui.txtaLog.append(type + ">" + message);
-        gui.loggerGui.info(type + "> " + message);
+        gui.loggerGui2.info(type + "> " + message);
         // Also output on Sys out (for debug)
         System.out.println(type + "> " + message);
 

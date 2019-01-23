@@ -1,4 +1,5 @@
-package main;
+package main.z_deprecated;
+import main.Gui;
 import org.apache.logging.log4j.core.Filter;
 import org.apache.logging.log4j.core.LogEvent;
 import org.apache.logging.log4j.core.appender.AbstractAppender;

@@ -1,5 +1,6 @@
-package main;
+package main.z_deprecated;
 
+import main.Gui;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

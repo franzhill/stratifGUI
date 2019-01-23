@@ -40,7 +40,7 @@ public class ControllerGenerateScripts extends AControllerCharg
   /**
    */
   @Override
-  public void doo()
+  protected void doo_()
   {
     gui.loggerGui.info("Génération des scripts... Veuillez patienter...");
     gui.loggerGui.info("...");

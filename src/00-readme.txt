@@ -3,7 +3,15 @@ NOTE D'ARCHITECTURE
 F.Hill - 2019.01.22
 
 
-1.
+1. Spécifications techniques
+
+IDE : IntelliJ IDEA 2018.1.3 (Community Edition)
+      Build #IC-181.4892.42, built on May 8, 2018
+      JRE: 1.8.0_152-release-1136-b38 amd64
+      JVM: OpenJDK 64-Bit Server VM by JetBrains s.r.o
+      Windows 7 6.1
+      Plugins : (notable) : Lombok (compréhension par intelliJ des annotations @Getter @Setter de Lombok, permettant
+                            la génération tacite de getters et setters)
 
 2. But de l'appli
 
@@ -108,6 +116,7 @@ envisageable.
 - Templating : effectué avec le moteur Freemarker.
 Les templates sont dans le dossier resources.
 Les remplacements des placeholders sont en général issus des modèles.
+Le processeur de templates est : common.tool.bat.TemplateProcessor
 - Exécution d'une commande système (cmd.exe <nom de script bat) : common/tool/exec/SysCommand
 - MultiThreadBatFolderExecutor : permet d'exécuter plusieurs bats en même temps (1 process pour chaque), en fonction
 du nombre fourni via la GUI (nb max de connexions simultanées à la BD). Le multi
@@ -115,12 +124,14 @@ du nombre fourni via la GUI (nb max de connexions simultanées à la BD). Le mul
 Les problèmes rencontrés sont en dernier lieu enveloppés dans une exception ad hoc (par exemple ExecutionException) qui
 donne lieu à un message d'erreur sur la GUI.
 Pour l'instant cette gestion est laissée à chaque implémentation fille de AController (dans la méthode doo()),
-mais il est envisageable de factoriser ce comportement dans AController.
+mais il est envisageable de factoriser ce comportement dans AController. (2018.09.23 : DONE)
 - Logging : la solution de logging est Log4j2. Originellement la couche d'abstraction SLF4J était utilisée, mais suite à
  des restrictions techniques rencontrées, l'implémentation Log4J2 a été utilisée directement à certains endroits
  (=> idéalement il faudrait nettoyer, par exemple enlever SLF4J complètement)
-- Logging dans la GUI : pour permettre le logging dans un espace dédié de la GUI, un l'appender outpustreamn de Log4J2
-a été utilisé, en conjonction avec l'outpustream ad hoc :   common/gui/GuiLogOutputStream
+- Logging dans la GUI : pour permettre le logging dans un panneau dédié de la GUI, l'appender outpustream de Log4J2
+a été utilisé, en conjonction avec l'outpustream ad hoc :   common/gui/GuiLogOutputStream.
+La configuration de log4j2 pour cet appender est de ce fait effectuée programmatiquement, et non via le fichier de
+config log4j2, comme c'est le cas pour les autres appenders, ainsi que pour les loggers.
 - Logging dans la GUI de la sortie de l'exécution de scripts (.bat) dans des process différents : fait via
  common/tool/exec/outputHandler/OutputHandlerGui + StreamGobbler
 

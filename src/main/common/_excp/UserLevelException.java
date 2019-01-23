@@ -1,12 +1,15 @@
 package main.common._excp;
 
-public class ExecutionException extends Exception
+/**
+ * Top level exception containing a message to be displayed to user of the GUI
+ */
+public class UserLevelException extends Exception
 {
-    public ExecutionException(String message, Throwable cause)
+    public UserLevelException(String message, Throwable cause)
     { super(message, cause);
     }
 
-    public ExecutionException(String message)
+    public UserLevelException(String message)
     { super(message);
     }
 

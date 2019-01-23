@@ -32,6 +32,9 @@
         <Appender type="Console" name="gui_logger">
             <Layout type="PatternLayout" pattern="%d{yyyy-MM-dd HH:mm:ss} %c{1} %-5p %L: %m%n"/>
         </Appender>
+        <Appender type="Console" name="gui_logger2">
+            <Layout type="PatternLayout" pattern="%d{yyyy-MM-dd HH:mm:ss} %c{1} %-5p %L: %m%n"/>
+        </Appender>
     </Appenders>
 
     <Loggers>
