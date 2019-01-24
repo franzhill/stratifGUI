@@ -48,11 +48,12 @@ public class MultiThreadedBatFolderExecutor extends BatFolderExecutor
       throw new DirException(String.format("Erreur de lecture du répertoire des .bat spécifié : [%s]", dir.getAbsolutePath()));
     }
     ExecutorService executor = Executors.newFixedThreadPool(nbThreads);
+    int counter = 0;
     for (File f : directoryListing)
     {
       // If it's a bat file, execute it
       if (MyFileUtils.isBatfile(f))
-      {
+      { counter++;
         //Runnable worker = new WorkerThread(new SysCommand(f.getAbsolutePath(), this.outputHandler));
         Runnable worker = new BatFolderScriptExecutor(this.dir, guiLogger, outputHandler, f);
         executor.execute(worker);
@@ -60,7 +61,9 @@ public class MultiThreadedBatFolderExecutor extends BatFolderExecutor
     }
     executor.shutdown();  // will wait for all running threads to finish
     while (!executor.isTerminated()) {/* nothing */}
-    guiLogger.info("Tous les scripts ont été exécutés. Vérifier le répertoire des scripts pour constater leur bonne exécution.");
+    if (counter == 0) {guiLogger.warn("Attention, aucun script trouvé dans le répertoire de travail."); }
+    else              {guiLogger.info("Tous les scripts ({}) ont été exécutés.", counter); }
+
     System.out.println("Finished all threads");
   }
 }

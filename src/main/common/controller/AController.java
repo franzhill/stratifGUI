@@ -1,9 +1,11 @@
 package main.common.controller;
 
 import main.Gui;
+import main.common._excp.ExecutionException;
 import main.common._excp.UserLevelException;
 import main.common.model.AModel;
 import main.common.model.ModelDb;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,11 +85,11 @@ public abstract class AController<M extends AModel> implements ActionListener
     }
     catch (UserLevelException ule)
     { String msg = ule.getMessage();
-      if (ule.getCause() != null)
+     /* if (ule.getCause() != null)
       { //msg += "\n\n Infos techniques : \n" + ExceptionUtils.getStackTrace(ule.getCause()); // TODO limit size of printed stack
         msg += "\n\n Infos techniques : \n" + ExceptionUtils.getRootCauseMessage(ule.getCause());  // from the doc : "getRootCauseMessage =   Gets a short message summarising the root cause exception"
-      }
-      gui.showMessageError(msg);
+      }*/
+      gui.showMessageError(msg, ule);
     }
   }
 
@@ -129,9 +131,39 @@ public abstract class AController<M extends AModel> implements ActionListener
   {
     // Get the model info from the (pseudo-MVC) View
     model.modelDb = new ModelDb(gui.txtDbHostname.getText(),
-            gui.txtDbPort    .getText(),
-            gui.txtDbUser    .getText(),
-            new String(gui.pwdDbPassword.getPassword()),
-            gui.txtDbName    .getText() );
+                                gui.txtDbPort    .getText(),
+                                gui.txtDbUser    .getText(),
+                                new String(gui.pwdDbPassword.getPassword()),
+                                gui.txtDbName    .getText() );
   }
+
+
+  /**
+   * Used by some child controllers, not all.
+   * Yeah I know this is not 100% clean, but the inheritance diagram is a case of catch 22.
+   * So best here, rather than duplicating at lower levels
+   */
+  protected final void emptyWorkDir() throws ExecutionException
+  {
+    if (shouldEmptyWorkDirectory())
+    { try
+      { FileUtils.cleanDirectory(model.workFolder);
+      }
+      catch (IllegalArgumentException e)
+      { // In some cases the "leaf" directory of the worfFolder may not yet exist => disregard
+        logger.info("Le répertoire des scripts ({}), à vider, n'a pas été trouvé. Cela peut être normal (création plus tard).", model.workFolder);
+      }
+      catch (Exception e)
+      {  throw new ExecutionException(String.format("Impossible de vider le répertoire des scripts (%s). Existe-t-il bien ? Un fichier y est peut-être verrouillé ?", model.workFolder.getAbsolutePath()), e);
+      }
+    }
+  }
+
+  /**
+   * Open for overriding
+   * Should be declared abstract, but can't, cause all children classes won't be needing it. See emptyWorkDir().
+   * @return should we empty the work dir ?
+   */
+  protected boolean shouldEmptyWorkDirectory() { return true; }
+
 }

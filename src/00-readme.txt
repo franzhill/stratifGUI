@@ -34,7 +34,7 @@ Mode "POC" càd développement pragmatique, privilégiant le confort et la rapid
 développement sur le respect absolu de normes ou bonnes pratiques péremptoires, tout en assurant une architecture
 relativement saine et maintenable, et sans gréver l'expérience utilisateur.
 Il se peut donc que certaines "bonnes pratiques" aient été allègrement  bypassées (ex : accès aux membres d'une classe
-via Getter et Setters => membres publics ;o) )
+via Getter et Setters => membres publics ;o), pas de tests unitaires etc.)
 
 3.2 Packages
 
@@ -56,7 +56,7 @@ classes parentes
 
 L'organisation du code s'inspire du modèle MVC.
 
--Classe Gui : ~ "vue"
+-Classe Gui : ~ "vue" + colle
 -Classes [chargement_couche|stratification|common]/controller : contrôleurs
 -Classes [chargement_couche|stratification|common]/model : modèles
 

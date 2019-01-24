@@ -97,13 +97,13 @@ public class GuiLogOutputStream extends OutputStream
 
 
 
-  /**
-   * Flushes the output stream.
-   */
-  public void flush ()
-  {
-    // redirect data to the GUI
-    gui.logInGui(mem);//, true);
-    mem = "";
-  }
+//  /**
+//   * Flushes the output stream.
+//   */
+//  public void flush ()
+//  {
+//    // redirect data to the GUI
+//    gui.logInGui(mem);//, true);
+//    mem = "";
+//  }
 }

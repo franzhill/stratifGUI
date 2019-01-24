@@ -51,12 +51,22 @@ import static javax.swing.UIManager.setLookAndFeel;
  */
 public class Gui
 {
+  // Note : all the controls for the "stratification" tab are identified with "...Strat..." in them.
+  // If there isn't "...Strat..." then it's a control for the "chargement couche" tab, or for something
+  // else.
+  // Ideally for consistency we'd want to rename the controls for "chargement couche" to include
+  // something like "...Charg..." in them, same way as for the "stratification" controls.
+
   private JFrame       rootFrame;
   public  JPanel       rootPanel;
   private JButton      buttTest;
   private JTabbedPane  tabbedPane1;
-  public  JTextArea    txtaLog;
+
+  // Message area
+
   public  JTextPane    txtpLog;
+  public  JTextPane    txtpLog2;
+  public  JButton      buttClearMessages;
 
   // Db settings
 
@@ -279,11 +289,16 @@ public class Gui
     });
     rdoStratDepSelect.addActionListener(new AbstractAction("rdoStratDepSelect")
     { public void actionPerformed(ActionEvent e)
-    { if (rdoStratDepSelect.isSelected()) {rdoStratDepTousSelect(false); }
-    }
+      { if (rdoStratDepSelect.isSelected()) {rdoStratDepTousSelect(false); }
+      }
     });
 
-
+    buttClearMessages.addActionListener(new AbstractAction("buttClearMessages")
+    { public void actionPerformed(ActionEvent e)
+      { txtpLog .setText("");
+        txtpLog2.setText("");
+      }
+    });
 
 
   }
@@ -384,36 +399,36 @@ public class Gui
     return org.apache.logging.log4j.LogManager.getLogger(loggerName);
   }
 
-
-  /**
-   * Do not use directly.
-   * Use the loggerGui instead.
-   * Used by the loggerGui.
-   *
-   * @param text
-   */
-  public void logInGui(String text)
-  {
-    logInGui(text, false);
-  }
-
-
-  /**
-   * !! Do not use directly. !!
-   * Use the loggerGui instead.
-   * @used_by the loggerGui.
-   *
-   * @param text
-   * @param addNewLine
-   */
-  public void logInGui(String text, boolean addNewLine)
-  { final String logInGuiNewline = "\n";
-
-    txtaLog.append( text) ;//+ (addNewLine ? logInGuiNewline : "")); //+ logInGuiNewline);
-    // scrolls the text area to the end of data
-    txtaLog.setCaretPosition(txtaLog.getDocument().getLength());
-  }
-
+//
+//  /**
+//   * Do not use directly.
+//   * Use the loggerGui instead.
+//   * Used by the loggerGui.
+//   *
+//   * @param text
+//   */
+//  public void logInGui(String text)
+//  {
+//    logInGui(text, false);
+//  }
+//
+//
+//  /**
+//   * !! Do not use directly. !!
+//   * Use the loggerGui instead.
+//   * @used_by the loggerGui.
+//   *
+//   * @param text
+//   * @param addNewLine
+//   */
+//  public void logInGui(String text, boolean addNewLine)
+//  { final String logInGuiNewline = "\n";
+//
+//    txtaLog.append( text) ;//+ (addNewLine ? logInGuiNewline : "")); //+ logInGuiNewline);
+//    // scrolls the text area to the end of data
+//    txtaLog.setCaretPosition(txtaLog.getDocument().getLength());
+//  }
+//
 
   /**
    *
@@ -422,15 +437,26 @@ public class Gui
    */
   public void logInGui(String text, String loggerName)
   {
+    // Coloring the text message depending on the level of the log message.
+    // Ideally we wouldn't want to rely on a flimsy text search to determine the message level,
+    // and instead receive that level information alongside the actual message, but that
+    // would prove tricky to implement within the GuiLogOutputStream...
+    // Another possibility would be to have the logger highlight the log lines with ANSI code
+    // (using %highlight{...) in the log4J2 PatternLayout setting, and then parse the ANSI
+    // codes here to replace them with a Color.
+
+    Color color = Color.BLACK;
+    if (text.contains(" ERROR ")) color = Color.RED;
+    if (text.contains(" WARN "))  color = Color.ORANGE;
+
+    // OLD : using a text area instead of a textpane. Simpler, but does not allow for styling.
+    //txtaLog.append(text) ;//+ (addNewLine ? logInGuiNewline : "")); //+ logInGuiNewline);
+    // scrolls the text area to the end of data
+    //txtaLog.setCaretPosition(txtaLog.getDocument().getLength());
+
     switch (loggerName)
-    { case Gui.GUI_LOGGER_REF :
-        txtaLog.append( text) ;//+ (addNewLine ? logInGuiNewline : "")); //+ logInGuiNewline);
-        // scrolls the text area to the end of data
-        txtaLog.setCaretPosition(txtaLog.getDocument().getLength());
-        break;
-      case Gui.GUI_LOGGER2_REF :
-        appendToPane(txtpLog, text, Color.DARK_GRAY);
-        break;
+    { case Gui.GUI_LOGGER_REF  : appendToPane(txtpLog , text, color);  break;
+      case Gui.GUI_LOGGER2_REF : appendToPane(txtpLog2, text, color);  break;
       default: logger.warn("Programmatic error : GUI logger name not known : {}.", loggerName);
     }
   }
@@ -562,7 +588,8 @@ public class Gui
    * Display error to the user in a dialog window
    */
   public void showMessageError(String usrMsg)
-  {  showMessageError(usrMsg, null);
+  { logger.debug("");
+    showMessageError(usrMsg, null);
   }
 
   /**
@@ -572,20 +599,31 @@ public class Gui
    * @param e exception that caused the problem
    */
   public void showMessageError(String usrMsg, Throwable e)
-  { if (e != null)
-    {   usrMsg = usrMsg +
-            "\n \n" +
-            "Infos techniques : \n" +
-            MyExceptionUtils.getStackMessages(e);    // TODO wrap - these lines can be very long
+  { logger.debug("");
+    String logMsg = usrMsg;
+    if (e != null)
+    { usrMsg = usrMsg + "\n \n" +
+              "Infos techniques : \n" +
+              ExceptionUtils.getRootCauseMessage(e);    // short description
+
+      logMsg = logMsg + "\n\n" +
+              "Infos techniques : \n" +
+              MyExceptionUtils.getStackMessages(e);    // longer description
     }
-    JOptionPane.showMessageDialog(rootPanel, usrMsg, "ERREUR", JOptionPane.WARNING_MESSAGE);
+    // Display message popup
+    JOptionPane.showMessageDialog(rootPanel, usrMsg, "ERREUR", JOptionPane.ERROR_MESSAGE);
 
     // Also display in GUI log pane
     loggerGui.error(usrMsg);
+
+    // And through conventional logger
+    logger.error(logMsg);
+
+    if (e != null)
+    { logger.debug("Printing stack trace : ");
+      e.printStackTrace();
+    }
   }
-
-
-
 
 
   /**
@@ -626,8 +664,6 @@ public class Gui
   //}
 
 
-
-
   public void displayFoundFiles()
   {
     List<String>   cols = new ArrayList<String>();
@@ -645,8 +681,4 @@ public class Gui
     tableDetectedFiles.setModel(tableModel);
   }
 
-  private void createUIComponents()
-  {
-    // TODO: place custom component creation code here
-  }
 }

@@ -18,7 +18,8 @@ public class StreamGobbler extends Thread
     private InputStream is;
     private String type;
 
-    //@MagicConstant(stringValues = {TYPE_OUT, TYPE_ERR})  // annotation that works with IntelliJ
+    //@MagicConstant(stringValues = {TYPE_OUT, TYPE_ERR})  // annotation that works with IntelliJ -- can't seem to make it work properrly though...
+    // We could use an enum -- but we'll keep it simple, POC style
     public static final String TYPE_OUT = "STDO";
     public static final String TYPE_ERR = "STDE";
 

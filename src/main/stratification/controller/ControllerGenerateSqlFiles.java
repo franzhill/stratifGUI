@@ -37,6 +37,9 @@ public class ControllerGenerateSqlFiles extends AControllerStrat
     gui.loggerGui.info("Génération des scripts sql et des scripts bat ... Veuillez patienter...");
     gui.loggerGui.info("...");
 
+    int counter_sql = 0;
+    int counter_bat = 0;
+
     try
     { emptyWorkDir();
       for (String dep : model.selDeps)
@@ -47,9 +50,10 @@ public class ControllerGenerateSqlFiles extends AControllerStrat
           { File dest_f = new File(model.workFolder + File.separator + dep + File.separator + f.getName());
             MyFileUtils.replace(f, model.depPlaceholder, dep, dest_f, "UTF-8");  // creates new file and parent dirs if necessary
             MyFileUtils.replace(dest_f, "#DEPT2", dep.substring(1), null, "UTF-8");  // TODO
+            counter_sql++;
           }
           catch (Exception e)
-          { throw new ExecutionException(String.format("Erreur lors de la généraiton du fichier sql [%s] pour le département [%s]", f.getAbsolutePath(), dep), e);
+          { throw new ExecutionException(String.format("Erreur lors de la génération du fichier sql [%s] pour le département [%s]", f.getAbsolutePath(), dep), e);
           }
         }
 
@@ -60,9 +64,10 @@ public class ControllerGenerateSqlFiles extends AControllerStrat
         File outputFile = new File(String.format(model.workFolder.getAbsolutePath() + File.separator + "stratification_%s.bat", dep));  // TODO put in conf file
         try
         { tmplproc.process(template, outputFile);
+          counter_bat++;
         }
         catch (Exception e)
-        { throw new ExecutionException(String.format("Erreur lors de la génération du script bat d'exécution des sql à partir du template, pour le département = {%s}.", dep), e);
+        { throw new ExecutionException(String.format("Erreur lors de la génération du script bat d'exécution des sql à partir du template, pour le département = [%s}.", dep), e);
         }
       }
     }
@@ -71,7 +76,7 @@ public class ControllerGenerateSqlFiles extends AControllerStrat
     }
 
     // Operations are not executed asynchronously via a swingworker so it will make sense to display a everything OK message to the user here:
-    gui.loggerGui.info("Génération des scripts sql et des scripts bat terminée.");
+    gui.loggerGui.info("Génération des scripts sql ({}) et des scripts bat ({}) terminée.", counter_sql, counter_bat);
   }
 
 
@@ -113,16 +118,9 @@ public class ControllerGenerateSqlFiles extends AControllerStrat
   }
 
 
-  private void emptyWorkDir() throws ExecutionException
-  {
-    if (gui.chbStratEmptyWorkDirFirst.isSelected())
-    { try
-      { FileUtils.cleanDirectory(model.workFolder);
-      }
-      catch (Exception e)
-      {  throw new ExecutionException(String.format("Impossible de vider le répertoire des scripts (%s). Existe-t-il bien ? Un fichier y est peut-être verrouillé ?", model.workFolder.getAbsolutePath()), e);
-      }
-    }
+  @Override
+  protected boolean shouldEmptyWorkDirectory()
+  { return  gui.chbStratEmptyWorkDirFirst.isSelected();
   }
 
 }

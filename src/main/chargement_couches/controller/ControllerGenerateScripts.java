@@ -84,17 +84,6 @@ public class ControllerGenerateScripts extends AControllerCharg
   }
 
 
-  private void emptyWorkDir() throws ExecutionException
-  {
-    if (gui.chbEmptyWorkDirFirst.isSelected())
-    { try
-      { FileUtils.cleanDirectory(model.workFolder);
-      }
-      catch (Exception e)
-      {  throw new ExecutionException(String.format("Impossible de vider le répertoire des scripts (%s). Existe-t-il bien ? Un fichier y est peut-être verrouillé ?", model.workFolder.getAbsolutePath()), e);
-      }
-    }
-  }
 
 
   /**
@@ -145,6 +134,12 @@ public class ControllerGenerateScripts extends AControllerCharg
       }
       gui.loggerGui.info("Génération du script : " + outputFile.getName() + " : DONE. ");
     }
+  }
+
+
+  @Override
+  protected boolean shouldEmptyWorkDirectory()
+  { return  gui.chbEmptyWorkDirFirst.isSelected();
   }
 
 

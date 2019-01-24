@@ -61,7 +61,6 @@ public class SwingWorkerExecuteScripts extends ASwingWorker<ModelCharg>
   {
     // Start
     publish(new LogMessage(Level.INFO, "Démarrage de l'exécution des scripts..."));
-
     setProgress(1);
 
     // TODO : code from the bfe could actually be here. This would allow us to monitor (and feedback) progress to user.
@@ -69,16 +68,13 @@ public class SwingWorkerExecuteScripts extends ASwingWorker<ModelCharg>
     try
     {
       // More work was done
-      publish(new LogMessage(Level.INFO, "Début de l'exécution des scripts en cours..."));
-      setProgress(0);
-
+      //publish(new LogMessage(Level.INFO, "Exécution des scripts en cours..."));
+      setProgress(2);
       bfe.execute();
     }
     catch (DirException e)
     { e.printStackTrace(); // TODO handle
     }
-
-
 
     // Complete
     publish(new LogMessage(Level.INFO, "Fin de l'exécution des scripts."));
