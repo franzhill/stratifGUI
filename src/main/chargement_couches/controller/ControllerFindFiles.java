@@ -23,19 +23,19 @@ public class ControllerFindFiles extends AControllerCharg
 
   @Override
   protected void updateGui(ActionEvent e)
-  {
-    // Reinitialise the list of found files :
+  { // Reinitialise the list of found files :
     // - in the GUI
     gui.displayFoundFiles();  // TODO move somewhere else
   }
 
+
   @Override
   protected void updateModel__()
-  {
-    // Reinitialise the list of found files :
+  { // Reinitialise the list of found files :
     // - in the model
     model.depFiles.clear();
   }
+
 
   @Override
   protected void preDoChecks() throws Exception
@@ -51,33 +51,29 @@ public class ControllerFindFiles extends AControllerCharg
   {
     gui.loggerGui.info("Button findFiles was pressed");
 
-      FileFinder finder = new FileFinder(model.parents,
-                                         model.couche.fileExt,
-                                         model.couche.detectFiles,
-                                         model.couche.dep,
-                                         gui.rdoDepDetect.isSelected()
-                                        ); // TODO
-
-      try
-      {
-        model.depFiles = finder.find();
-        if (model.depFiles.isEmpty())
-        { throw new UserLevelException("Aucun fichier trouvé avec les critères actuels.");
-          //gui.showMessageError("Aucun fichier trouvé avec les critères actuels.");
-        }
+    FileFinder finder = new FileFinder(model.parents,
+                                       model.couche.fileExt,
+                                       model.couche.detectFiles,
+                                       model.couche.dep,
+                                       gui.rdoDepDetect.isSelected()
+                                      ); // TODO
+    try
+    { model.depFiles = finder.find();
+      if (model.depFiles.isEmpty())
+      { throw new UserLevelException("Aucun fichier trouvé avec les critères actuels.");
+        //gui.showMessageError("Aucun fichier trouvé avec les critères actuels.");
       }
-      catch (DepExtractionException excp)
-      { throw new UserLevelException("Impossible de détecter un département : " + excp.getMessage());
-        //gui.showMessageError("Impossible de détecter un département : " + excp.getMessage());
-        //return;
-      }
+    }
+    catch (DepExtractionException excp)
+    { throw new UserLevelException("Impossible de détecter un département : " + excp.getMessage());
+      //gui.showMessageError("Impossible de détecter un département : " + excp.getMessage());
+      //return;
+    }
 
-
-    // Update (pseudo) View
+    // Update "View"
     gui.displayFoundFiles();
 
     logger.debug("model.couche.type= " + model.couche.type);
-
   }
 
 
@@ -93,7 +89,7 @@ public class ControllerFindFiles extends AControllerCharg
    */
    /* private void loadZipFile(File f)
     {
-        logger.debug(String.format("Loading file {%s}...", f.toString() ));
+        logger.debug(String.format("Loading file [%s]...", f.toString() ));
 
         try
         {   ZipFile zipFile = new ZipFile(f);
@@ -101,7 +97,7 @@ public class ControllerFindFiles extends AControllerCharg
         }
         catch (ZipException e)
         {
-            String msg = String.format("Impossible de dézipper {%s} dans {%s}", f.getAbsolutePath(), gui.getUnzipDir());
+            String msg = String.format("Impossible de dézipper [%s] dans [%s]", f.getAbsolutePath(), gui.getUnzipDir());
             logger.error(msg + "\n Stack Trace = \n" + ExceptionUtils.getStackTrace(e));
             gui.showMessageError(msg);
         }

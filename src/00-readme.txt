@@ -128,12 +128,23 @@ mais il est envisageable de factoriser ce comportement dans AController. (2018.0
 - Logging : la solution de logging est Log4j2. Originellement la couche d'abstraction SLF4J était utilisée, mais suite à
  des restrictions techniques rencontrées, l'implémentation Log4J2 a été utilisée directement à certains endroits
  (=> idéalement il faudrait nettoyer, par exemple enlever SLF4J complètement)
-- Logging dans la GUI : pour permettre le logging dans un panneau dédié de la GUI, l'appender outpustream de Log4J2
-a été utilisé, en conjonction avec l'outpustream ad hoc :   common/gui/GuiLogOutputStream.
-La configuration de log4j2 pour cet appender est de ce fait effectuée programmatiquement, et non via le fichier de
-config log4j2, comme c'est le cas pour les autres appenders, ainsi que pour les loggers.
-- Logging dans la GUI de la sortie de l'exécution de scripts (.bat) dans des process différents : fait via
- common/tool/exec/outputHandler/OutputHandlerGui + StreamGobbler
+- Logging dans la GUI :
+Le panneau inférieur de la GUI est dédié aux messages (logs).
+A l'heure d'écriture de ces lignes, il existe deux zones de logs : celle du haut affiche les messages généraux de
+l'application. C'est le logger "logger_gui" (ou "loggerGui") qui alimente cette zone.
+Celle du bas affiche la sortie des exécutions des scripts .bat. C'est le logger "logger_gui2" (ou "loggerGui2")
+qui alimente cette zone.
+Afin de permettre à un logger log4j2 de loguer dans un panneau dédié de la GUI (présente un certain nombre d'avantages
+par rapport à l'écriture directe par setText() par exemple dans le panneau : gestion des niveaux, du format, sortie
+additionnelle dans un fichier...), l'appender outpustream de Log4J2 a été utilisé, en conjonction avec l'outpustream
+ad hoc :   common/gui/GuiLogOutputStream.
+La configuration de log4j2 pour les 2 appenders de ces 2 loggers est de ce fait effectuée programmatiquement, et non via
+ le fichier de config log4j2, comme c'est le cas pour les autres appenders, ainsi que pour les loggers. Les appenders
+ y sont quand même définis afin de pouvoir y spécifier le layout (plus facile que d'avoir à le faire programmatiquement)
+ et est repris au moment de la configuration programmatique.
+- Logging dans la GUI de la sortie de l'exécution de scripts .bat dans des process différents : fait via
+ common/tool/exec/outputHandler/OutputHandlerGui + StreamGobbler (en plus de l'appender évoqué ci-dessus)
+
 
 
 3.3.3 Packages

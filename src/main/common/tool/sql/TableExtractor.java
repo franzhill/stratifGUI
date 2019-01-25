@@ -66,7 +66,7 @@ public class TableExtractor
     }
     catch (Exception e)
     {
-      throw new TableExtractionException(String.format("Erreur d'extraction de la table {%s} depuis le dump {%s} vers le fichier {%s}.", table, dumpFile.getAbsolutePath(), outputFile.getAbsolutePath()), e);
+      throw new TableExtractionException(String.format("Erreur d'extraction de la table [%s] depuis le dump [%s] vers le fichier [%s].", table, dumpFile.getAbsolutePath(), outputFile.getAbsolutePath()), e);
     }
 
 

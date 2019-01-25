@@ -40,7 +40,7 @@ public class Config
             config = builder.getConfiguration();
         }
         catch (ConfigurationException cex)
-        {   String msg = String.format("Could not load configuration file path: {%s}", filePath);
+        {   String msg = String.format("Could not load configuration file path: [%s]", filePath);
             logger.error(msg);
             throw new ConfigAccessException(msg, cex);
         }
@@ -67,7 +67,7 @@ public class Config
             config  = builder.getConfiguration();
         }
         catch (ConfigurationException cex)
-        {   String msg = String.format("Could not load configuration file path: {%s}", filePath);
+        {   String msg = String.format("Could not load configuration file path: [%s]", filePath);
             logger.error(msg);
             throw new ConfigAccessException(msg, cex);
         }
@@ -109,7 +109,7 @@ public class Config
             builder.save();
         }
         catch (ConfigurationException cex)
-        {   String msg = String.format("Could not save to configuration file path: {%s}", builder.getFileHandler().getFile().getAbsolutePath());  // Not tested, but can't see why this wouldn't give us the original file path back...
+        {   String msg = String.format("Could not save to configuration file path: [%s]", builder.getFileHandler().getFile().getAbsolutePath());  // Not tested, but can't see why this wouldn't give us the original file path back...
             logger.error(msg);
             throw new ConfigAccessException(msg, cex);
         }

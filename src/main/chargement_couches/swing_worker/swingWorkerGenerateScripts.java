@@ -142,7 +142,7 @@ public class SwingWorkerGenerateScripts extends ASwingWorker<ModelCharg>
         tmplproc.process(template13, batFile13);
       }
       catch (Exception e)
-      { throw new ExecutionException(String.format("Erreur lors de la fabrication du script bat de chargement à partir du template, pour type de couche = {%s}, département = {%s}.", model.couche.type, fd.departement), e);
+      { throw new ExecutionException(String.format("Erreur lors de la fabrication du script bat de chargement à partir du template, pour type de couche = [%s], département = [%s].", model.couche.type, fd.departement), e);
       }
 
       // 2. That should be it then ;o)

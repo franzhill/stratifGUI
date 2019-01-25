@@ -82,7 +82,7 @@ public class FileFinder
       try
       { p = Pattern.compile(pattern);
       }catch (PatternSyntaxException e)
-      { throw new DepExtractionException(String.format("Erreur de syntaxe dans le pattern {%s}", pattern));
+      { throw new DepExtractionException(String.format("Erreur de syntaxe dans le pattern [%s]", pattern));
       }
       m = p.matcher(searchIn);
 
@@ -90,13 +90,13 @@ public class FileFinder
       if (m.find())  // found a match for departement
       {
         String depar = m.group(1);  // we're only looking for one group
-        logger.debug(String.format("Trouvé le département : {%s} dans le fichier {%s}", depar, searchIn));
+        logger.debug(String.format("Trouvé le département : [%s] dans le fichier [%s]", depar, searchIn));
         return depar;
       }
       // if we don't find a match, fail
       else
       { logger.debug("could not detect departement, throwing exception...");
-        throw new DepExtractionException(String.format("Impossible de trouver un département dans le le fichier {%s} en utilsant le pattern {%s}", searchIn, pattern));
+        throw new DepExtractionException(String.format("Impossible de trouver un département dans le le fichier [%s] en utilsant le pattern [%s]", searchIn, pattern));
       }
     }
   }
@@ -125,10 +125,10 @@ public class FileFinder
             Pattern p = Pattern.compile(patt);
             Matcher m = p.matcher(FilenameUtils.separatorsToUnix(ff.getAbsolutePath()));
 
-            logger.debug(String.format("Looking for pattern {%s} in file {%s}", patt, ff));
+            logger.debug(String.format("Looking for pattern [%s] in file [%s]", patt, ff));
             if (m.find())  // Retain file
             {
-                logger.debug(String.format("Retaining file : {%s}", ff));
+                logger.debug(String.format("Retaining file : [%s]", ff));
                 foundFiles.add(new FileDep(dep_, ff));
             }
           }

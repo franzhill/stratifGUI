@@ -1,6 +1,7 @@
 package main.common.tool.exec;
 
 import main.common.tool.exec.outputHandler.IOutputHandler;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,44 +16,45 @@ import java.io.InputStreamReader;
  */
 public class StreamGobbler extends Thread
 {
-    private InputStream is;
-    private String type;
+  private InputStream    is;
+  private String         type;
+  private IOutputHandler outputHandler;
+  private SysCommand     command;
 
-    //@MagicConstant(stringValues = {TYPE_OUT, TYPE_ERR})  // annotation that works with IntelliJ -- can't seem to make it work properrly though...
-    // We could use an enum -- but we'll keep it simple, POC style
-    public static final String TYPE_OUT = "STDO";
-    public static final String TYPE_ERR = "STDE";
+  //@MagicConstant(stringValues = {TYPE_OUT, TYPE_ERR})  // annotation that works with IntelliJ -- can't seem to make it work properrly though...
+  // We could use an enum -- but we'll keep it simple, POC style
+  public static final String TYPE_OUT = "STDO";
+  public static final String TYPE_ERR = "STDE";
 
-    protected IOutputHandler outputHandler;
+  /**
+   * @param is
+   * @param type           one of StreamGobbler.TYPE_OUT or StreamGobbler.TYPE_ERR
+   * @param outputHandler  will handle i.e. define what to actually do with the data from the inputstream
+   * @param command        the command for which this gobbler is used.
+   */
+  public StreamGobbler(InputStream is, String type, IOutputHandler outputHandler, SysCommand command)
+  {
+    this.is   = is;
+    this.type = type;
+    this.outputHandler = outputHandler;
+    this.command = command;
+  }
 
-    /**
-     *
-     * @param is
-     * @param type one of StreamGobbler.TYPE_OUT or StreamGobbler.TYPE_ERR
-     */
-    public StreamGobbler(InputStream is, String type, IOutputHandler outputHandler)
-    {
-        this.is   = is;
-        this.type = type;
-        this.outputHandler = outputHandler;
+
+  public void run()
+  {
+    try
+    { InputStreamReader isr = new InputStreamReader(is);
+      BufferedReader    br  = new BufferedReader(isr);
+      String line = null;
+      while ( (line = br.readLine()) != null)
+      { outputHandler.handleOutput(line, type, command.toStringShort());
+      }
     }
-
-    public void run()
-    {
-        try
-        {
-            InputStreamReader isr = new InputStreamReader(is);
-            BufferedReader    br  = new BufferedReader(isr);
-            String line = null;
-            while ( (line = br.readLine()) != null)
-            {
-                outputHandler.handleOutput(line, type);
-            }
-        } catch (IOException ioe)
-        {
-            ioe.printStackTrace();
-        }
+    catch (IOException ioe)
+    {  ioe.printStackTrace();
     }
+  }
 
 
 }

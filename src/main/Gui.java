@@ -140,7 +140,6 @@ public class Gui
    * Will log in a dedicated area on the GUI, visible to the end user.
    * Is public for access from other classes in the MVC architecture
    */
-  //public static Logger loggerGui;  // TODO unmake static ?
   public org.apache.logging.log4j.Logger loggerGui;
 
   /**
@@ -150,7 +149,7 @@ public class Gui
   public org.apache.logging.log4j.Logger loggerGui2;
 
 
-  private static final String GUI_LOGGER_REF = "gui_logger";  // Name used for the dummy counterparts in the config depFiles, and for the final logger
+  private static final String GUI_LOGGER_REF  = "gui_logger";   // Name used for the dummy counterparts in the config depFiles, and for the final logger
   private static final String GUI_LOGGER2_REF = "gui_logger2";  // Name used for the dummy counterparts in the config depFiles, and for the final logger
 
 
@@ -169,9 +168,6 @@ public class Gui
    */
   public Config userConfig;
 
-  /**
-   * TODO once the app is packaged, decide where user conf file should be stored
-   */
   private String userConfigFilePath ="./conf/conf.ini";
 
 
@@ -189,7 +185,7 @@ public class Gui
     // (bound to the .form) it seems applying look and feel now just fails.
     // => we'll do that later after the GUI has been displayed.
     // However for some reason we still have to call it one first time here or the external border
-    // (title, exapand, close buttons) will not be displayed
+    // (title, expand & close buttons) will not be displayed
     initLookAndFeel();
 
     // Make sure we have nice window decorations.
@@ -220,12 +216,12 @@ public class Gui
     //                 UIManager.getCrossPlatformLookAndFeelClassName();
 
     try
-    {   setLookAndFeel(lookNFeel);
+    { setLookAndFeel(lookNFeel);
       logger.debug("Look and feel set succesfully");
     }
 
     catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e)
-    {   logger.warn("Problème de chargement du thème ('look and feel'). Le thème par défaut sera utilisé. Stacktrace : \n" + ExceptionUtils.getStackTrace(e) );
+    { logger.warn("Problème de chargement du thème ('look and feel'). Le thème par défaut sera utilisé. Stacktrace : \n" + ExceptionUtils.getStackTrace(e) );
     }
 
         /*try {
@@ -284,12 +280,12 @@ public class Gui
     });
     rdoStratDepTous.addActionListener(new AbstractAction("rdoStratDepTous")
     { public void actionPerformed(ActionEvent e)
-      { if (rdoStratDepTous.isSelected()) {rdoStratDepTousSelect(true); }
+      { rdoStratDepTousSelect(rdoStratDepTous.isSelected());
       }
     });
     rdoStratDepSelect.addActionListener(new AbstractAction("rdoStratDepSelect")
     { public void actionPerformed(ActionEvent e)
-      { if (rdoStratDepSelect.isSelected()) {rdoStratDepTousSelect(false); }
+      { rdoStratDepTousSelect(rdoStratDepTous.isSelected());
       }
     });
 
@@ -484,8 +480,8 @@ public class Gui
     {   userConfig = new Config(userConfigFilePath);
     }
     catch (ConfigAccessException e)
-    { logger.error(String.format("Could  not load user conf file {%s}. Stack:\n {%s}", userConfigFilePath, Arrays.toString(e.getStackTrace()))); // TODO stack trace print is KO, fix it
-      String usrMsg = String.format("Impossible de charger le fichier de conf {%s}. Indiquer les configurations à la main si besoin.", userConfigFilePath);
+    { logger.error(String.format("Could  not load user conf file [%s]. Stack:\n %s", userConfigFilePath, Arrays.toString(e.getStackTrace()))); // TODO stack trace print is KO, fix it
+      String usrMsg = String.format("Impossible de charger le fichier de conf [%s]. Indiquer les configurations à la main si besoin.", userConfigFilePath);
       showMessageError(usrMsg);
     }
   }
@@ -507,6 +503,8 @@ public class Gui
     txtStratDepPlacheholder.setText(userConfig.getProp("strat.dep_placeholder"));
     //txtUnzipDir         .setText(userConfig.getProp("rep_dezip"));
     if (! txtDetectFiles.getText().isEmpty()) { chbDetectFilesSelect(true); }  else {chbDetectFilesSelect(false); }
+
+    rdoStratDepTousSelect(rdoStratDepTous.isSelected());
   }
 
   /**
@@ -543,6 +541,9 @@ public class Gui
   {
     txtaStratDepSelect.setEnabled(!b);
     //txtaStratDepSelect.setForeground(b ? Color.WHITE : Color.BLACK);  // doesn't work
+    if (b)  // Copy all departements in selection area (even if not enabled)
+    {  txtaStratDepSelect.setText(userConfig.getProp("strat.departements"));
+    }
   }
 
 
@@ -577,8 +578,8 @@ public class Gui
 
     }
     catch (ConfigAccessException e)
-    {   logger.error(String.format("Could not save to user conf file {%s}. Stack:\n {%s}", userConfigFilePath, ExceptionUtils.getStackTrace(e)));
-      String usrMsg = String.format("Impossible de sauvegarder dans le fichier de conf {%s}. L'action va poursuivre mais la configuration ne sera pas enregistrée.", userConfigFilePath);
+    {   logger.error(String.format("Could not save to user conf file [%s]. Stack:\n %s", userConfigFilePath, ExceptionUtils.getStackTrace(e)));
+      String usrMsg = String.format("Impossible de sauvegarder dans le fichier de conf [%s]. L'action va poursuivre mais la configuration ne sera pas enregistrée.", userConfigFilePath);
       showMessageError(usrMsg);
     }
   }
@@ -592,6 +593,7 @@ public class Gui
     showMessageError(usrMsg, null);
   }
 
+
   /**
    * Display error to the user in a dialog window
    * With technical information regarding the cause exception
@@ -600,6 +602,7 @@ public class Gui
    */
   public void showMessageError(String usrMsg, Throwable e)
   { logger.debug("");
+    // Craft message
     String logMsg = usrMsg;
     if (e != null)
     { usrMsg = usrMsg + "\n \n" +
@@ -610,7 +613,7 @@ public class Gui
               "Infos techniques : \n" +
               MyExceptionUtils.getStackMessages(e);    // longer description
     }
-    // Display message popup
+    // Display message in popup
     JOptionPane.showMessageDialog(rootPanel, usrMsg, "ERREUR", JOptionPane.ERROR_MESSAGE);
 
     // Also display in GUI log pane
@@ -618,11 +621,6 @@ public class Gui
 
     // And through conventional logger
     logger.error(logMsg);
-
-    if (e != null)
-    { logger.debug("Printing stack trace : ");
-      e.printStackTrace();
-    }
   }
 
 
@@ -631,8 +629,14 @@ public class Gui
    */
   public void showMessageInfo(String usrMsg)
   {
-    loggerGui.info(usrMsg);
+    // Display message in popup
     JOptionPane.showMessageDialog(rootPanel, usrMsg, "INFO", JOptionPane.INFORMATION_MESSAGE);
+
+    // Also display in GUI log pane
+    loggerGui.info(usrMsg);
+
+    // And through conventional logger
+    logger.info(usrMsg);
   }
 
 

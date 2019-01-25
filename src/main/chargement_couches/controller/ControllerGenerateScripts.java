@@ -130,7 +130,7 @@ public class ControllerGenerateScripts extends AControllerCharg
       { tmplproc.process(template, outputFile);
       }
       catch (Exception e)
-      { throw new ExecutionException(String.format("Erreur lors de la fabrication du script bat de chargement à partir du template, pour type de couche = {%s}, département = {%s}.", model.couche.type, fd.departement), e);
+      { throw new ExecutionException(String.format("Erreur lors de la fabrication du script bat de chargement à partir du template, pour type de couche = [%s], département = [%s].", model.couche.type, fd.departement), e);
       }
       gui.loggerGui.info("Génération du script : " + outputFile.getName() + " : DONE. ");
     }

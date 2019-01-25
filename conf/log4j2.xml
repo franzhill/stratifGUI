@@ -13,7 +13,7 @@
             <Policies>
                 <TimeBasedTriggeringPolicy />
                 <!-- Le fichier de log ne fera jamais plus de la taille indiquée ci-dessous : -->
-                <SizeBasedTriggeringPolicy size="32 kB"/>
+                <SizeBasedTriggeringPolicy size="5 MB"/>
             </Policies>
             <DefaultRolloverStrategy max="0"/>
         </RollingFile>
@@ -32,7 +32,7 @@
              Use the same name as the logger it's destined for.
              -->
         <Appender type="Console" name="gui_logger">
-            <Layout type="PatternLayout" pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %m%n}"/>
+            <Layout type="PatternLayout" pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %m%n"/>
         </Appender>
         <Appender type="Console" name="gui_logger2">
             <Layout type="PatternLayout" pattern="%d{yyyy-MM-dd HH:mm:ss} %-5p %m%n"/>
@@ -51,11 +51,13 @@
         <!-- Logger used to log in the GUI -->
         <Logger name="gui_logger" level="trace" additivity="false">
             <AppenderRef ref="STDOUT"/>
-            <!-- Appender will be inserted programmatically -->
+            <AppenderRef ref="ROLLING_FILE"/>
+            <!-- Appender to GUI messaging area will be inserted programmatically -->
         </Logger>
         <Logger name="gui_logger2" level="trace" additivity="false">
-            <AppenderRef ref="STDOUT"/>
-            <!-- Appender will be inserted programmatically -->
+            <!-- <AppenderRef ref="STDOUT"/> This logger can be very verbose, so we'll deactivate this appender -->
+            <AppenderRef ref="ROLLING_FILE"/>
+            <!-- Appender to GUI messaging area will be inserted programmatically -->
         </Logger>
     </Loggers>
 

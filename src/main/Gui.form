@@ -216,7 +216,7 @@
                             </constraints>
                             <properties>
                               <text value="Chercher dans les chemins :"/>
-                              <toolTipText value="Indiquer des chemins (partiels) sous formes de regexp, séparés par des virgules. Les fichiers ne vérifiant pas ces chemins partiels ne seront pas retenus. Laisser vide dans le cas où aucun filtre ne doit être appliqué."/>
+                              <toolTipText value="Permet de filtrer sur les chemins des fichiers. Indiquer les chemins (partiels ou complets) parmi lesquels rechercher les fichiers, sous forme de regexps, séparées par des virgules. Les fichiers ne vérifiant pas ces chemins ne seront pas retenus. Laisser vide dans le cas où aucun filtre ne doit être appliqué."/>
                             </properties>
                           </component>
                           <component id="530f2" class="javax.swing.JTextField" binding="txtDetectFiles">
@@ -350,7 +350,7 @@
                         </properties>
                         <border type="none"/>
                         <children>
-                          <grid id="39be" layout-manager="GridLayoutManager" row-count="4" column-count="9" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                          <grid id="39be" layout-manager="GridLayoutManager" row-count="4" column-count="11" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                             <margin top="0" left="0" bottom="0" right="0"/>
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -361,11 +361,6 @@
                             </properties>
                             <border type="none"/>
                             <children>
-                              <vspacer id="a8524">
-                                <constraints>
-                                  <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
-                                </constraints>
-                              </vspacer>
                               <component id="37857" class="javax.swing.JLabel">
                                 <constraints>
                                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false">
@@ -379,9 +374,7 @@
                               </component>
                               <scrollpane id="45691">
                                 <constraints>
-                                  <grid row="0" column="1" row-span="1" col-span="5" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
-                                    <preferred-size width="0" height="83"/>
-                                  </grid>
+                                  <grid row="0" column="1" row-span="1" col-span="7" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                                 </constraints>
                                 <properties/>
                                 <border type="none"/>
@@ -390,6 +383,7 @@
                                     <constraints/>
                                     <properties>
                                       <font size="11"/>
+                                      <lineWrap value="false"/>
                                       <text value=""/>
                                     </properties>
                                   </component>
@@ -432,7 +426,7 @@
                               </component>
                               <component id="bca69" class="javax.swing.JButton" binding="buttStratSelectFiles">
                                 <constraints>
-                                  <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                                  <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false">
                                     <preferred-size width="30" height="20"/>
                                   </grid>
                                 </constraints>
@@ -448,26 +442,44 @@
                                 </constraints>
                                 <properties/>
                               </component>
+                              <component id="7085a" class="javax.swing.JTextArea" binding="txtaStratDepSelect">
+                                <constraints>
+                                  <grid row="1" column="3" row-span="1" col-span="5" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+                                    <minimum-size width="-1" height="120"/>
+                                    <preferred-size width="-1" height="120"/>
+                                    <maximum-size width="-1" height="120"/>
+                                  </grid>
+                                </constraints>
+                                <properties>
+                                  <enabled value="false"/>
+                                  <lineWrap value="true"/>
+                                </properties>
+                              </component>
                               <component id="d8aa" class="javax.swing.JButton" binding="buttStratExecute">
                                 <constraints>
-                                  <grid row="3" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                  <grid row="3" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                                    <minimum-size width="160" height="-1"/>
+                                    <preferred-size width="160" height="-1"/>
+                                    <maximum-size width="160" height="-1"/>
+                                  </grid>
                                 </constraints>
                                 <properties>
                                   <text value="Exécuter les scripts"/>
                                   <toolTipText value="Exécute tous les scripts de chargement de couche présents dans le répertoire de travail"/>
                                 </properties>
                               </component>
-                              <component id="7085a" class="javax.swing.JTextArea" binding="txtaStratDepSelect">
+                              <hspacer id="690a9">
                                 <constraints>
-                                  <grid row="1" column="3" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                                  <grid row="3" column="0" row-span="1" col-span="5" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                                 </constraints>
-                                <properties>
-                                  <enabled value="false"/>
-                                </properties>
-                              </component>
+                              </hspacer>
                               <component id="3bea8" class="javax.swing.JButton" binding="buttStratGenerate">
                                 <constraints>
-                                  <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                                  <grid row="3" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false">
+                                    <minimum-size width="160" height="-1"/>
+                                    <preferred-size width="160" height="-1"/>
+                                    <maximum-size width="160" height="-1"/>
+                                  </grid>
                                 </constraints>
                                 <properties>
                                   <text value="Générer les scripts"/>
@@ -476,7 +488,7 @@
                               </component>
                               <component id="eae07" class="javax.swing.JCheckBox" binding="chbStratEmptyWorkDirFirst">
                                 <constraints>
-                                  <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                                  <grid row="3" column="5" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                                 </constraints>
                                 <properties>
                                   <text value="Vider le répertoire"/>
