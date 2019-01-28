@@ -25,13 +25,13 @@ public abstract class AModel
 
   /**
    * Full path
-   * Private because we need to to some reformating on set
+   * Private because we need to to some reformating on setter
    */
   @Getter protected String postgresqlBinPath;
 
   /**
    * Full path
-   * Private because we need to to some reformating on set
+   * Private because we need to to some reformating on setter
    */
   @Getter protected String tempFolderPath;
 
@@ -48,8 +48,7 @@ public abstract class AModel
    * Max nb of threads to converse with DB with
    * Private because we need to to some reformating on set
    */
-  @Getter
-  private int nbThreads;
+  @Getter private int nbThreads;
 
   /**
    * Should be called just before performing action;
@@ -60,7 +59,7 @@ public abstract class AModel
 
   /**
    * Used by Freemarker
-   * Do not use to get the actual File, use direct access instead.
+   * !! Do not use to get the actual File, use direct access instead.
    */
   public String getWorkFolder()
   { return workFolder.getAbsolutePath();

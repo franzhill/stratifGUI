@@ -48,7 +48,7 @@ public class ModelCharg extends AModel
   @Override
   public void finalize()
   {
-    workFolder = new File(getTempFolderPath() + File.separator + "CHARG_COUCHE");
+    workFolder = new File(tempFolderPath + File.separator + "CHARG_COUCHE");
   }
 
 

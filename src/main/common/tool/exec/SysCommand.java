@@ -32,7 +32,7 @@ public class SysCommand
    * @param outputHandler will handle the output from the system command calls (e.g. write messages in the GUI)
    */
   public SysCommand(String command, List<String> args, IOutputHandler outputHandler)
-  {   this(command, outputHandler);
+  { this(command, outputHandler);
     this.args    = args;
   }
 
@@ -54,7 +54,7 @@ public class SysCommand
    * @return the exit value of the command
    */
   public int execute()
-  {
+  { logger.debug("");
     String homeDirectory = System.getProperty("user.home");
     Process proc;
     int exitVal = 0;
@@ -75,7 +75,11 @@ public class SysCommand
       // Sys command exit status
 
       try
-      {   exitVal = proc.waitFor();
+      { /** Test destoy proc ...
+        wait(10000); // milliseconds
+        logger.debug("Destroying proc ...");
+        proc.destroy(); */
+        exitVal = proc.waitFor();
       }
       catch (InterruptedException e)
       {   e.printStackTrace();

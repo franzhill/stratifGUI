@@ -58,7 +58,7 @@ public class SwingWorkerExecuteScripts extends ASwingWorker<ModelCharg>
 
   @Override
   protected Integer doInBackground_() throws Exception
-  {
+  { logger.debug("");
     // Start
     publish(new LogMessage(Level.INFO, "Démarrage de l'exécution des scripts..."));
     setProgress(1);
@@ -75,6 +75,9 @@ public class SwingWorkerExecuteScripts extends ASwingWorker<ModelCharg>
     catch (DirException e)
     { e.printStackTrace(); // TODO handle
     }
+
+
+
 
     // Complete
     publish(new LogMessage(Level.INFO, "Fin de l'exécution des scripts."));

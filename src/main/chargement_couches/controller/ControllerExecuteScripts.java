@@ -56,8 +56,8 @@ public class ControllerExecuteScripts extends AControllerCharg
 
     esw.execute();
 
-    // gui.loggerGui.info("Tous les scripts ont été exécutés.");  // Do not indicate termination here, cause tasks are run asynchronously (threads)
-                                                                  // so we might very likely go through here before the tasks are finished
+    // gui.loggerGui.info("Tous les scripts ont été exécutés.");  // No point in indicating completion here, this will be hit before action even
+                                                                  // starts, asynchronously, in the swingworker.
   }
 
 

@@ -22,18 +22,18 @@ public class ControllerFindFiles extends AControllerCharg
 
 
   @Override
-  protected void updateGui(ActionEvent e)
-  { // Reinitialise the list of found files :
-    // - in the GUI
-    gui.displayFoundFiles();  // TODO move somewhere else
-  }
-
-
-  @Override
   protected void updateModel__()
   { // Reinitialise the list of found files :
     // - in the model
     model.depFiles.clear();
+  }
+
+
+  @Override
+  protected void updateGui(ActionEvent e)
+  { // Reinitialise the list of found files :
+    // - in the GUI
+    gui.displayFoundFiles();  // TODO move somewhere else
   }
 
 
@@ -49,8 +49,8 @@ public class ControllerFindFiles extends AControllerCharg
   @Override
   protected void doo_() throws UserLevelException
   {
-    gui.loggerGui.info("Button findFiles was pressed");
-
+    gui.loggerGui.info ("Recherche des fichiers correspondant aux critères...");
+    gui.buttSelectFiles.setEnabled(false);  // TODO maybe reduce coupling to button
     FileFinder finder = new FileFinder(model.parents,
                                        model.couche.fileExt,
                                        model.couche.detectFiles,
@@ -76,6 +76,16 @@ public class ControllerFindFiles extends AControllerCharg
     logger.debug("model.couche.type= " + model.couche.type);
   }
 
+
+  @Override
+  protected void postDo()
+  {
+    gui.buttSelectFiles.setEnabled(true);
+    // In fact, as long as the action is processed in the Event Dispatch Thread (and not deferred to a SwingWorker)
+    // all actions on the GUI will be processed after the end of the action
+    // So what we're trying to do here is pointless...
+
+  }
 
 
 

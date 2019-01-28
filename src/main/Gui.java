@@ -108,7 +108,7 @@ public class Gui
   public  JTextField   txtNbThreads;
   private JButton      buttSelectUnzipDir;
   //public  JTextField   txtUnzipDir;
-  private JButton      buttSelectFiles;
+  public  JButton      buttSelectFiles;
   public  JTextArea    txtaSelectedFiles;
   public  JButton      buttExecuteScripts;
   public  JProgressBar progbCouche;
@@ -128,7 +128,6 @@ public class Gui
 
   // Tab: About
   private JTextPane développéEtTestéPourTextPane;
-
 
 
   /**
@@ -562,7 +561,6 @@ public class Gui
     if (rdoCoucheFoncier.isSelected()) return rdoCoucheFoncier;
     return null;
   }
-
 
 
   public void saveUserConfigDisplay()

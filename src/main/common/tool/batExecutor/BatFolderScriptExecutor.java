@@ -13,6 +13,7 @@ import java.io.File;
 
 /**
  * Execute a single bat script contained in the "bat folder"
+ * Handles moving it (the file) to different directories indicating the stage of execution (WIP, DONE, ERROR...)
  * @author fhill
  */
 public class BatFolderScriptExecutor implements Runnable

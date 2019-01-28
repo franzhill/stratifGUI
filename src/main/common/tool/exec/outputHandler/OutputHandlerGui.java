@@ -55,7 +55,7 @@ public class OutputHandlerGui implements IOutputHandler
     }
 
     // Also output on Sys out (for debug)
-    // NO
+    // NO - slows things down a lot
     //if (! message.equals(prevMsg)) {System.out.println(type + "> " + message);}
 
   }

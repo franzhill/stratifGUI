@@ -103,9 +103,9 @@ public class SwingWorkerGenerateScripts extends ASwingWorker<ModelCharg>
     { setProgressFiles(nb_files_done++, model.depFiles.size());
       logger.debug("Processing file : " + fd.toString());
 
-      File sqlFile11  = new File(model.getTempFolderPath() + File.separator + String.format(       "dump_table_%s_%s_%s.sql", model.couche.type, fd.getName(), fd.departement)); // TODO put in conf file)
-      File sqlFile12  = new File(model.getTempFolderPath() + File.separator + String.format(     "reduce_table_%s_%s_%s.sql", model.couche.type, fd.getName(), fd.departement)); // TODO put in conf file)
-      File batFile13  = new File(model.getTempFolderPath() + File.separator + String.format("chargement_couche_%s_%s_%s.bat", model.couche.type, fd.getName(), fd.departement)); // TODO put in conf file
+      File sqlFile11  = new File(model.workFolder.getAbsolutePath() + File.separator + String.format(       "dump_table_%s_%s_%s.sql", model.couche.type, fd.getName(), fd.departement)); // TODO put in conf file)
+      File sqlFile12  = new File(model.workFolder.getAbsolutePath() + File.separator + String.format(     "reduce_table_%s_%s_%s.sql", model.couche.type, fd.getName(), fd.departement)); // TODO put in conf file)
+      File batFile13  = new File(model.workFolder.getAbsolutePath() + File.separator + String.format("chargement_couche_%s_%s_%s.bat", model.couche.type, fd.getName(), fd.departement)); // TODO put in conf file
 
 
       gui.loggerGui.info("Traitement du fichier : {} ... ", fd.toString());
