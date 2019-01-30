@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  */
 public class Config
 {
-    private static Logger logger = LoggerFactory.getLogger(Config.class);
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     /**
      * Our handle on the Properties-style (ini) configuration file

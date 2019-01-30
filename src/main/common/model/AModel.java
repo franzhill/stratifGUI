@@ -12,7 +12,7 @@ import java.io.File;
 
 public abstract class AModel
 {
-  protected Logger logger = LoggerFactory.getLogger(AModel.class);
+  protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
   protected Gui gui;
 

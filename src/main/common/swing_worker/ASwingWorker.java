@@ -6,6 +6,7 @@ import main.chargement_couches.model.ModelCharg;
 import main.common.model.AModel;
 import main.common.tool.swingWorker.LogMessage;
 import main.utils.MyExceptionUtils;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.LoggerFactory;
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
@@ -23,11 +24,12 @@ import java.util.List;
  */
 public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer, LogMessage> implements PropertyChangeListener
 {
-  protected org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
+  protected org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
   protected final Gui          gui;
   protected final M            model;
   protected final JButton      actionButton;
+  protected final JButton      cancelButton;
   protected final JProgressBar progressBar;
 
 
@@ -38,10 +40,11 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
    * @param actionButton the action button originating in the launch of this workers
    * @param progressBar  pass null if no progressBar to manage
    */
-  public ASwingWorker(Gui gui, M model, JButton actionButton, JProgressBar progressBar)
+  public ASwingWorker(Gui gui, M model, JButton actionButton, JProgressBar progressBar, @Nullable JButton cancelButton)
   { this.gui          = gui;
     this.model        = model;
     this.actionButton = actionButton;
+    this.cancelButton = cancelButton;
     // Since null is an acceptable value, and to avoid having to programm defensively against null, we'll assign a dummy object
     this.progressBar  = (progressBar != null) ? progressBar
                                               : new JProgressBar();
@@ -58,6 +61,7 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
   protected final void start()
   { resetProgressBar();
     actionButton.setEnabled(false);  // If we disable button then if swingworker does not finish properly (i;e. done() doesn't get called) then user will not be able to call it again
+    if (cancelButton != null ) cancelButton.setEnabled(true);
     start_();
   }
 
@@ -68,6 +72,7 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
     setProgress(100);
     progressBar.setValue(100);   // might be redundant with the above?
     actionButton.setEnabled(true);
+    if (cancelButton != null ) cancelButton.setEnabled(false);
     done_();
   }
 
@@ -132,12 +137,11 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
     //{
       // Now reinitialize progress bar
       try
-      {
-        Thread.sleep(2000); // To allow user to see the bar is complete before it is reset
+      { Thread.sleep(2000); // To allow user to see the bar is complete before it is reset
       }
       catch (InterruptedException e)
-      {
-        logger.error("Thread was interrupted while waiting to reset progress bar : " + MyExceptionUtils.getStackMessages(e));
+      { //# logger.error("Thread was interrupted while waiting to reset progress bar : " + MyExceptionUtils.getStackMessages(e));
+        Thread.currentThread().interrupt(); // see https://stackoverflow.com/questions/1087475/when-does-javas-thread-sleep-throw-interruptedexception
       }
       progressBar.setValue(0);
       progressBar.setStringPainted(false);  // not sure

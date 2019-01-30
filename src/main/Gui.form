@@ -181,7 +181,7 @@
                               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
-                              <text value="Masque du schema.table à extraire :"/>
+                              <text value="schema.table à extraire :"/>
                               <toolTipText value="Pour la couche Foncier, nom de la table (sous forme schema.table) à extraire depuis le dump sql. Utiliser %DEP%, %DEPxx% pour représenter le département sur 3 chiffres, sur 2 chiffres."/>
                             </properties>
                           </component>
@@ -190,7 +190,7 @@
                               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
                             </constraints>
                             <properties>
-                              <text value="Masque schema.table de destination :"/>
+                              <text value="schema.table de destination :"/>
                               <toolTipText value="Endroit où faire l'insertion dans la base destination. Utiliser %DEP% pour le département sur 3 chiffres, %DEPxx% sur 2, %FIC% pour le nom du fichier, %ANNEE% pour l'année sur 4 chiffres"/>
                             </properties>
                           </component>
@@ -336,6 +336,15 @@
                             <properties>
                               <text value="Vider le répertoire"/>
                               <toolTipText value="Vide le répertoire des scripts avant de générer les scripts"/>
+                            </properties>
+                          </component>
+                          <component id="c8ff4" class="javax.swing.JButton" binding="buttCancelExecuteScripts">
+                            <constraints>
+                              <grid row="8" column="11" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                            </constraints>
+                            <properties>
+                              <enabled value="false"/>
+                              <text value="X"/>
                             </properties>
                           </component>
                         </children>

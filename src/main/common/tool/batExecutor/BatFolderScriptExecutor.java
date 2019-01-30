@@ -18,7 +18,7 @@ import java.io.File;
  */
 public class BatFolderScriptExecutor implements Runnable
 {
-  private Logger logger = LogManager.getLogger(BatFolderScriptExecutor.class);
+  private Logger logger = LogManager.getLogger(this.getClass());
 
   /**
    * Dir containing all bat files (path of)
@@ -57,6 +57,11 @@ public class BatFolderScriptExecutor implements Runnable
   private Logger guiLogger;
 
   /**
+   * The underlying sys command
+   */
+  private SysCommand sysCommand;
+
+  /**
    *
    * @param dirPath
    * @param logger
@@ -84,8 +89,11 @@ public class BatFolderScriptExecutor implements Runnable
   public void run()
   {
     try
-    {
-      File dir = new File(this.dir);
+    { File dir = new File(this.dir);
+
+      // Note : should this section be synchronized? Answer: no, because the file (bat script)
+      //        to be processed is already known - preset by the caller method
+
       File[] directoryListing = dir.listFiles();  // might return null  if not directory, or if an I/O error occurs.
       if (directoryListing == null)
       { // Handle the case where dir is not really a directory.
@@ -115,8 +123,8 @@ public class BatFolderScriptExecutor implements Runnable
 
           // Execute
           logger.debug("Executing...");
-          SysCommand syscommand = new SysCommand(f.getAbsolutePath(), this.outputHandler);
-          int retValue = syscommand.execute();
+          sysCommand = new SysCommand(f.getAbsolutePath(), this.outputHandler);
+          int retValue = sysCommand.execute();
           if (retValue == 0)
           { // Move bat file to Done
             guiLogger.info("Fin (OK) de l'éxécution du script : " + f.getName() + "...");
@@ -151,5 +159,18 @@ public class BatFolderScriptExecutor implements Runnable
     }
   }
 
+
+  public void cancel()
+  {
+    if (sysCommand == null)
+    { // run() has not been called yet
+      // => There's nothing to do
+    }
+    else
+    { // run() has been called
+      // => Kill the syscommand
+      sysCommand.cancel();
+    }
+  }
 
 }

@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class TemplateProcessor
 {
-  private static Logger logger = LoggerFactory.getLogger(Extractor.class);
+  private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   /**
    * Freemarker config

@@ -37,6 +37,9 @@ public class SwingWorkerExecuteScripts extends ASwingWorker<ModelCharg>
    */
   private int nbThreads;
 
+  private MultiThreadedBatFolderExecutor bfe;
+
+
   /**
    *
    * @param gui
@@ -47,9 +50,9 @@ public class SwingWorkerExecuteScripts extends ASwingWorker<ModelCharg>
    * @param outputHandler see MultiThreadedBatFolderExecutor
    * @param nbThreads     see MultiThreadedBatFolderExecutor
    */
-  public SwingWorkerExecuteScripts(Gui gui, ModelCharg model, JButton actionButton, JProgressBar progressBar, File folder, IOutputHandler outputHandler, int nbThreads)
+  public SwingWorkerExecuteScripts(Gui gui, ModelCharg model, JButton actionButton, JProgressBar progressBar, JButton cancelButton, File folder, IOutputHandler outputHandler, int nbThreads)
   {
-    super(gui, model, actionButton, progressBar);
+    super(gui, model, actionButton, progressBar, cancelButton);
     this.folder = folder;
     this.outputHandler = outputHandler;
     this.nbThreads = nbThreads;
@@ -64,7 +67,7 @@ public class SwingWorkerExecuteScripts extends ASwingWorker<ModelCharg>
     setProgress(1);
 
     // TODO : code from the bfe could actually be here. This would allow us to monitor (and feedback) progress to user.
-    MultiThreadedBatFolderExecutor bfe = new MultiThreadedBatFolderExecutor(this.folder, gui.loggerGui, this.outputHandler, nbThreads);
+    bfe = new MultiThreadedBatFolderExecutor(this.folder, gui.loggerGui, this.outputHandler, nbThreads);
     try
     {
       // More work was done
@@ -82,6 +85,12 @@ public class SwingWorkerExecuteScripts extends ASwingWorker<ModelCharg>
     // Complete
     publish(new LogMessage(Level.INFO, "Fin de l'exécution des scripts."));
     return 1;
+  }
+
+
+  public void cancel()
+  {
+    bfe.cancel();
   }
 
 }

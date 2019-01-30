@@ -3,11 +3,13 @@ package main.chargement_couches.controller;
 import main.Gui;
 import main.chargement_couches.model.ModelCharg;
 import main.chargement_couches.swing_worker.SwingWorkerExecuteScripts;
+import main.common._excp.UserLevelException;
 import main.common.tool.batExecutor.MultiThreadedBatFolderExecutor;
 import main.common.tool.exec.outputHandler.IOutputHandler;
 import main.common.tool.exec.outputHandler.OutputHandlerGui;
 import main.common._excp.DirException;
-import main.common.tool.exec.outputHandler.OutputHandlerNull;
+
+import java.text.NumberFormat;
 
 
 /**
@@ -15,6 +17,12 @@ import main.common.tool.exec.outputHandler.OutputHandlerNull;
  */
 public class ControllerExecuteScripts extends AControllerCharg
 {
+  /**
+   * public for convenience
+   */
+  public SwingWorkerExecuteScripts esw;
+
+
   public ControllerExecuteScripts(Gui gui, ModelCharg model)
   {   super(gui, model);
   }
@@ -30,7 +38,20 @@ public class ControllerExecuteScripts extends AControllerCharg
 
   @Override
   protected void preDoChecks()
-  { // Create workdir if not exists
+  {
+
+    // Testing if the nb of threads parameter is acceptable
+    // T-ODO these kind of checks could/should be done in updateModel__ before setting on the model
+    // NO!: DONE in model in fact
+    //# try
+    //# { int threads = Integer.parseInt(model.getNbThreads());
+    //# }
+    //# catch (NumberFormatException nfe)
+    //# {throw new UserLevelException("Certains des paramètres fournis ne sont pas valides.", excp);
+    //#
+    //#
+
+    // Create workdir if not exists
     model.workFolder.mkdir();
   }
 
@@ -52,7 +73,7 @@ public class ControllerExecuteScripts extends AControllerCharg
     IOutputHandler ouh = new OutputHandlerGui(gui);  // will log output of scripts in GUI
     //IOutputHandler ouh = new OutputHandlerNull();  // silent
 
-    SwingWorkerExecuteScripts esw = new SwingWorkerExecuteScripts(gui, model, gui.buttExecuteScripts, gui.progbCouche, model.workFolder, ouh, model.getNbThreads());
+    esw = new SwingWorkerExecuteScripts(gui, model, gui.buttExecuteScripts, gui.progbCouche, gui.buttCancelExecuteScripts, model.workFolder, ouh, model.getNbThreads());
 
     esw.execute();
 
@@ -60,6 +81,11 @@ public class ControllerExecuteScripts extends AControllerCharg
                                                                   // starts, asynchronously, in the swingworker.
   }
 
+
+  public void cancel()
+  {
+    esw.cancel();  // let nullPointerException bubble up, indicative of a programming mistake
+  }
 
   /**
    * @deprecated

@@ -22,4 +22,4 @@ set SQL_FILE_REDUCE_TABLE="${fd.sqlFile2}"
 "${model.postgresqlBinPath}"\psql -v ON_ERROR_STOP=1 -p ${model.modelDb.port} -d ${model.modelDb.name}  -h ${model.modelDb.hostname} -U ${model.modelDb.user} < %SQL_FILE_REDUCE_TABLE%
 
 :: Suppression du dump (qui peut faire plus d'1 Go)
-del %SQL_FILE_DUMP_EXTRACT%
+:: UNDO COMMENT BEFORE PROD del %SQL_FILE_DUMP_EXTRACT%

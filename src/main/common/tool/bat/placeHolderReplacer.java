@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  */
 public class PlaceHolderReplacer
 {
-  private static Logger logger = LoggerFactory.getLogger(Extractor.class);
+  private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   /**
    * The string with placeholders to be replaced

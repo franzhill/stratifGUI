@@ -19,14 +19,14 @@ import java.awt.event.ActionListener;
  */
 public abstract class AController<M extends AModel> implements ActionListener
 {
-  protected Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
+  protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
   protected final Gui    gui;
   protected       M      model;
 
 
   public AController(Gui gui, M model)
-  {   this.gui   = gui;
+  { this.gui   = gui;
     this.model = model;
   }
 
@@ -41,18 +41,27 @@ public abstract class AController<M extends AModel> implements ActionListener
   @Override
   public final void actionPerformed(ActionEvent e)
   {
-    updateModel();
-    updateGui(e);
     try
-    { preDoChecks();
+    { updateModel();
+      updateGui(e);
+      try
+      { preDoChecks();
+      }
+      catch (Exception excp)
+      { // DONE FURTHER ALONG THE LINE logger.error(ExceptionUtils.getStackTrace(excp));
+        throw new UserLevelException("Certains des paramètres fournis ne sont pas valides.", excp);
+      }
+      doo();
+      postDo();
     }
-    catch (Exception excp)
-    { logger.error(ExceptionUtils.getStackTrace(excp));
-      gui.showMessageError("Certains des paramètres fournis ne sont pas valides.", excp);
-      return;
-    }
-    doo();
-    postDo();
+    catch (UserLevelException ule)
+      { String msg = ule.getMessage();
+     /* if (ule.getCause() != null)
+      { //msg += "\n\n Infos techniques : \n" + ExceptionUtils.getStackTrace(ule.getCause()); // TODO limit size of printed stack
+        msg += "\n\n Infos techniques : \n" + ExceptionUtils.getRootCauseMessage(ule.getCause());  // from the doc : "getRootCauseMessage =   Gets a short message summarising the root cause exception"
+      }*/
+        gui.showMessageError(msg, ule);
+      }
   }
 
 
@@ -79,18 +88,9 @@ public abstract class AController<M extends AModel> implements ActionListener
    * Should be "do()" but do is a reserved word
    * Do not override directly, override doo_() instead
    */
-  private final void doo()
-  { try
-    { doo_();
-    }
-    catch (UserLevelException ule)
-    { String msg = ule.getMessage();
-     /* if (ule.getCause() != null)
-      { //msg += "\n\n Infos techniques : \n" + ExceptionUtils.getStackTrace(ule.getCause()); // TODO limit size of printed stack
-        msg += "\n\n Infos techniques : \n" + ExceptionUtils.getRootCauseMessage(ule.getCause());  // from the doc : "getRootCauseMessage =   Gets a short message summarising the root cause exception"
-      }*/
-      gui.showMessageError(msg, ule);
-    }
+  private final void doo() throws UserLevelException
+  {
+    doo_();
   }
 
 

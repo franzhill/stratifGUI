@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
  */
 public class Extractor
 {
-  private static Logger logger = LoggerFactory.getLogger(Extractor.class);
+  private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   private File inputFile;
   private File outputFile;

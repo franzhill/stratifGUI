@@ -14,7 +14,7 @@ import java.io.File;
  */
 public class TableExtractor
 {
-  private static Logger logger = LoggerFactory.getLogger(Extractor.class);
+  private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   private File dumpFile;
   private String table;

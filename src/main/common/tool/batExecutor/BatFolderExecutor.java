@@ -15,7 +15,7 @@ import java.io.File;
  */
 public class BatFolderExecutor
 {
-  private Logger logger = LoggerFactory.getLogger(BatFolderExecutor.class);
+  private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   /**
    * Dir containing all bat files (path of)

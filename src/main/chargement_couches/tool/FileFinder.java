@@ -19,7 +19,7 @@ import java.util.regex.PatternSyntaxException;
 
 public class FileFinder
 {
-  protected Logger logger = LoggerFactory.getLogger(FileFinder.class);
+  protected Logger logger = LoggerFactory.getLogger(this.getClass());
 
   private List<File>   rootFolders;
   private List<String> fileExtensions;

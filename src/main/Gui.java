@@ -112,6 +112,7 @@ public class Gui
   public  JTextArea    txtaSelectedFiles;
   public  JButton      buttExecuteScripts;
   public  JProgressBar progbCouche;
+  public  JButton      buttCancelExecuteScripts;
 
   // Tab : Stratif
 
@@ -130,8 +131,10 @@ public class Gui
   private JTextPane développéEtTestéPourTextPane;
 
 
+
   /**
    * Internal logger
+   * Has to be static cause used in main()
    */
   private static Logger logger = LoggerFactory.getLogger(Gui.class);
 
@@ -233,7 +236,8 @@ public class Gui
 
   private void addActionListeners()
   {
-    ControllerSelectCouche rdoCoucheCtrl = new ControllerSelectCouche        (this, modelCharg);
+    ControllerSelectCouche   csc = new ControllerSelectCouche      (this, modelCharg);
+    ControllerExecuteScripts ces = new ControllerExecuteScripts    (this, modelCharg);
 
     // Make it possible to identify the radio button that has been selected
     rdoCoucheTopo              .setActionCommand(ModelCouche.TOPO);
@@ -249,11 +253,13 @@ public class Gui
     buttSelectFiles            .addActionListener(new ControllerSelectParentFiles (this, modelCharg, txtaSelectedFiles, JFileChooser.DIRECTORIES_ONLY, true , userConfig.getProp("dir_couches")));
     buttComputeFiles           .addActionListener(new ControllerFindFiles         (this, modelCharg));
     buttGenerateScripts        .addActionListener(new ControllerGenerateScripts   (this, modelCharg));
-    buttExecuteScripts         .addActionListener(new ControllerExecuteScripts    (this, modelCharg));
-    rdoCoucheTopo              .addActionListener(rdoCoucheCtrl);
-    rdoCoucheAlti              .addActionListener(rdoCoucheCtrl);
-    rdoCoucheForet             .addActionListener(rdoCoucheCtrl);
-    rdoCoucheFoncier           .addActionListener(rdoCoucheCtrl);
+
+    buttExecuteScripts         .addActionListener(ces);
+    buttCancelExecuteScripts   .addActionListener(new ControllerCancelExecuteScripts(this, ces ));
+    rdoCoucheTopo              .addActionListener(csc);
+    rdoCoucheAlti              .addActionListener(csc);
+    rdoCoucheForet             .addActionListener(csc);
+    rdoCoucheFoncier           .addActionListener(csc);
     //buttSelectUnzipDir         .addActionListener(new ControllerSelectFile        (this, txtUnzipDir,                  JFileChooser.DIRECTORIES_ONLY, false, null));
     buttStratSelectFiles       .addActionListener(new ControllerSelectSqlFiles  (this, modelStrat, txtaStratSelectedFiles, JFileChooser.FILES_ONLY, true , userConfig.getProp("dir_strat_scripts_sql")));
     buttStratGenerate          .addActionListener(new ControllerGenerateSqlFiles(this, modelStrat));

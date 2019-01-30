@@ -15,10 +15,13 @@ import java.util.concurrent.Executors;
  */
 public class SysCommand
 {
-  private Logger logger = LoggerFactory.getLogger(SysCommand.class);
+  private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-  protected String       command;
-  protected List<String> args   = new ArrayList<String>();
+  private String       command;
+
+  private List<String> args   = new ArrayList<String>();
+
+  private Process proc;
 
 
   /**
@@ -56,34 +59,32 @@ public class SysCommand
   public int execute()
   { logger.debug("");
     String homeDirectory = System.getProperty("user.home");
-    Process proc;
     int exitVal = 0;
     try
-    {   // Execute sys command in its own process
+    { // Execute sys command in its own process
       proc = Runtime.getRuntime().exec("cmd.exe /C " + command);
-      // /C      Carries out the command specified by string and then terminates
+      // /C = carries out the command specified by string and then terminates
 
       // Catch error messages and handle them, with a gobbler
       StreamGobbler errorGobbler = new StreamGobbler(proc.getErrorStream(), StreamGobbler.TYPE_ERR, outputHandler, this);
       // Catch regular output messages and handle, with a gobbler
       StreamGobbler outputGobbler = new StreamGobbler(proc.getInputStream() /* sic, not getOutputStream() */, StreamGobbler.TYPE_OUT, outputHandler, this);
-      // Launch the gobblers
-      Executors.newSingleThreadExecutor().submit(errorGobbler);
-      Executors.newSingleThreadExecutor().submit(outputGobbler);
-      //errorGobbler.start();
-      //outputGobbler.start();
+      // Launch the gobblers concurrently
+      //# Executors.newSingleThreadExecutor().submit(errorGobbler);
+      //# Executors.newSingleThreadExecutor().submit(outputGobbler);
+      errorGobbler.start();
+      outputGobbler.start();
       // Sys command exit status
-
       try
-      { /** Test destoy proc ...
-        wait(10000); // milliseconds
-        logger.debug("Destroying proc ...");
-        proc.destroy(); */
+      { //# //Test destroy proc ...
+        //# wait(10000); // milliseconds
+        //# logger.debug("Destroying proc ...");
+        //# proc.destroy(); */
         exitVal = proc.waitFor();
       }
       catch (InterruptedException e)
-      {   e.printStackTrace();
-        exitVal=-1;
+      {
+        Thread.currentThread().interrupt(); // see https://stackoverflow.com/questions/1087475/when-does-javas-thread-sleep-throw-interruptedexception
       }
 
     }
@@ -94,6 +95,15 @@ public class SysCommand
     logger.debug("System call command exited with value = " + exitVal);
     return exitVal;
   }
+
+
+  public void cancel()
+  {
+    proc.destroy();
+    // May not work as we'd want (i.e. kill the cmd.exe launched)
+    // See https://stackoverflow.com/questions/19726804/how-to-kill-a-process-in-java-process-destroy
+  }
+
 
   /*
       @Override

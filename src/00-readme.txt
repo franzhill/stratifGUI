@@ -1,10 +1,12 @@
 NOTE D'ARCHITECTURE
 --------------------
 F.Hill - 2019.01.22
+2019.0.29
 
 
 1. Spécifications techniques
 
+Développé avec :
 IDE : IntelliJ IDEA 2018.1.3 (Community Edition)
       Build #IC-181.4892.42, built on May 8, 2018
       JRE: 1.8.0_152-release-1136-b38 amd64
@@ -12,6 +14,9 @@ IDE : IntelliJ IDEA 2018.1.3 (Community Edition)
       Windows 7 6.1
       Plugins : (notable) : Lombok (compréhension par intelliJ des annotations @Getter @Setter de Lombok, permettant
                             la génération tacite de getters et setters)
+
+Cible : application Swing tournant sur un PC bureautique (SSP) Windows 7
+
 
 2. But de l'appli
 
@@ -30,11 +35,11 @@ Du point de vue métier, l'exécution de ces scripts correspond :
 
 3.1. Philosophie de développement
 
-Mode "POC" càd développement pragmatique, privilégiant le confort et la rapidité de
+Mode "POC" càd visant à être pragmatique, privilégiant le confort et la rapidité de
 développement sur le respect absolu de normes ou bonnes pratiques péremptoires, tout en assurant une architecture
 relativement saine et maintenable, et sans gréver l'expérience utilisateur.
-Il se peut donc que certaines "bonnes pratiques" aient été allègrement  bypassées (ex : accès aux membres d'une classe
-via Getter et Setters => membres publics ;o), pas de tests unitaires etc.)
+Il se peut donc que certaines "bonnes pratiques" aient été allègrement  bypassées ;o) (ex : accès aux membres d'une classe
+via Getter et Setters => membres publics , pas de tests unitaires etc.)
 
 3.2 Packages
 
@@ -102,7 +107,7 @@ Ceci afin de :
 - vérifier/prétraiter/"marshaliser" les données
 
 Le modèle principal pour le chargement des couches est ModelCharg, celui pour la stratification est ModelStratif.
-Ils héritent tous les 2
+Ils héritent tous les 2 d'une surclasse.
 
 
 
@@ -144,9 +149,21 @@ La configuration de log4j2 pour les 2 appenders de ces 2 loggers est de ce fait 
  et est repris au moment de la configuration programmatique.
 - Logging dans la GUI de la sortie de l'exécution de scripts .bat dans des process différents : fait via
  common/tool/exec/outputHandler/OutputHandlerGui + StreamGobbler (en plus de l'appender évoqué ci-dessus)
-
+- Annulation de l'exécution des
+Il peut arriver que l'utilisteur veuille annuler l'exécution de scripts bats (d'autant plus probable quand il y en a bp
+et qu'ils prennent plus de temps que prévu).
+Un bouton annuler a été développé expérimentalement, mais son bon fonctionnement ne semble pas être acquis.
+Interrompre les scripts une fois que le bouton "exécuter les scripts" a été actionné s'avère être assez délicat. En effet
+les .bat sont lancés par des threads, qui eux-même sont gérés dans un pool de threads. Ce pool de threads est géré dans
+un swingWorker qui s'exécute lui-même dans un thread dédié, au sein d'une méthode sur laquelle on n'a pas de manière
+évidente de prise pour interrompre. D'autre part ces .bat lancent
+eux-même des commandes systèmes (psql.exe ...) sur lesquelles on n'a pas vraiment de prise à l'intérieur du le code java.
 
 
 3.3.3 Packages
 
 
+4. Code style
+
+Commentaires :
+//# = code "deprecated", souvent agrémenté de la raison de la dépréciation) laissé pour donner du contexte

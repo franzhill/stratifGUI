@@ -26,7 +26,7 @@ import java.io.File;
  */
 public class SwingWorkerExecuteSqlFiles extends ASwingWorker<ModelStrat>
 {
-  protected org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
+  protected org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
   /**
    * Folder to generate scripts to.
@@ -60,7 +60,7 @@ public class SwingWorkerExecuteSqlFiles extends ASwingWorker<ModelStrat>
    */
   public SwingWorkerExecuteSqlFiles(Gui gui, ModelStrat model, JButton actionButton, JProgressBar progressBar, IOutputHandler outputHandler, int nbThreads)
   {
-    super(gui, model, actionButton, progressBar);
+    super(gui, model, actionButton, progressBar, null);
     this.outputHandler = outputHandler;
     this.nbThreads = nbThreads;
   }

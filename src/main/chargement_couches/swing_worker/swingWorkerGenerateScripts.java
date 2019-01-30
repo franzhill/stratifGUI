@@ -27,7 +27,7 @@ import java.io.File;
  */
 public class SwingWorkerGenerateScripts extends ASwingWorker<ModelCharg>
 {
-  protected org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass().getCanonicalName());
+  protected org.slf4j.Logger logger = LoggerFactory.getLogger(this.getClass());
 
   /**
    * Folder to generate scripts to.
@@ -50,7 +50,7 @@ public class SwingWorkerGenerateScripts extends ASwingWorker<ModelCharg>
    */
   public SwingWorkerGenerateScripts(Gui gui, ModelCharg model, JButton actionButton, JProgressBar progressBar, File folder)
   {
-    super(gui, model, actionButton, progressBar);
+    super(gui, model, actionButton, progressBar, null);
     this.folder = folder;
   }
 
@@ -115,11 +115,12 @@ public class SwingWorkerGenerateScripts extends ASwingWorker<ModelCharg>
 
       // 1.1
       String tableName = model.couche.schemaTableSource;
-      tableName = new PlaceHolderReplacer(tableName).addDep(fd.departement).replace();
-      // Original table name is something like :  ff_d16_2017.d16_2017_pnb10_parcelle
-      // => replace the schema
+             tableName = new PlaceHolderReplacer(tableName).addDep(fd.departement.toLowerCase()).replace(); // toLowerCase for departements like 2A and 2B, inside the dump it's 2a and 2b
+      // Original table name in dump file is something like :  ff_d16_2017.d16_2017_pnb10_parcelle
+      // => replace the schema so we have something like ff.d16_2017_pnb10_parcelle
       String tableNameNew = "ff." + tableName.split("\\.")[1];  // TODO brittle. Extract, put in conf file
       // Store new table name in model, will be of use when generating the "reducing" sql command
+
       fd.schemaTable = tableNameNew;
       fd.table       = tableNameNew.split("\\.")[1];  // (remove the schema part)
       // Where we're going to output the extract, and store it in the model, same as above : will be of use when generating the .bat
