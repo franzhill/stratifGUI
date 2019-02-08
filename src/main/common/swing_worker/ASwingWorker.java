@@ -21,6 +21,9 @@ import java.util.List;
  * the swing worker thread).
  *
  * The parametrized <Integer, LogMessage> is for <result of execution ot this worker, type of information that the worker will use to inform (update) the application with its progress>
+ *
+ *  TODO changes to the UI should be done in the Event Dispatch Thread, not from within the thread these workers will be running in (=> use SwingUtilities.invokeLater)
+ *  (see https://www.javamex.com/tutorials/threads/invokelater.shtml)
  */
 public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer, LogMessage> implements PropertyChangeListener
 {
@@ -66,6 +69,9 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
   }
 
 
+  /**
+   * Invoked on (ie from) the event dispatch thread
+   */
   @Override
   protected final void done()
   { logger.debug("");
@@ -150,7 +156,7 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
 
 
   /**
-   * Invoked "automatically" when task's progress property changes.
+   * Invoked "automatically" (by the EDT) when task's progress property changes.
    * Used to show progress in the progress bar
    */
   public void propertyChange(PropertyChangeEvent evt)
@@ -159,7 +165,7 @@ public abstract class ASwingWorker<M extends AModel> extends SwingWorker<Integer
     {
       int progress = (Integer) evt.getNewValue();
       //if (progressBar != null)
-      { progressBar.setValue(progress);
+      { progressBar.setValue(progress);   // TODO changes to the UI should be done in the Event Dispatch Thread, not here (=> use SwingUtilities.invokeLater)
       }
     }
   }

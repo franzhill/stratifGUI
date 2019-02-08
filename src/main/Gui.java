@@ -55,7 +55,8 @@ public class Gui
   // If there isn't "...Strat..." then it's a control for the "chargement couche" tab, or for something
   // else.
   // Ideally for consistency we'd want to rename the controls for "chargement couche" to include
-  // something like "...Charg..." in them, same way as for the "stratification" controls.
+  // something like "...Charg..." in them, same way as for the "stratification" controls. Ideally.
+
 
   private JFrame       rootFrame;
   public  JPanel       rootPanel;
@@ -309,29 +310,39 @@ public class Gui
   {
     logger.debug("");
     logger.info("");
-    Gui gui = new Gui();
 
+    // Setup of the GUI should (as well as any change to it) be done in the Event Dispatch Thread.
+    // However main() is executed in a special thread fired up by the JVM - NOT the EDT.
+    // => hence the invokeLater
+    SwingUtilities.invokeLater(new Runnable()
+    {
+      public void run()
+      {
+        Gui gui = new Gui();
 
-    //gui.initLookAndFeel();  // Note : trying to set the L&F here does not work either
-    gui.showGUI();
-    gui.initLookAndFeel();    // Note : it works here (with update of the tree that follows)
-    SwingUtilities.updateComponentTreeUI(gui.rootFrame);
-    gui.rootFrame.pack();
+        //gui.initLookAndFeel();  // Note : trying to set the L&F here does not work either
+        gui.showGUI();
+        gui.initLookAndFeel();    // Note : it works here (with update of the tree that follows)
+        SwingUtilities.updateComponentTreeUI(gui.rootFrame);
+        gui.rootFrame.pack();
 
-    gui.loadUserConf();
-    gui.addActionListeners();
+        gui.loadUserConf();
+        gui.addActionListeners();
 
-    logger.debug("initialising gui logger...");
-    gui.initGuiLogger();
-    gui.loggerGui.info ("Bienvenue dans l'interface de stratification.");
-    /*loggerGui.trace("Testing the loggerGui àéè...");
-    loggerGui.debug("Testing the loggerGui àéè...");
-    loggerGui.info ("Testing the loggerGui àéè...");
-    loggerGui.warn ("Testing the loggerGui àéè...");
-    loggerGui.error("Testing the loggerGui àéè...");
-    logger.debug("logger, debug");*/
+        logger.debug("initialising gui logger...");
+        gui.initGuiLogger();
+        gui.loggerGui.info ("Bienvenue dans l'interface de stratification.");
+        /*loggerGui.trace("Testing the loggerGui àéè...");
+        loggerGui.debug("Testing the loggerGui àéè...");
+        loggerGui.info ("Testing the loggerGui àéè...");
+        loggerGui.warn ("Testing the loggerGui àéè...");
+        loggerGui.error("Testing the loggerGui àéè...");
+        logger.debug("logger, debug");*/
 
-    gui.initUserConfigDisplay();
+        gui.initUserConfigDisplay();
+      }
+    });
+
   }
 
 
@@ -400,36 +411,6 @@ public class Gui
     return org.apache.logging.log4j.LogManager.getLogger(loggerName);
   }
 
-//
-//  /**
-//   * Do not use directly.
-//   * Use the loggerGui instead.
-//   * Used by the loggerGui.
-//   *
-//   * @param text
-//   */
-//  public void logInGui(String text)
-//  {
-//    logInGui(text, false);
-//  }
-//
-//
-//  /**
-//   * !! Do not use directly. !!
-//   * Use the loggerGui instead.
-//   * @used_by the loggerGui.
-//   *
-//   * @param text
-//   * @param addNewLine
-//   */
-//  public void logInGui(String text, boolean addNewLine)
-//  { final String logInGuiNewline = "\n";
-//
-//    txtaLog.append( text) ;//+ (addNewLine ? logInGuiNewline : "")); //+ logInGuiNewline);
-//    // scrolls the text area to the end of data
-//    txtaLog.setCaretPosition(txtaLog.getDocument().getLength());
-//  }
-//
 
   /**
    *
@@ -552,9 +533,6 @@ public class Gui
   }
 
 
-
-
-
   /**
    *
    * @return which one of the radio buttons for couche selection is selected, null if none
@@ -666,6 +644,7 @@ public class Gui
     }
 
   }
+
 
   //  public void displaySelectedUnzipDir(File unzipDir)
   //{   txtUnzipDir.setText(unzipDir.getAbsolutePath());

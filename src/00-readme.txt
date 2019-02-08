@@ -89,10 +89,10 @@ dans l'ordre, l'éxécution de :
                    d'erreur est affiché sur la GUI.
 -doo()           : exécution de l'action
 -postDo()        : éventuels traitements à effectuer après l'exécution de
-Chacun des controleurs fils peut définir les traitements à effectuer pour chacune de ces étapes.
+Chacun des contrôleurs fils peut définir les traitements à effectuer pour chacune de ces étapes.
 
 Certaines actions étant longues temporellement (exécution de multiples scripts), afin de ne pas bloquer la thread
-principale dans laquelle tourne Swing ("Event Dispatch Thread), elles sont exécutées dans des SwingWorker,
+principale dans laquelle tourne Swing ("Event Dispatch Thread"), elles sont exécutées dans des SwingWorker,
 fonctionnalité haut niveau fournie par Swing afin de gérer des traitements dans des threads distincts.
 Ex:
 - SwingWorkerGenerateScripts : swingworker détaché par le ControllerGenerateScripts afin de générer les scripts
@@ -124,7 +124,7 @@ Les remplacements des placeholders sont en général issus des modèles.
 Le processeur de templates est : common.tool.bat.TemplateProcessor
 - Exécution d'une commande système (cmd.exe <nom de script bat) : common/tool/exec/SysCommand
 - MultiThreadBatFolderExecutor : permet d'exécuter plusieurs bats en même temps (1 process pour chaque), en fonction
-du nombre fourni via la GUI (nb max de connexions simultanées à la BD). Le multi
+du nombre fourni via la GUI (nb max de connexions simultanées à la BD).
 - Gestion des exceptions :
 Les problèmes rencontrés sont en dernier lieu enveloppés dans une exception ad hoc (par exemple ExecutionException) qui
 donne lieu à un message d'erreur sur la GUI.
@@ -152,8 +152,9 @@ La configuration de log4j2 pour les 2 appenders de ces 2 loggers est de ce fait 
 - Annulation de l'exécution des
 Il peut arriver que l'utilisteur veuille annuler l'exécution de scripts bats (d'autant plus probable quand il y en a bp
 et qu'ils prennent plus de temps que prévu).
-Un bouton annuler a été développé expérimentalement, mais son bon fonctionnement ne semble pas être acquis.
-Interrompre les scripts une fois que le bouton "exécuter les scripts" a été actionné s'avère être assez délicat. En effet
+Un bouton annuler a été développé expérimentalement, mais son bon fonctionnement ne semble pas être acquis (pas de
+développements ultérieurs/tests faute de crédits). Interrompre les scripts une fois que le bouton "exécuter les scripts"
+ a été actionné s'avère être assez délicat. En effet
 les .bat sont lancés par des threads, qui eux-même sont gérés dans un pool de threads. Ce pool de threads est géré dans
 un swingWorker qui s'exécute lui-même dans un thread dédié, au sein d'une méthode sur laquelle on n'a pas de manière
 évidente de prise pour interrompre. D'autre part ces .bat lancent
@@ -166,4 +167,4 @@ eux-même des commandes systèmes (psql.exe ...) sur lesquelles on n'a pas vraim
 4. Code style
 
 Commentaires :
-//# = code "deprecated", souvent agrémenté de la raison de la dépréciation) laissé pour donner du contexte
+//# = code "deprecated", souvent agrémenté de la raison de la dépréciation, laissé pour donner du contexte
