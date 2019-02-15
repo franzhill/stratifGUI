@@ -1,0 +1,9 @@
+
+1.5
+Correction bug sur sélection de chemin commandes Postgresql (bouton "...") et chemin répertoire travail
+Correction bug en cas de recherche de fichiers si aucune couche n'a été au préalable sélectionnée
+Suppression du bouton d'annulation de l'exécution des scripts (fonctionnalité non mature)
+
+
+1.4.1
+
