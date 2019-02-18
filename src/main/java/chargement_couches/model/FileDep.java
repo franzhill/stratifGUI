@@ -1,6 +1,8 @@
 package main.java.chargement_couches.model;
 
 import lombok.Getter;
+import main.java.common._excp.DepExtractionException;
+import main.java.utils.MyStringUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -14,10 +16,13 @@ public class FileDep
 {
   // The getters are for use by Freemarker
 
+  /**
+   * see constructor
+   */
   @Getter public String departement;   // TODO rename departement to dep ?
 
   /**
-   * File containing the data (couche géo) for the associated département
+   * see constructor
    */
   public File   file;
 
@@ -70,9 +75,14 @@ public class FileDep
   }
 
 
-
-  public FileDep(String dep, File f)
-  { departement = dep;
+  /**
+   *
+   * @param dep should be on 3 characters e.g. 001 02B 975 ...
+   * @param f file containing the data (couche géo) for the associated département
+   */
+  public FileDep(String dep, File f) throws DepExtractionException
+  {
+    departement = MyStringUtils.normalizeDep3Chars(dep);
     file = f;
   }
 
@@ -84,7 +94,7 @@ public class FileDep
    * @param lf list of files with departement
    * @return
    */
-  public static List<FileDep> addDep(String dep, List<File> lf )
+  public static List<FileDep> addDep(String dep, List<File> lf ) throws DepExtractionException
   {
     List<FileDep> ret = new ArrayList<FileDep>();
     for (File f : lf)

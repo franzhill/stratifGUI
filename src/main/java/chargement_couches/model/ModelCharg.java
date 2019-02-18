@@ -2,6 +2,7 @@ package main.java.chargement_couches.model;
 
 import lombok.Getter;
 import main.java.common.model.AModel;
+import main.java.common.tool.bat.PlaceHolderReplacer;
 import main.java.utils.MyStringUtils;
 
 import java.io.File;
@@ -47,6 +48,7 @@ public class ModelCharg extends AModel
   public void finalize()
   {
     workFolder = new File(tempFolderPath + File.separator + "CHARG_COUCHE");
+
   }
 
 

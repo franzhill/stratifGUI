@@ -12,12 +12,16 @@ set SQL_FILE_INDEX="${model.workFolder}"\index_${model.couche.type}_${fd.name}_$
 set SQL_FILE="${model.workFolder}"\${model.couche.type}_${fd.name}_${fd.departement}.sql
 
 
+:: Contient des références à %DEP% et %FIC% :
+set TABLE="${model.couche.schema}.${model.couche.table}"
+
+
 echo "Write SQL command to create index for file..."
-echo CREATE INDEX n_${fd.name}_geom_idx ON ${model.couche.schema}.${model.couche.table} USING GIST (geom); >> %SQL_FILE_INDEX%
+echo CREATE INDEX n_${fd.name}_geom_idx ON %TABLE% USING GIST (geom); >> %SQL_FILE_INDEX%
 
 
 echo "Write SQL command to load file in DB..."
-"${model.postgresqlBinPath}"\${model.couche.binCmd} ${fd.absPath} ${model.couche.schema}.${model.couche.table} >> %SQL_FILE%
+"${model.postgresqlBinPath}"\${model.couche.binCmd}  ${model.couche.schema}.${model.couche.table} >> %SQL_FILE%
 
 
 

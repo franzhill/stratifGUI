@@ -3,8 +3,11 @@ package main.java.chargement_couches.controller;
 import main.java.Gui;
 import main.java.chargement_couches.model.FileDep;
 import main.java.chargement_couches.model.ModelCharg;
+import main.java.chargement_couches.model.ModelCouche;
 import main.java.chargement_couches.swing_worker.SwingWorkerGenerateScripts;
+import main.java.common.tool.bat.PlaceHolderReplacer;
 import main.java.common.tool.exec.outputHandler.IOutputHandler;
+import main.java.common.tool.exec.outputHandler.OutputHandlerGui;
 import main.java.common.tool.exec.outputHandler.OutputHandlerNull;
 import main.java.common._excp.ExecutionException;
 import main.java.common.tool.bat.TemplateProcessor;
@@ -50,7 +53,7 @@ public class ControllerGenerateScripts extends AControllerCharg
 
     try
     { emptyWorkDir();
-      if (gui.rdoCoucheFoncier.isSelected())
+      if (gui.rdoCoucheFoncier.isSelected())  // TODO change for model.couche.type == ModelCouche.FONCIER);
       { generateScriptsFoncier();
       }
       else
@@ -92,8 +95,8 @@ public class ControllerGenerateScripts extends AControllerCharg
   {
     // Outputhandler : choose one of the following:
     //IOutputHandler ouh = new OutputHandlerSysOut();  // will log output of scripts on STDO
-    //IOutputHandler ouh = new OutputHandlerGui(gui);  // will log output of scripts in GUI
-    IOutputHandler ouh = new OutputHandlerNull();  // silent
+    IOutputHandler ouh = new OutputHandlerGui(gui);  // will log output of scripts in GUI
+    //IOutputHandler ouh = new OutputHandlerNull();  // silent
     SwingWorkerGenerateScripts gssw = new SwingWorkerGenerateScripts(gui, model, gui.buttGenerateScripts, gui.progbCouche, model.workFolder);
     gssw.addPropertyChangeListener(gssw);
     gssw.execute();
@@ -107,9 +110,16 @@ public class ControllerGenerateScripts extends AControllerCharg
    */
   private void generateScripts() throws ExecutionException
   {
+    boolean isCvi = (model.couche.type == ModelCouche.CVI);
+
+
     // Use the template processor to generate the bat file that will load the "couche" in DB
 
-    File template = new File (String.format("resources/chargement_couche.%s.ftl.bat", model.couche.type.toLowerCase())) ; // TODO  put in conf file ? / function
+    File template   = new File (String.format("resources/chargement_couche.%s.ftl.bat", model.couche.type.toLowerCase())) ; // TODO  put in conf file ? / function
+
+    // Only used for couche CVI :
+    File template12 = new File ("resources/create_table.cvi.ftl.sql") ; // TODO  put in conf file ? / function
+
     tmplproc.addData("model", model);
 
     // Process each file
@@ -120,13 +130,18 @@ public class ControllerGenerateScripts extends AControllerCharg
       { throw new ExecutionException(String.format("Département manquant pour le fichier [%s].", fd.file.getAbsolutePath()));
       }
 
+      File sqlFile12  = new File(model.workFolder.getAbsolutePath() + File.separator + String.format(     "create_table_%s_%s_%s.sql", model.couche.type, fd.getName(), fd.departement)); // TODO put in conf file)
+      fd.sqlFile2     = sqlFile12;  // For CVI
+      fd.schemaTable  = new PlaceHolderReplacer(model.couche.schema + "." + model.couche.table).addDep(fd.departement.toLowerCase()).replace(); // For CVI // toLowerCase for departements like 2A and 2B, inside the dump it's 2a and 2b
+
       // Provide templating engine with remaining data for interpolation
       tmplproc.addData("fd", fd);
 
       File   outputFile     = new File(String.format(model.workFolder.getAbsolutePath() + File.separator + "chargement_couche_%s_%s_%s.bat", model.couche.type, fd.getName(), fd.departement));  // TODO put in conf file
 
       try
-      { tmplproc.process(template, outputFile);
+      { if (isCvi) {  tmplproc.process(template12, fd.sqlFile2);}
+        tmplproc.process(template, outputFile);
       }
       catch (Exception e)
       { throw new ExecutionException(String.format("Erreur lors de la fabrication du script bat de chargement à partir du template, pour type de couche = [%s], département = [%s].", model.couche.type, fd.departement), e);

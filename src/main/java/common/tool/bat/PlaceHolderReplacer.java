@@ -40,7 +40,7 @@ public class PlaceHolderReplacer
 
   /**
    * Add the real value of a departement.
-   * @param dep
+   * @param dep on 3 chars
    * @return
    */
   public PlaceHolderReplacer addDep(String dep)
@@ -59,10 +59,14 @@ public class PlaceHolderReplacer
     return this;
   }
 
-
+  /**
+   * See class doc
+   *
+   * @return
+   */
   public String replace()
-  {
-    return target.replace("%DEP%", dep).replace("%DEPxx%", dep.substring(1)).replace("%ANNEE%", year);
+  { return target.replace("%DEP%", dep).replace("%DEPxx%", dep.substring(1)).replace("%ANNEE%", year);
+    // TODO extract strings into constants
   }
 
 }
