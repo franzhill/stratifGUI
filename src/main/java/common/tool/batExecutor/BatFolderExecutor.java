@@ -73,14 +73,17 @@ public class BatFolderExecutor
       throw new DirException(String.format("Erreur de lecture du répertoire des .bat spécifié : [%s]", dir.getAbsolutePath()));
     }
     else
-    {
+    { int nb_bat_files = 0;
       for (File f : directoryListing)
       {
         // If it's a bat file, execute it
         if (MyFileUtils.isBatfile(f))
-        {
-          executeBat(f);
+        { executeBat(f);
+          nb_bat_files++;
         }
+      }
+      if (nb_bat_files == 0 )
+      { throw new DirException(String.format("Aucun fichier .bat trouvé dans le répertoire : [%s]", dir.getAbsolutePath()));
       }
     }
   }

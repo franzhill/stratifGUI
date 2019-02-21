@@ -1,6 +1,6 @@
-package main.java.chargement_couches.tool;
+package main.java.a.chargement_couches.tool;
 
-import main.java.chargement_couches.model.FileDep;
+import main.java.a.chargement_couches.model.FileDep;
 import main.java.common._excp.DepExtractionException;
 import main.java.utils.MyFileUtils;
 import org.apache.commons.io.FileUtils;

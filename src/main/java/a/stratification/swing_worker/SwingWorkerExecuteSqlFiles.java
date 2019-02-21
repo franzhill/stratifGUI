@@ -1,4 +1,4 @@
-package main.java.stratification.swing_worker;
+package main.java.a.stratification.swing_worker;
 
 
 import main.java.Gui;
@@ -7,7 +7,7 @@ import main.java.common._excp.DirException;
 import main.java.common.swing_worker.ASwingWorker;
 import main.java.common.tool.exec.outputHandler.IOutputHandler;
 import main.java.common.tool.swingWorker.LogMessage;
-import main.java.stratification.model.ModelStrat;
+import main.java.a.stratification.model.ModelStrat;
 import org.apache.logging.log4j.Level;
 import org.slf4j.LoggerFactory;
 

@@ -8,6 +8,7 @@ set FIC=${fd.name}
 set PGPASSWORD=${model.modelDb.password}
 
 set CSV_FILE="${fd.absPath}"
+
 :: Contient des références à %DEP% et %FIC% :
 set TABLE=${model.couche.schema}.${model.couche.table}
 

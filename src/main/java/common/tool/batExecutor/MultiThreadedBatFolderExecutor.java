@@ -39,6 +39,7 @@ public class MultiThreadedBatFolderExecutor extends BatFolderExecutor
    * @param outputHandler see parent
    * @param nbThreads max number of threads to launch at same time to execute scripts found in folder
    */
+  // TODO WBN get rid of logger (which introduces coupling) and only use the outputhandler - or the calling swing worker's publish()
   public MultiThreadedBatFolderExecutor(File folder, Logger logger, IOutputHandler outputHandler, int nbThreads)
   {
     super(folder.getAbsolutePath(), outputHandler);
@@ -95,6 +96,7 @@ public class MultiThreadedBatFolderExecutor extends BatFolderExecutor
     { Thread.currentThread().interrupt(); // see https://stackoverflow.com/questions/1087475/when-does-javas-thread-sleep-throw-interruptedexception
     }
 
+    // TODO WBN : do not use the logger, instead log in the swing worker (see how done in SwingWorkerBckpExecuteScripts)
     if (counter == 0) {guiLogger.warn("Attention, aucun script trouvé dans le répertoire de travail."); }
     else              {guiLogger.info("Tous les scripts ({}) ont été exécutés.", counter); }
   }

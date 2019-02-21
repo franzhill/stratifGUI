@@ -43,7 +43,7 @@ public abstract class AModel
 
   /**
    * Max nb of threads to converse with DB with
-   * Private because we need to to some reformating on set
+   * Private because we need to to some reformating on set()
    */
   @Getter private int nbThreads;
 
@@ -56,7 +56,7 @@ public abstract class AModel
 
   /**
    * Used by Freemarker
-   * !! Do not use to get the actual File, use direct access instead.
+   * !! Do not use to get the actual object of type File (use direct access instead in that case)
    */
   public String getWorkFolder()
   { return workFolder.getAbsolutePath();

@@ -1,8 +1,8 @@
-package main.java.chargement_couches.controller;
+package main.java.a.chargement_couches.controller;
 
 import main.java.Gui;
-import main.java.chargement_couches.model.ModelCharg;
-import main.java.chargement_couches.model.ModelCouche;
+import main.java.a.chargement_couches.model.ModelCharg;
+import main.java.a.chargement_couches.model.ModelCouche;
 import main.java.common.controller.AController;
 
 public abstract class AControllerCharg extends AController<ModelCharg>

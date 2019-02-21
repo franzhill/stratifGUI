@@ -1,10 +1,10 @@
-package main.java.stratification.controller;
+package main.java.a.stratification.controller;
 
 import main.java.Gui;
 import main.java.common.tool.exec.outputHandler.IOutputHandler;
 import main.java.common.tool.exec.outputHandler.OutputHandlerGui;
-import main.java.stratification.model.ModelStrat;
-import main.java.stratification.swing_worker.SwingWorkerExecuteSqlFiles;
+import main.java.a.stratification.model.ModelStrat;
+import main.java.a.stratification.swing_worker.SwingWorkerExecuteSqlFiles;
 
 
 /**

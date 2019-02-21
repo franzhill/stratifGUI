@@ -1,7 +1,7 @@
-package main.java.chargement_couches.controller;
+package main.java.a.chargement_couches.controller;
 
 import main.java.Gui;
-import main.java.chargement_couches.model.ModelCharg;
+import main.java.a.chargement_couches.model.ModelCharg;
 import main.java.common._excp.UserLevelException;
 import main.java.common.controller.AController;
 import main.java.common.tool.DbConnector;

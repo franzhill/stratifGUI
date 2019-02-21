@@ -1,9 +1,8 @@
-package main.java.b.backup.model;
+package main.java.b.restore.model;
 
 import lombok.Getter;
 import main.java.common.model.AModel;
 
-import javax.swing.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +11,12 @@ import java.util.List;
  *
  * @author fhill
  */
-public class ModelBckp extends AModel
+public class ModelRsto extends AModel
 {
   /**
-   * Name of backup folder
+   * Backup folder (parent_dir/backup_name)
    */
-  @Getter public String name;
-
-  /**
-   * Dir where to place the backup folder
-   */
-  @Getter public File parentDir;
+  @Getter public File bckpFolder;
 
   /**
    * List of schemas to backup
@@ -33,13 +27,13 @@ public class ModelBckp extends AModel
   @Override
   public void finalize()
   {
-    workFolder = new File(tempFolderPath + File.separator + "SAUVG");  // TODO WBN extract constant
+    workFolder = new File(tempFolderPath + File.separator + "RESTO");  // TODO WBN extract constant
   }
 
 
   @Override
   protected boolean isIncomplete_()
   {
-    return name.isEmpty() || parentDir == null;
+    return bckpFolder == null;
   }
 }

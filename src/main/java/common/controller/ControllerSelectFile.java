@@ -1,14 +1,12 @@
 package main.java.common.controller;
 
 import main.java.Gui;
-import main.java.chargement_couches.model.ModelCharg;
-import main.java.common.controller.AController;
+import main.java.a.chargement_couches.model.ModelCharg;
 import main.java.common.model.AModel;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;
-import java.awt.event.ActionEvent;
 import java.io.File;
 
 /**

@@ -1,18 +1,11 @@
-package main.java.b.backup.controller;
+package main.java.b.restore.controller;
 
 import main.java.Gui;
-import main.java.a.chargement_couches.controller.AControllerCharg;
-import main.java.a.chargement_couches.model.FileDep;
-import main.java.a.chargement_couches.model.ModelCharg;
-import main.java.a.chargement_couches.model.ModelCouche;
-import main.java.a.chargement_couches.swing_worker.SwingWorkerGenerateScripts;
 import main.java.b.backup.model.ModelBckp;
+import main.java.b.restore.model.ModelRsto;
 import main.java.common._excp.ExecutionException;
 import main.java.common.controller.AController;
-import main.java.common.tool.bat.PlaceHolderReplacer;
 import main.java.common.tool.bat.TemplateProcessor;
-import main.java.common.tool.exec.outputHandler.IOutputHandler;
-import main.java.common.tool.exec.outputHandler.OutputHandlerGui;
 
 import java.io.File;
 import java.util.Arrays;
@@ -22,7 +15,7 @@ import java.util.Collections;
 /**
  * Generate all scripts, as per inputs provided by user through the GUI
  */
-public class ControllerBckpGenerateScripts extends AController<ModelBckp>
+public class ControllerRstoGenerateScripts extends AController<ModelRsto>
 {
   /**
    * Used to process (interpolate) the script templates
@@ -30,7 +23,7 @@ public class ControllerBckpGenerateScripts extends AController<ModelBckp>
   TemplateProcessor tmplproc = new TemplateProcessor();
 
 
-  public ControllerBckpGenerateScripts(Gui gui, ModelBckp model)
+  public ControllerRstoGenerateScripts(Gui gui, ModelRsto model)
   {   super(gui, model);
   }
 
@@ -41,16 +34,7 @@ public class ControllerBckpGenerateScripts extends AController<ModelBckp>
     model.setPostgresqlBinPath        (gui.txtPostgresqlBinDir .getText());
     model.setTempFolderPath           (gui.txtTempDir          .getText());
     model.setNbThreads                (gui.txtNbThreads        .getText());
-
-    model.name      =               gui.txtBckpName       .getText();
-    model.parentDir = new File(     gui.txtBckpParentDir  .getText());
-
-    model.schemas   = gui.txtBckpListSchemas.getText().trim().isEmpty()
-                          ? Collections.emptyList()   // !! split on an empty string returns a non empty list
-                          : Arrays.asList(gui.txtBckpListSchemas.getText().split("\\s*[,\\s]{1}\\s*"));  // split on , or space - and trim leading and trailing white spaces
-
-    logger.debug("model.schemas =" + Arrays.toString(model.schemas.toArray()));
-    logger.debug("model.schemas.size =" + model.schemas.size());
+    model.bckpFolder   = new File     (gui.txtRstoBckpFolder   .getText());
   }
 
 
@@ -71,12 +55,12 @@ public class ControllerBckpGenerateScripts extends AController<ModelBckp>
       { tmplproc.process(template, outputFile);
       }
       catch (Exception e)
-      { throw new ExecutionException("Erreur lors de la fabrication du script bat sauvegarde à partir du template.", e);
+      { throw new ExecutionException("Erreur lors de la fabrication du script bat de restauration à partir du template.", e);
       }
       gui.loggerGui.info("Génération du script : " + outputFile.getName() + " : DONE. ");
     }
     catch (Exception e1)
-    { gui.showMessageError("Erreur lors de la génération du script de sauvegarde. Vérifier les paramètres fournis, et réessayer, ou consulter les logs.", e1);
+    { gui.showMessageError("Erreur lors de la génération du script de restauration. Vérifier les paramètres fournis, et réessayer, ou consulter les logs.", e1);
     }
   }
 
@@ -98,16 +82,6 @@ public class ControllerBckpGenerateScripts extends AController<ModelBckp>
   protected boolean shouldEmptyWorkDirectory()
   { return  gui.chbBckpEmptyWorkDirFirst.isSelected();
   }
-
-
-
-
-
-// TODO
-
-
-
-
 
 
 }

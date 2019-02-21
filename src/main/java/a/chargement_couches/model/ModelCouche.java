@@ -1,4 +1,4 @@
-package main.java.chargement_couches.model;
+package main.java.a.chargement_couches.model;
 
 import lombok.Getter;
 

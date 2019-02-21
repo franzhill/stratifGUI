@@ -1,4 +1,4 @@
-package main.java.stratification.model;
+package main.java.a.stratification.model;
 
 import main.java.common.model.AModel;
 

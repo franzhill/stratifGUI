@@ -16,12 +16,13 @@ import main.java.common.tool.exec.outputHandler.OutputHandlerGui;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collections;
 
 
 /**
  * Generate all scripts, as per inputs provided by user through the GUI
  */
-public class ControllerGenerateScripts extends AController<ModelBckp>
+public class ControllerBckpGenerateScripts extends AController<ModelBckp>
 {
   /**
    * Used to process (interpolate) the script templates
@@ -29,7 +30,7 @@ public class ControllerGenerateScripts extends AController<ModelBckp>
   TemplateProcessor tmplproc = new TemplateProcessor();
 
 
-  public ControllerGenerateScripts(Gui gui, ModelBckp model)
+  public ControllerBckpGenerateScripts(Gui gui, ModelBckp model)
   {   super(gui, model);
   }
 
@@ -43,7 +44,13 @@ public class ControllerGenerateScripts extends AController<ModelBckp>
 
     model.name      =               gui.txtBckpName       .getText();
     model.parentDir = new File(     gui.txtBckpParentDir  .getText());
-    model.schemas   = Arrays.asList(gui.txtaStratDepSelect.getText().split("\\s*[,\\s]{1}\\s*"));  // split on , or space - and trim leading and trailing white spaces
+
+    model.schemas   = gui.txtBckpListSchemas.getText().trim().isEmpty()
+                          ? Collections.emptyList()   // !! split on an empty string returns a non empty list
+                          : Arrays.asList(gui.txtBckpListSchemas.getText().split("\\s*[,\\s]{1}\\s*"));  // split on , or space - and trim leading and trailing white spaces
+
+    logger.debug("model.schemas =" + Arrays.toString(model.schemas.toArray()));
+    logger.debug("model.schemas.size =" + model.schemas.size());
   }
 
 
@@ -91,16 +98,4 @@ public class ControllerGenerateScripts extends AController<ModelBckp>
   protected boolean shouldEmptyWorkDirectory()
   { return  gui.chbBckpEmptyWorkDirFirst.isSelected();
   }
-
-
-
-
-
-// TODO
-
-
-
-
-
-
 }

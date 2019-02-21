@@ -1,8 +1,8 @@
-package main.java.chargement_couches.swing_worker;
+package main.java.a.chargement_couches.swing_worker;
 
 
 import main.java.Gui;
-import main.java.chargement_couches.model.ModelCharg;
+import main.java.a.chargement_couches.model.ModelCharg;
 import main.java.common.tool.batExecutor.MultiThreadedBatFolderExecutor;
 import main.java.common._excp.DirException;
 import main.java.common.swing_worker.ASwingWorker;

@@ -30,25 +30,33 @@ Du point de vue métier, l'exécution de ces scripts correspond :
 - à la "stratification", opération qui permet, à partir des couches évoquées ci-dessus, de déterminer le type géographique
 (forêt, eau, bâtiment) de chacun des 9 millions de points résultant d'un maillage du territoire français.
 
+Le fonctionnement indirect (production de scripts externes) a été privilégié sur un
+fonctionnemnt direct (dans lequel le code java aurait lui-même effectué toutes les opérations en BD et autres)
+pour plusieurs raisons :
+- présence d'existants scripts, éprouvé
+- familiarité des utilisateurs avec les scripts
+- possibilité laissée à l'utilisateur de gérer, corriger, retravailler etc. les scripts avant exécution
+Ainsi plus de latitude est
+
 
 3 Organisation du code
 
 3.1. Philosophie de développement
 
-Mode "POC" càd visant à être pragmatique, privilégiant le confort et la rapidité de
-développement sur le respect absolu de normes ou bonnes pratiques péremptoires, tout en assurant une architecture
-relativement saine et maintenable, et sans gréver l'expérience utilisateur.
-Il se peut donc que certaines "bonnes pratiques" aient été allègrement  bypassées ;o) (ex : accès aux membres d'une classe
-via Getter et Setters => membres publics , pas de tests unitaires etc.)
+Compte-tenu du contexte (temps réduit, peu d'utilisateurs...) le mode "POC" a été privilégié
+(=>pragmastisme, commodité et rapidité de développement plutôt que respect absolu de normes ou bonnes pratiques
+péremptoires, sans pour autant compromettre totalement l'architecture, la maintenabilité, ou l'expérience utilisateur.)
+Il se peut donc que certaines "bonnes pratiques" aient été allègrement  bypassées ;o) (ex : accès aux membres d'une
+classe via Getter et Setters => membres publics , pas de tests unitaires etc.)
 
 3.2 Packages
 
-- Le package "chargement_couches" regroupe les composants nécéessaires à la réalisation du chargement des couches
+- Le package "chargement_couches" regroupe les composants nécessaires à la réalisation du chargement des couches
 (topo, foncier, alti, forêt), en BD. Sur la GUI cela correspond à un onglet, "chargement couches". En général les couches
 sont fournies par les producteurs de données (IGN, Geoide) sous la forme de zips (à dézipper avant de pouvoir le charger
 via la GUI), un zip par département.
 
-- Le package "stratification" regroupe les composants nécéessaires à la réalisation de la stratification proprement dite
+- Le package "stratification" regroupe les composants nécessaires à la réalisation de la stratification proprement dite
 (exécution d'un certain nombre de scripts SQL), en BD. Sur la GUI cela correspond à un onglet, "stratification".
 La GUI donne la possibilité à l'utilisateur de choisir sur quels départements jouer ces scripts SQL.
 
@@ -168,3 +176,7 @@ eux-même des commandes systèmes (psql.exe ...) sur lesquelles on n'a pas vraim
 
 Commentaires :
 //# = code "deprecated", souvent agrémenté de la raison de la dépréciation, laissé pour donner du contexte
+
+TODO
+TODO WBN (Would Be Nice) : ne correspondent pas à des tâches à effectuer réellement mais permettent d'éclairer
+ les choix, raccourcis, défauts (non rhédibitoires) etc. du code.

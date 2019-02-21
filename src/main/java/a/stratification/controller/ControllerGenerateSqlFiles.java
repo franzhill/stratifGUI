@@ -1,10 +1,10 @@
-package main.java.stratification.controller;
+package main.java.a.stratification.controller;
 
 import main.java.Gui;
 import main.java.common._excp.ExecutionException;
 import main.java.common._excp.UserLevelException;
 import main.java.common.tool.bat.TemplateProcessor;
-import main.java.stratification.model.ModelStrat;
+import main.java.a.stratification.model.ModelStrat;
 import main.java.utils.MyFileUtils;
 
 import java.io.File;
@@ -91,7 +91,7 @@ public class ControllerGenerateSqlFiles extends AControllerStrat
     model.setNbThreads        (gui.txtNbThreads.getText());
     model.setPostgresqlBinPath(gui.txtPostgresqlBinDir .getText());
     model.setTempFolderPath   (gui.txtTempDir          .getText());
-    model.selDeps            = Arrays.asList(gui.txtaStratDepSelect.getText().split("\\s*[,\\s]{1}\\s*"));  // split and trim leading and trailing white spaces
+    model.selDeps            = Arrays.asList(gui.txtaStratDepSelect.getText().split("\\s*[,\\s]{1}\\s*"));  // split on , or space - and trim leading and trailing white spaces
     logger.debug("model.selDeps={}", model.selDeps);
   }
 

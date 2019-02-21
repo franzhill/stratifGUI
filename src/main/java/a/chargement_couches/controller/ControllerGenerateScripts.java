@@ -1,14 +1,13 @@
-package main.java.chargement_couches.controller;
+package main.java.a.chargement_couches.controller;
 
 import main.java.Gui;
-import main.java.chargement_couches.model.FileDep;
-import main.java.chargement_couches.model.ModelCharg;
-import main.java.chargement_couches.model.ModelCouche;
-import main.java.chargement_couches.swing_worker.SwingWorkerGenerateScripts;
+import main.java.a.chargement_couches.model.FileDep;
+import main.java.a.chargement_couches.model.ModelCharg;
+import main.java.a.chargement_couches.model.ModelCouche;
+import main.java.a.chargement_couches.swing_worker.SwingWorkerGenerateScripts;
 import main.java.common.tool.bat.PlaceHolderReplacer;
 import main.java.common.tool.exec.outputHandler.IOutputHandler;
 import main.java.common.tool.exec.outputHandler.OutputHandlerGui;
-import main.java.common.tool.exec.outputHandler.OutputHandlerNull;
 import main.java.common._excp.ExecutionException;
 import main.java.common.tool.bat.TemplateProcessor;
 
@@ -76,7 +75,7 @@ public class ControllerGenerateScripts extends AControllerCharg
     // Perform some checks : have all details been provided?
     if (model.isIncomplete())
     {
-      throw new ExecutionException("Il manque des paramètres. Vérifier que tous les éléments nécéssaires ont été indiqués.");
+      throw new ExecutionException("Il manque des paramètres. Vérifier que tous les éléments nécessaires ont été indiqués.");
     }
     /*else if (model.depFiles.isEmpty())
     {

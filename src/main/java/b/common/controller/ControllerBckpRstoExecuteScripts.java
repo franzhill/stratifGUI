@@ -1,14 +1,9 @@
-package main.java.b.backup.controller;
+package main.java.b.common.controller;
 
 import main.java.Gui;
-import main.java.a.chargement_couches.controller.AControllerCharg;
-import main.java.a.chargement_couches.model.ModelCharg;
-import main.java.a.chargement_couches.swing_worker.SwingWorkerExecuteScripts;
 import main.java.b.backup.model.ModelBckp;
 import main.java.b.backup.swing_worker.SwingWorkerBckpExecuteScripts;
-import main.java.common._excp.DirException;
 import main.java.common.controller.AController;
-import main.java.common.tool.batExecutor.MultiThreadedBatFolderExecutor;
 import main.java.common.tool.exec.outputHandler.IOutputHandler;
 import main.java.common.tool.exec.outputHandler.OutputHandlerGui;
 
@@ -16,7 +11,7 @@ import main.java.common.tool.exec.outputHandler.OutputHandlerGui;
 /**
  * Execute all scripts that have been pre-generated and placed in the script folder
  */
-public class ControllerBckpExecuteScripts extends AController<ModelBckp>
+public class ControllerBckpRstoExecuteScripts extends AController<ModelBckp>
 {
   /**
    * public for convenience
@@ -24,7 +19,7 @@ public class ControllerBckpExecuteScripts extends AController<ModelBckp>
   public SwingWorkerBckpExecuteScripts esw;
 
 
-  public ControllerBckpExecuteScripts(Gui gui, ModelBckp model)
+  public ControllerBckpRstoExecuteScripts(Gui gui, ModelBckp model)
   {   super(gui, model);
   }
 

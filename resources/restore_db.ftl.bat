@@ -7,13 +7,7 @@
 set PGPASSWORD=${model.modelDb.password}
 
 :: Chemin absolu de la sauvegarde
-set BCKP_PATH="${model.parentDir}\${model.name}"
-
-:: Suppression préalable du contenu du répertoire de svg
-:: En effet si celui-ci n'est pas vide, pg_dump sort en erreur
-echo "Suppression de l'ancienne sauvegarde de même nom si elle existe..."
-IF EXIST %BCKP_PATH% RMDIR %BCKP_PATH% /S /Q && MD %BCKP_PATH%
-
+set BCKP_FOLDER="${model.bckpFolder}"
 
 
 :: L'utilisation du format de sauvegarde personnalisé de pg_dump (custom) (option -Fc)
@@ -24,21 +18,8 @@ IF EXIST %BCKP_PATH% RMDIR %BCKP_PATH% /S /Q && MD %BCKP_PATH%
 :: vous pouvez utiliser le mode parallélisé de pg_dump. Cela sauvegardera plusieurs tables à la fois.
 :: Vous pouvez contrôler le degré de parallélisme avec le paramètre -j.
 :: Les sauvegardes en parallèle n'acceptent que le format répertoire." (=> donc pas le format custom c)
-echo "Sauvegarde..."
-"${model.postgresqlBinPath}"\pg_dump -v -p ${model.modelDb.port} -h ${model.modelDb.hostname} -U ${model.modelDb.user} -j ${model.nbThreads} <#list model.schemas as schema> --schema=${schema} <#else></#list> -Fd  -f %BCKP_PATH% ${model.modelDb.name}
+echo "Restauration de : " %BCKP_FOLDER% "..."
+"${model.postgresqlBinPath}"\pg_restore -v -p ${model.modelDb.port} -h ${model.modelDb.hostname} -U ${model.modelDb.user} -d ${model.modelDb.name} -j ${model.nbThreads} %BCKP_FOLDER%
 
-echo "Sauvegarde terminée."
-
-
-
-
-
-:: --exclude-schema=SCHEMA
-:: --exclude-table=TABLE
-:: --schema=SCHEMA          dump the named schema(s) only
-
-
-
-:: Restaurer avec :
-::pg_restore -d ${model.modelDb.name} -j num_jobs repertoire_de_svg
+echo "Restauration terminée."
 

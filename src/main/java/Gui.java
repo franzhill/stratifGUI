@@ -1,18 +1,21 @@
 package main.java;
 
-import main.java.chargement_couches.controller.*;
-import main.java.chargement_couches.model.FileDep;
-import main.java.chargement_couches.model.ModelCouche;
-import main.java.chargement_couches.model.ModelCharg;
+import main.java.a.chargement_couches.controller.*;
+import main.java.a.chargement_couches.model.FileDep;
+import main.java.a.chargement_couches.model.ModelCouche;
+import main.java.a.chargement_couches.model.ModelCharg;
+import main.java.b.backup.controller.ControllerBckpExecuteScripts;
+import main.java.b.backup.controller.ControllerBckpGenerateScripts;
+import main.java.b.backup.model.ModelBckp;
 import main.java.common.controller.ControllerSelectFile;
 import main.java.common.controller.ControllerTest;
 import main.java.common._excp.ConfigAccessException;
 import main.java.common.gui.GuiLogOutputStream;
 import main.java.common.tool.config.Config;
-import main.java.stratification.controller.ControllerExecuteSqlFiles;
-import main.java.stratification.controller.ControllerGenerateSqlFiles;
-import main.java.stratification.controller.ControllerSelectSqlFiles;
-import main.java.stratification.model.ModelStrat;
+import main.java.a.stratification.controller.ControllerExecuteSqlFiles;
+import main.java.a.stratification.controller.ControllerGenerateSqlFiles;
+import main.java.a.stratification.controller.ControllerSelectSqlFiles;
+import main.java.a.stratification.model.ModelStrat;
 import main.java.utils.MyExceptionUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.Level;
@@ -130,8 +133,21 @@ public class Gui
   public  JCheckBox    chbStratEmptyWorkDirFirst;
 
   // Tab: About
-  private JTextPane développéEtTestéPourTextPane;
+  private JTextPane    développéEtTestéPourTextPane;
+  private JTextPane    instructions;
 
+
+  // Tab: Backup
+
+  public JTextField    txtBckpListSchemas;
+  public JTextField    txtBckpName;
+  public JTextField    txtBckpParentDir;
+  public JButton       buttBckpSelectParentDir;
+  public JCheckBox     chbBckpEmptyWorkDirFirst;
+  public JButton       buttBckpGenerate;
+  public JButton       buttBckpExecute;
+
+  // Tab: Restore
 
 
   /**
@@ -166,6 +182,14 @@ public class Gui
    * User input is stored in this model (for "stratification")
    */
   private ModelStrat modelStrat = new ModelStrat();
+
+  /**
+   * User input is stored in this model (for "backup")
+   */
+  private ModelBckp modelBckp = new ModelBckp();
+
+
+
 
   /**
    * Holds the userConfig loaded from user conf file
@@ -268,6 +292,10 @@ public class Gui
     buttStratSelectFiles       .addActionListener(new ControllerSelectSqlFiles  (this, modelStrat, txtaStratSelectedFiles, JFileChooser.FILES_ONLY, true , userConfig.getProp("dir_strat_scripts_sql")));
     buttStratGenerate          .addActionListener(new ControllerGenerateSqlFiles(this, modelStrat));
     buttStratExecute           .addActionListener(new ControllerExecuteSqlFiles (this, modelStrat));
+
+    buttBckpSelectParentDir    .addActionListener(new ControllerSelectFile         (this, txtBckpParentDir, JFileChooser.DIRECTORIES_ONLY, false, txtTempDir.getText(), null));
+    buttBckpGenerate           .addActionListener(new ControllerBckpGenerateScripts(this, modelBckp));
+    buttBckpExecute            .addActionListener(new ControllerBckpExecuteScripts (this, modelBckp));
 
 
 
@@ -671,5 +699,6 @@ public class Gui
     TableModel tableModel = new DefaultTableModel(vals.toArray(new Object[][]{}), cols.toArray());
     tableDetectedFiles.setModel(tableModel);
   }
+
 
 }

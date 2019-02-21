@@ -1,8 +1,8 @@
-package main.java.stratification.controller;
+package main.java.a.stratification.controller;
 
 import main.java.Gui;
 import main.java.common.controller.AController;
-import main.java.stratification.model.ModelStrat;
+import main.java.a.stratification.model.ModelStrat;
 
 public abstract class AControllerStrat extends AController<ModelStrat>
 {

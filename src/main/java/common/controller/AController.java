@@ -73,6 +73,7 @@ public abstract class AController<M extends AModel> implements ActionListener
   private final void updateModel()
   {
     updateModelDb();
+    // TODO : updateModelConfig() here (see backup ControllerBckpGenerateScripts)
     updateModel_();
     model.finalize();
   }

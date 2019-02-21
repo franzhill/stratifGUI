@@ -1,20 +1,17 @@
-package main.java.b.backup.swing_worker;
+package main.java.b.common.swing_worker;
 
 
 import main.java.Gui;
-import main.java.a.chargement_couches.model.ModelCharg;
 import main.java.b.backup.model.ModelBckp;
 import main.java.common._excp.DirException;
 import main.java.common.swing_worker.ASwingWorker;
 import main.java.common.tool.batExecutor.BatFolderExecutor;
-import main.java.common.tool.batExecutor.MultiThreadedBatFolderExecutor;
 import main.java.common.tool.exec.outputHandler.IOutputHandler;
 import main.java.common.tool.swingWorker.LogMessage;
 import org.apache.logging.log4j.Level;
 
 import javax.swing.*;
 import java.io.File;
-import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -22,7 +19,7 @@ import java.util.concurrent.ExecutionException;
  *
  * @author fhill
  */
-public class SwingWorkerBckpExecuteScripts extends ASwingWorker<ModelBckp>
+public class SwingWorkerBckpRstoExecuteScripts extends ASwingWorker<ModelBckp>
 {
   /**
    * To log messages from processes launched from this thread or child threads
@@ -43,7 +40,7 @@ public class SwingWorkerBckpExecuteScripts extends ASwingWorker<ModelBckp>
    * @param folder
    * @param outputHandler
    */
-  public SwingWorkerBckpExecuteScripts(Gui gui, ModelBckp model, JButton actionButton, JProgressBar progressBar, JButton cancelButton, File folder, IOutputHandler outputHandler)
+  public SwingWorkerBckpRstoExecuteScripts(Gui gui, ModelBckp model, JButton actionButton, JProgressBar progressBar, JButton cancelButton, File folder, IOutputHandler outputHandler)
   {
     super(gui, model, actionButton, progressBar, cancelButton);
     this.folder = folder;
@@ -68,7 +65,7 @@ public class SwingWorkerBckpExecuteScripts extends ASwingWorker<ModelBckp>
     }
     catch (DirException e)
     { //#e.printStackTrace(); // TODO handle
-      //#throw new ExecutionException("", e);  // No real need to throw the execption, we can't catch it in the Event Dispatch Thread
+      //#throw new ExecutionException("", e);  // No real need to throw the exception, we can't catch it in the Event Dispatch Thread
       publish(new LogMessage(Level.WARN, e.getMessage()));
     }
 

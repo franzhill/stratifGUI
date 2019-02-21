@@ -1,8 +1,7 @@
-package main.java.chargement_couches.model;
+package main.java.a.chargement_couches.model;
 
 import lombok.Getter;
 import main.java.common._excp.DepExtractionException;
-import main.java.utils.MyStringUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;

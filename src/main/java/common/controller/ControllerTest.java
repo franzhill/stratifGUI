@@ -1,11 +1,10 @@
 package main.java.common.controller;
 
 import main.java.Gui;
-import main.java.chargement_couches.model.ModelCharg;
+import main.java.a.chargement_couches.model.ModelCharg;
 import main.java.common.tool.exec.SysCommand;
 import main.java.common.tool.exec.outputHandler.OutputHandlerGui;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 
