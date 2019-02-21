@@ -82,7 +82,8 @@ public class FileDep
    */
   public FileDep(String dep, File f) throws DepExtractionException
   {
-    departement = MyStringUtils.normalizeDep3Chars(dep);
+    //departement = MyStringUtils.normalizeDep3Chars(dep);
+    departement = dep;
     file = f;
   }
 
