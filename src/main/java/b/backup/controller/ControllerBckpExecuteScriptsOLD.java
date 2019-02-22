@@ -1,25 +1,31 @@
-package main.java.b.common.controller;
+package main.java.b.backup.controller;
 
 import main.java.Gui;
-import main.java.b.common.model.ModelBckpRsto;
-import main.java.b.common.swing_worker.SwingWorkerBckpRstoExecuteScripts;
+import main.java.a.chargement_couches.controller.AControllerCharg;
+import main.java.a.chargement_couches.model.ModelCharg;
+import main.java.a.chargement_couches.swing_worker.SwingWorkerExecuteScripts;
+import main.java.b.backup.model.ModelBckp;
+import main.java.b.backup.swing_worker.SwingWorkerBckpExecuteScripts;
+import main.java.common._excp.DirException;
 import main.java.common.controller.AController;
+import main.java.common.tool.batExecutor.MultiThreadedBatFolderExecutor;
 import main.java.common.tool.exec.outputHandler.IOutputHandler;
 import main.java.common.tool.exec.outputHandler.OutputHandlerGui;
 
 
 /**
  * Execute all scripts that have been pre-generated and placed in the script folder
+ * @deprecated
  */
-public class ControllerBckpRstoExecuteScripts extends AController<ModelBckpRsto>
+public class ControllerBckpExecuteScriptsOLD extends AController<ModelBckp>
 {
   /**
    * public for convenience
    */
-  public SwingWorkerBckpRstoExecuteScripts esw;
+  public SwingWorkerBckpExecuteScripts esw;
 
 
-  public ControllerBckpRstoExecuteScripts(Gui gui, ModelBckpRsto model)
+  public ControllerBckpExecuteScriptsOLD(Gui gui, ModelBckp model)
   {   super(gui, model);
   }
 
@@ -53,7 +59,7 @@ public class ControllerBckpRstoExecuteScripts extends AController<ModelBckpRsto>
     IOutputHandler ouh = new OutputHandlerGui(gui);  // will log output of scripts in GUI
     //IOutputHandler ouh = new OutputHandlerNull();  // silent
 
-    esw = new SwingWorkerBckpRstoExecuteScripts(gui, model, gui.buttExecuteScripts, gui.progbCouche, /*gui.buttCancelExecuteScripts*/ null, model.workFolder, ouh);
+    esw = new SwingWorkerBckpExecuteScripts(gui, model, gui.buttExecuteScripts, gui.progbCouche, /*gui.buttCancelExecuteScripts*/ null, model.workFolder, ouh);
 
     esw.execute();
 

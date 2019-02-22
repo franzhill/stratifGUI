@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 
 /**
  * See other swing workers for some info
- *
+ * @deprecated
  * @author fhill
  */
 public class SwingWorkerBckpExecuteScripts extends ASwingWorker<ModelBckp>
@@ -37,10 +37,10 @@ public class SwingWorkerBckpExecuteScripts extends ASwingWorker<ModelBckp>
   /**
    *
    * @param gui
-   * @param model
+   * @param model will be used to interpolate the Freemarker template
    * @param actionButton
    * @param progressBar  pass null if no progressBar to manage
-   * @param folder
+   * @param folder folder holding all the scripts to be executed
    * @param outputHandler
    */
   public SwingWorkerBckpExecuteScripts(Gui gui, ModelBckp model, JButton actionButton, JProgressBar progressBar, JButton cancelButton, File folder, IOutputHandler outputHandler)

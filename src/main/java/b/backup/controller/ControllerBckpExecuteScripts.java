@@ -1,70 +1,23 @@
 package main.java.b.backup.controller;
 
 import main.java.Gui;
-import main.java.a.chargement_couches.controller.AControllerCharg;
-import main.java.a.chargement_couches.model.ModelCharg;
-import main.java.a.chargement_couches.swing_worker.SwingWorkerExecuteScripts;
 import main.java.b.backup.model.ModelBckp;
-import main.java.b.backup.swing_worker.SwingWorkerBckpExecuteScripts;
-import main.java.common._excp.DirException;
-import main.java.common.controller.AController;
-import main.java.common.tool.batExecutor.MultiThreadedBatFolderExecutor;
-import main.java.common.tool.exec.outputHandler.IOutputHandler;
-import main.java.common.tool.exec.outputHandler.OutputHandlerGui;
+import main.java.b.common.controller.ControllerBckpRstoExecuteScripts;
+import main.java.b.common.controller.ControllerBckpRstoGenerateScripts;
+import main.java.b.common.model.ModelBckpRsto;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collections;
 
 
 /**
- * Execute all scripts that have been pre-generated and placed in the script folder
+ * Adds nothing to the class it extends.
+ * Exists only for the sake of consistency, mirroring the *Generate* classes.
  */
-public class ControllerBckpExecuteScripts extends AController<ModelBckp>
+public class ControllerBckpExecuteScripts extends ControllerBckpRstoExecuteScripts
 {
-  /**
-   * public for convenience
-   */
-  public SwingWorkerBckpExecuteScripts esw;
-
-
   public ControllerBckpExecuteScripts(Gui gui, ModelBckp model)
   {   super(gui, model);
   }
-
-
-  @Override
-  protected void updateModel_()
-  {
-    model.setTempFolderPath   (gui.txtTempDir.getText());
-  }
-
-
-  @Override
-  protected void preDoChecks()
-  {
-    // Create workdir if not exists
-    model.workFolder.mkdir();
-  }
-
-
-  @Override
-  protected void doo_()
-  {
-    gui.loggerGui.info("Exécution du script... Veuillez patienter...");
-    gui.loggerGui.info("...");
-
-    // We'll be using a Swing worker to avoid blocking the thread in which actionPerformed() is executed.
-    // This thread is the one in which the refreshing of the GUI happens. So blocking it is not too good...
-
-    // Outputhandler : choose one of the following:
-    //IOutputHandler ouh = new OutputHandlerSysOut();  // will log output of scripts on STDO
-    IOutputHandler ouh = new OutputHandlerGui(gui);  // will log output of scripts in GUI
-    //IOutputHandler ouh = new OutputHandlerNull();  // silent
-
-    esw = new SwingWorkerBckpExecuteScripts(gui, model, gui.buttExecuteScripts, gui.progbCouche, /*gui.buttCancelExecuteScripts*/ null, model.workFolder, ouh);
-
-    esw.execute();
-
-    // gui.loggerGui.info("Fin execution script.");  // No point in indicating completion here, this will be hit before action even
-                                                     // starts, asynchronously, in the swingworker.
-  }
-
-
 }

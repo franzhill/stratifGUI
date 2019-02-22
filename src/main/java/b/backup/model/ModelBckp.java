@@ -1,6 +1,7 @@
 package main.java.b.backup.model;
 
 import lombok.Getter;
+import main.java.b.common.model.ModelBckpRsto;
 import main.java.common.model.AModel;
 
 import javax.swing.*;
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author fhill
  */
-public class ModelBckp extends AModel
+public class ModelBckp extends ModelBckpRsto
 {
   /**
    * Name of backup folder

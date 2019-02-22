@@ -43,11 +43,14 @@ Ainsi plus de latitude est
 
 3.1. Philosophie de développement
 
-Compte-tenu du contexte (temps réduit, peu d'utilisateurs...) le mode "POC" a été privilégié
+Compte-tenu du contexte (temps réduit, peu d'utilisateurs, outil interne...) le mode "POC" a été privilégié
 (=>pragmastisme, commodité et rapidité de développement plutôt que respect absolu de normes ou bonnes pratiques
-péremptoires, sans pour autant compromettre totalement l'architecture, la maintenabilité, ou l'expérience utilisateur.)
+péremptoires - sans pour autant compromettre totalement l'architecture, la maintenabilité, ou l'expérience utilisateur.)
 Il se peut donc que certaines "bonnes pratiques" aient été allègrement  bypassées ;o) (ex : accès aux membres d'une
 classe via Getter et Setters => membres publics , pas de tests unitaires etc.)
+De la même manière, l'utilisateur final est considéré comme "bienveillant" et nombre de vérifications de sécurité
+(validité des champs, prévention d'injection etc.) qui seraient essentielles dans une appli ouverte au public ne sont
+pas réalisées.
 
 3.2 Packages
 

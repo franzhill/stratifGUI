@@ -3,6 +3,7 @@ package main.java.b.common.swing_worker;
 
 import main.java.Gui;
 import main.java.b.backup.model.ModelBckp;
+import main.java.b.common.model.ModelBckpRsto;
 import main.java.common._excp.DirException;
 import main.java.common.swing_worker.ASwingWorker;
 import main.java.common.tool.batExecutor.BatFolderExecutor;
@@ -19,7 +20,7 @@ import java.io.File;
  *
  * @author fhill
  */
-public class SwingWorkerBckpRstoExecuteScripts extends ASwingWorker<ModelBckp>
+public class SwingWorkerBckpRstoExecuteScripts extends ASwingWorker<ModelBckpRsto>
 {
   /**
    * To log messages from processes launched from this thread or child threads
@@ -27,20 +28,20 @@ public class SwingWorkerBckpRstoExecuteScripts extends ASwingWorker<ModelBckp>
   private IOutputHandler outputHandler;
 
   /**
-   * Folder containing scripts
-   */
-  private File folder;
+   Folder containing scripts
+    */
+   private File folder;
 
   /**
    *
    * @param gui
-   * @param model
+   * @param model will be used to interpolate the Freemarker template
    * @param actionButton
    * @param progressBar  pass null if no progressBar to manage
-   * @param folder
+   * @param folder folder holding all the scripts to be executed
    * @param outputHandler
    */
-  public SwingWorkerBckpRstoExecuteScripts(Gui gui, ModelBckp model, JButton actionButton, JProgressBar progressBar, JButton cancelButton, File folder, IOutputHandler outputHandler)
+  public SwingWorkerBckpRstoExecuteScripts(Gui gui, ModelBckpRsto model, JButton actionButton, JProgressBar progressBar, JButton cancelButton, File folder, IOutputHandler outputHandler)
   {
     super(gui, model, actionButton, progressBar, cancelButton);
     this.folder = folder;

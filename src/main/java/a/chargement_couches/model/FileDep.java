@@ -2,6 +2,7 @@ package main.java.a.chargement_couches.model;
 
 import lombok.Getter;
 import main.java.common._excp.DepExtractionException;
+import main.java.utils.MyStringUtils;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -81,8 +82,8 @@ public class FileDep
    */
   public FileDep(String dep, File f) throws DepExtractionException
   {
-    //departement = MyStringUtils.normalizeDep3Chars(dep);
-    departement = dep;
+    departement = MyStringUtils.normalizeDep3Chars(dep);
+    //departement = dep;
     file = f;
   }
 

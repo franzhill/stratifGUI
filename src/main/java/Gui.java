@@ -4,9 +4,12 @@ import main.java.a.chargement_couches.controller.*;
 import main.java.a.chargement_couches.model.FileDep;
 import main.java.a.chargement_couches.model.ModelCouche;
 import main.java.a.chargement_couches.model.ModelCharg;
-import main.java.b.backup.controller.ControllerBckpExecuteScripts;
 import main.java.b.backup.controller.ControllerBckpGenerateScripts;
 import main.java.b.backup.model.ModelBckp;
+
+import main.java.b.common.controller.ControllerBckpRstoExecuteScriptsMeta;
+import main.java.b.common.controller.ControllerBckpRstoGenerateScriptsMeta;
+import main.java.b.restore.model.ModelRsto;
 import main.java.common.controller.ControllerSelectFile;
 import main.java.common.controller.ControllerTest;
 import main.java.common._excp.ConfigAccessException;
@@ -137,7 +140,7 @@ public class Gui
   private JTextPane    instructions;
 
 
-  // Tab: Backup
+  // Tab: Backup/Restore
 
   public JTextField    txtBckpListSchemas;
   public JTextField    txtBckpName;
@@ -146,6 +149,10 @@ public class Gui
   public JCheckBox     chbBckpEmptyWorkDirFirst;
   public JButton       buttBckpGenerate;
   public JButton       buttBckpExecute;
+  public JRadioButton  rdoBckp;
+  public JRadioButton  rdoRsto;
+  public JTextField    txtRstoBckpFolder;
+  public JButton       buttRstoSelectBckpFolder;
 
   // Tab: Restore
 
@@ -188,6 +195,10 @@ public class Gui
    */
   private ModelBckp modelBckp = new ModelBckp();
 
+  /**
+   * User input is stored in this model (for "restore")
+   */
+  private ModelRsto modelRsto = new ModelRsto();
 
 
 
@@ -293,10 +304,11 @@ public class Gui
     buttStratGenerate          .addActionListener(new ControllerGenerateSqlFiles(this, modelStrat));
     buttStratExecute           .addActionListener(new ControllerExecuteSqlFiles (this, modelStrat));
 
-    buttBckpSelectParentDir    .addActionListener(new ControllerSelectFile         (this, txtBckpParentDir, JFileChooser.DIRECTORIES_ONLY, false, txtTempDir.getText(), null));
-    buttBckpGenerate           .addActionListener(new ControllerBckpGenerateScripts(this, modelBckp));
-    buttBckpExecute            .addActionListener(new ControllerBckpExecuteScripts (this, modelBckp));
+    buttBckpSelectParentDir    .addActionListener(new ControllerSelectFile         (this, txtBckpParentDir , JFileChooser.DIRECTORIES_ONLY, false, txtTempDir.getText(), null));
+    buttRstoSelectBckpFolder   .addActionListener(new ControllerSelectFile         (this, txtRstoBckpFolder, JFileChooser.DIRECTORIES_ONLY, false, txtTempDir.getText(), null));
 
+    buttBckpGenerate           .addActionListener(new ControllerBckpRstoGenerateScriptsMeta(this, modelBckp, modelRsto));
+    buttBckpExecute            .addActionListener(new ControllerBckpRstoExecuteScriptsMeta (this, modelBckp, modelRsto));
 
 
     // According to selections made, some components should be disabled/selected etc.:
@@ -322,9 +334,20 @@ public class Gui
     });
     rdoStratDepSelect.addActionListener(new AbstractAction("rdoStratDepSelect")
     { public void actionPerformed(ActionEvent e)
-      { rdoStratDepTousSelect(rdoStratDepTous.isSelected());
+      { rdoStratDepTousSelect(rdoStratDepTous.isSelected());  // sic rdoStratDepTous
       }
     });
+    rdoBckp.addActionListener(new AbstractAction("rdoBckp")
+    { public void actionPerformed(ActionEvent e)
+      { rdoBckpSelect(rdoBckp.isSelected());
+      }
+    });
+    rdoRsto.addActionListener(new AbstractAction("rdoBckp")
+    { public void actionPerformed(ActionEvent e)
+      { rdoBckpSelect(rdoBckp.isSelected()); // sic rdoBckp
+      }
+    });
+
 
     buttClearMessages.addActionListener(new AbstractAction("buttClearMessages")
     { public void actionPerformed(ActionEvent e)
@@ -332,8 +355,6 @@ public class Gui
         txtpLog2.setText("");
       }
     });
-
-
   }
 
 
@@ -527,7 +548,7 @@ public class Gui
   /**
    * Selecting or deselecting chbDetectFiles has consequences on other components
    * so we're binding their behaviours through this function
-   * @param b select (true) or deselect (false)
+   * @param b chbDetectFiles is selected (true) or not (false)
    */
   public void chbDetectFilesSelect(boolean b)
   {
@@ -539,7 +560,7 @@ public class Gui
   /**
    * Selecting or deselecting rdoDepDetect has consequences on other components
    * so we're binding their behaviours through this function
-   * @param b select (true) or deselect (false)
+   * @param b rdoDepDetect is selected (true) or not (false)
    */
   public void rdoDepDetectSelect(boolean b)
   {
@@ -552,7 +573,7 @@ public class Gui
   /**
    * Selecting or deselecting rdoStratDepTous has consequences on other components
    * so we're binding their behaviours through this function
-   * @param b select (true) or deselect (false)
+   * @param b rdoStratDepTous is selected (true) or not (false)
    */
   public void rdoStratDepTousSelect (boolean b)
   {
@@ -561,6 +582,23 @@ public class Gui
     if (b)  // Copy all departements in selection area (even if not enabled)
     {  txtaStratDepSelect.setText(userConfig.getProp("strat.departements"));
     }
+  }
+
+
+  /**
+   * Selecting or deselecting rdoBckp has consequences on other components
+   * so we're binding their behaviours through this function
+   * @param b rdoBckp is selected (true) or not (false)
+   */
+  public void rdoBckpSelect(boolean b)
+  {
+    txtBckpName             .setEnabled(b);
+    txtBckpParentDir        .setEnabled(b);
+    txtBckpListSchemas      .setEnabled(b);
+    buttBckpSelectParentDir .setEnabled(b);
+
+    txtRstoBckpFolder       .setEnabled(!b);
+    buttRstoSelectBckpFolder.setEnabled(!b);
   }
 
 
