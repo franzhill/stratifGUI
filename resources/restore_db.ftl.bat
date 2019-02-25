@@ -8,7 +8,7 @@ set PGPASSWORD=${model.modelDb.password}
 
 :: Chemin absolu de la sauvegarde
 set BCKP_FOLDER="${model.bckpFolder}"
-
+set DB_PARAMS=-p ${model.modelDb.port} -h ${model.modelDb.hostname} -U ${model.modelDb.user} -d ${model.modelDb.name}
 
 :: L'utilisation du format de sauvegarde personnalisé de pg_dump (custom) (option -Fc)
 :: (recommandé par rapport au format par défaut texte SQL) nécéssite que la
@@ -18,8 +18,19 @@ set BCKP_FOLDER="${model.bckpFolder}"
 :: vous pouvez utiliser le mode parallélisé de pg_dump. Cela sauvegardera plusieurs tables à la fois.
 :: Vous pouvez contrôler le degré de parallélisme avec le paramètre -j.
 :: Les sauvegardes en parallèle n'acceptent que le format répertoire." (=> donc pas le format custom c)
+:: -c : clean (drop) database objects before recreating
+
 echo "Restauration de : " %BCKP_FOLDER% "..."
-"${model.postgresqlBinPath}"\pg_restore -v -p ${model.modelDb.port} -h ${model.modelDb.hostname} -U ${model.modelDb.user} -d ${model.modelDb.name} -j ${model.nbThreads} %BCKP_FOLDER%
+
+echo "> Restauration de la structure..."
+"${model.postgresqlBinPath}"\psql %DB_PARAMS% -f %BCKP_FOLDER%\structure2
+
+echo "> Restauration des données..."
+"${model.postgresqlBinPath}"\pg_restore -v %DB_PARAMS% -j ${model.nbThreads} %BCKP_FOLDER%\data
+
+
+
+
 
 echo "Restauration terminée."
 
