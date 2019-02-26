@@ -20,6 +20,8 @@ set DB_PARAMS=-p ${model.modelDb.port} -h ${model.modelDb.hostname} -U ${model.m
 :: Les sauvegardes en parallèle n'acceptent que le format répertoire." (=> donc pas le format custom c)
 :: -c : clean (drop) database objects before recreating
 
+:: Nota : voir bakcup_db.ftl.bat pour plus d'information sur la méthodologie de sauvegarde.
+
 echo "Restauration de : " %BCKP_FOLDER% "..."
 
 echo "> Restauration de la structure..."
@@ -27,9 +29,6 @@ echo "> Restauration de la structure..."
 
 echo "> Restauration des données..."
 "${model.postgresqlBinPath}"\pg_restore -v %DB_PARAMS% -j ${model.nbThreads} %BCKP_FOLDER%\data
-
-
-
 
 
 echo "Restauration terminée."

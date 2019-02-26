@@ -33,6 +33,7 @@ import org.apache.logging.log4j.core.layout.PatternLayout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -44,6 +45,7 @@ import javax.swing.text.StyleContext;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -234,7 +236,12 @@ public class Gui
     rootFrame = new JFrame("Stratification");
     rootFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     rootFrame.setContentPane(rootPanel);
-
+      try {
+    //rootFrame.setIconImage(ImageIO.read(rootFrame.getClass().getResource("logos/logo2.png")));
+    rootFrame.setIconImage(ImageIO.read(new File("resources/logos/logo.png")));
+      } catch (IOException e)
+      { loggerGui.warn("Problème de chargement du logo : " + e.getMessage());
+      }
     // txtaLog.setFont(Font.decode("UTF-8")); DOESN'T WORK ...
   }
 

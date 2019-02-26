@@ -1,44 +1,47 @@
 :: Stops the shell echoing every command
 @ECHO OFF
 
-
-
 :: Variable d'env pour pgsql
 set PGPASSWORD=${model.modelDb.password}
 
 :: Chemin absolu de la sauvegarde
 set BCKP_FOLDER="${model.parentDir}\${model.name}"
 
-:: -d database volontairement omis ici
+:: (-d database volontairement omis ici)
 set DB_PARAMS=-p ${model.modelDb.port} -h ${model.modelDb.hostname} -U ${model.modelDb.user}
 
-:: Suppression préalable du contenu du répertoire de svg
-:: En effet si celui-ci n'est pas vide, pg_dump sort en erreur
+:: Suppression préalable du contenu du répertoire de sauvegarde.
+:: En effet si celui-ci n'est pas vide, pg_dump sort en erreur.
 echo "Suppression de l'ancienne sauvegarde de même nom si elle existe..."
 IF EXIST %BCKP_FOLDER% RMDIR %BCKP_FOLDER% /S /Q && MD %BCKP_FOLDER%
-
 MD %BCKP_FOLDER%\data
 
 
-:: L'utilisation du format de sauvegarde personnalisé de pg_dump (custom) (option -Fc)
-:: (recommandé par rapport au format par défaut texte SQL) nécéssite que la
+:: Nota : l'utilisation du format de sauvegarde personnalisé de pg_dump (custom) (option -Fc)
+:: (recommandé pour les grosses sauvegardes par rapport au format par défaut texte SQL) nécéssite que la
 :: bibliothèque de compression zlib soit disponible sur le système.
 
-:: Fonctionnalité de sauvegarde en parallèle de pg_dump : "pour accélérer la sauvegarde d'une grosse base de données,
+:: Nota : fonctionnalité de sauvegarde en parallèle de pg_dump (-j) : "pour accélérer la sauvegarde d'une grosse base de données,
 :: vous pouvez utiliser le mode parallélisé de pg_dump. Cela sauvegardera plusieurs tables à la fois.
-:: Vous pouvez contrôler le degré de parallélisme avec le paramètre -j.
 :: Les sauvegardes en parallèle n'acceptent que le format répertoire." (=> donc pas le format custom c)
 ::
-:: Nota : jouer avec les options -a et -c sur pg_dump et pg_restore ne fonctionnera pas dans notre contexte où nous
-:: n'avons pas les droits pour créer des schemas. La restitution de la création des schemas (= sans l'option -a)
-:: va de pair avec celles des tables, des sqéuences etc.
+:: Nota : nous fonctionnons dans un contexte bien particulier dans lequel nous ne possédons pas les droits de
+:: création/suppression des schemas sur notre base cible (Teruti Prod). Cela rend la sauvegarde et la restauration
+:: directe avec pg_dump et pg_restore problématique, même en jouant avec les options -a (data_only) et -c (clean)
+:: car nous devons :
+:: - supprimer les tables (DROP), les indexes, les séquences ...
+:: - les recréer
+:: - omettre la suppression/création des schemas
+:: - omettre tout ce qui est gestion de droits, utilisateurs etc.
+:: ce qu'aucune combinaison d'options ne permet.
 :: D'où l'approche en 2 temps suivante :
-
+:: 1) sauvegarde de la structure + édition
+:: 2) sauvegarde des données
 
 
 echo "Sauvegarde..."
-::"${model.postgresqlBinPath}"\pg_dump -v -p ${model.modelDb.port} -h ${model.modelDb.hostname} -U ${model.modelDb.user} -j ${model.nbThreads} <#list model.schemas as schema> --schema=${schema} <#else></#list> -Fd  -f %BCKP_FOLDER% ${model.modelDb.name}
-::"${model.postgresqlBinPath}"\pg_dump -v -a -p ${model.modelDb.port} -h ${model.modelDb.hostname} -U ${model.modelDb.user}  <#list model.schemas as schema> --schema=${schema} <#else></#list> -Fc  -f %BCKP_FOLDER% ${model.modelDb.name}
+:: OLD "${model.postgresqlBinPath}"\pg_dump -v -p ${model.modelDb.port} -h ${model.modelDb.hostname} -U ${model.modelDb.user} -j ${model.nbThreads} <#list model.schemas as schema> --schema=${schema} <#else></#list> -Fd  -f %BCKP_FOLDER% ${model.modelDb.name}
+:: OLD "${model.postgresqlBinPath}"\pg_dump -v -a -p ${model.modelDb.port} -h ${model.modelDb.hostname} -U ${model.modelDb.user}  <#list model.schemas as schema> --schema=${schema} <#else></#list> -Fc  -f %BCKP_FOLDER% ${model.modelDb.name}
 
 echo "> Sauvegarde de la structure des tables and co..."
 "${model.postgresqlBinPath}"\pg_dump %DB_PARAMS% -v --schema-only --no-owner --clean <#list model.schemas as schema> --schema=${schema} <#else></#list> -f %BCKP_FOLDER%\structure ${model.modelDb.name}
