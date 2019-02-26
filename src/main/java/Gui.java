@@ -233,7 +233,7 @@ public class Gui
     JFrame.setDefaultLookAndFeelDecorated(true);
 
     // Create and set up the window.
-    rootFrame = new JFrame("Stratification");
+    rootFrame = new JFrame("Teruti Stratification");
     rootFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     rootFrame.setContentPane(rootPanel);
       try {
@@ -293,7 +293,6 @@ public class Gui
     // Attach actions
     buttSelectPostgresqlBinDir .addActionListener(new ControllerSelectFile        (this, txtPostgresqlBinDir, JFileChooser.DIRECTORIES_ONLY, false, null, null));
     buttSelectTempDir          .addActionListener(new ControllerSelectFile        (this, txtTempDir         , JFileChooser.DIRECTORIES_ONLY, false, null, null));
-    buttTest                   .addActionListener(new ControllerTest              (this));
     buttTestDbConnectivity     .addActionListener(new ControllerTestDbConnectivity(this, modelCharg));
     buttSelectFiles            .addActionListener(new ControllerSelectParentFiles (this, modelCharg, txtaSelectedFiles, JFileChooser.DIRECTORIES_ONLY, true , userConfig.getProp("dir_couches")));
     buttComputeFiles           .addActionListener(new ControllerFindFiles         (this, modelCharg));
@@ -587,7 +586,7 @@ public class Gui
     txtaStratDepSelect.setEnabled(!b);
     //txtaStratDepSelect.setForeground(b ? Color.WHITE : Color.BLACK);  // doesn't work
     if (b)  // Copy all departements in selection area (even if not enabled)
-    {  txtaStratDepSelect.setText(userConfig.getProp("strat.departements"));
+    {  txtaStratDepSelect.setText(String.join(" ", userConfig.getProp("strat.departements").split("\\s+"))); // replace several spaces with only one
     }
   }
 

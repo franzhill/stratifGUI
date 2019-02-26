@@ -10,6 +10,8 @@ set BCKP_FOLDER="${model.parentDir}\${model.name}"
 :: (-d database volontairement omis ici)
 set DB_PARAMS=-p ${model.modelDb.port} -h ${model.modelDb.hostname} -U ${model.modelDb.user}
 
+set LIST_SCHEMAS=<#list model.schemas as schema> --schema=${schema} <#else></#list>
+
 :: Suppression préalable du contenu du répertoire de sauvegarde.
 :: En effet si celui-ci n'est pas vide, pg_dump sort en erreur.
 echo "Suppression de l'ancienne sauvegarde de même nom si elle existe..."
@@ -44,7 +46,7 @@ echo "Sauvegarde..."
 :: OLD "${model.postgresqlBinPath}"\pg_dump -v -a -p ${model.modelDb.port} -h ${model.modelDb.hostname} -U ${model.modelDb.user}  <#list model.schemas as schema> --schema=${schema} <#else></#list> -Fc  -f %BCKP_FOLDER% ${model.modelDb.name}
 
 echo "> Sauvegarde de la structure des tables and co..."
-"${model.postgresqlBinPath}"\pg_dump %DB_PARAMS% -v --schema-only --no-owner --clean <#list model.schemas as schema> --schema=${schema} <#else></#list> -f %BCKP_FOLDER%\structure ${model.modelDb.name}
+"${model.postgresqlBinPath}"\pg_dump %DB_PARAMS% -v --schema-only --no-owner --clean %LIST_SCHEMAS% -f %BCKP_FOLDER%\structure ${model.modelDb.name}
 
 :: Suppression des lignes commençant par CREATE SCHEMA et ALTER SCHEMA et DROP SCHEMA et tout un tas de trucs dont on n'a pas besoin
 :: Nota : /c:"ALTER DEFAULT PRIVILEGES FOR ROLE [^ ]* IN SCHEMA"  ne marche pas ...
@@ -52,7 +54,7 @@ echo ">> Suppression des commandes relatives au schema..."
 findstr /v  /c:"CREATE SCHEMA" /c:"ALTER SCHEMA" /c:"DROP SCHEMA" /c:"REVOKE ALL ON SCHEMA" /c:"REVOKE ALL ON SCHEMA" /c:"GRANT ALL ON SCHEMA" /c:"GRANT ALL ON SCHEMA" /c:"GRANT USAGE ON SCHEMA" /c:"GRANT USAGE ON SCHEMA" /c:"SET SESSION AUTHORIZATION" /c:"GRANT ALL ON SCHEMA" /c:"RESET SESSION AUTHORIZATION;" /c:"ALTER DEFAULT PRIVILEGES FOR ROLE" %BCKP_FOLDER%\structure > %BCKP_FOLDER%\structure2
 
 echo "> Sauvegarde des données ..."
-"${model.postgresqlBinPath}"\pg_dump %DB_PARAMS% -v --data-only -j ${model.nbThreads} <#list model.schemas as schema> --schema=${schema} <#else></#list> -Fd -f %BCKP_FOLDER%\data ${model.modelDb.name}
+"${model.postgresqlBinPath}"\pg_dump %DB_PARAMS% -v --data-only -j ${model.nbThreads} %LIST_SCHEMAS% -Fd -f %BCKP_FOLDER%\data ${model.modelDb.name}
 
 
 echo "Sauvegarde terminée."
