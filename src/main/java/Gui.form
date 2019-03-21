@@ -563,7 +563,7 @@
                             <properties>
                               <background color="-264961"/>
                               <font size="11" style="2"/>
-                              <text value="- Pour accélérer la sauvegarde, pusieurs connexions parallèles peuvent être établies. Indiquer ce nombre dans le champ &quot;Nb de connexion simultanées&quot; ci-dessus.&#10;- La sauvegarde est faite sous forme de dossier (et non de fichier unique).&#10;- Préciser le nom à donner à ce dossier ci-dessous dans le champ &quot;Nom de la sauvegarde&quot;.&#10;- Ce dossier sera enregistré dans le répertoire spécifié dans le champ &quot;Sauvegarder dans&quot;.&#10;- Pour une sauvegarde partielle, spécifier les schemas à sauvegarder, séparés par virgule ou espace(s). Laisser vide pour une sauvegarde complète.&#10;- Un script de sauvegarde est généré suite au clic sur le bouton &quot;Générer&quot;, dans le répertoire de travail. Il est possible de l'éditer avant exécution&#10;- Le clic sur le bouton &quot;Exécuter&quot; exécute le (les) scripts de sauvegarde contenu(s) dans le répertoire de travail."/>
+                              <text value="- Pour accélérer la sauvegarde, pusieurs connexions parallèles peuvent être établies. Indiquer ce nombre dans le champ &quot;Nb de connexion simultanées&quot; ci-dessus.&#10;- La sauvegarde est faite sous forme de dossier (et non de fichier unique).&#10;- Préciser le nom à donner à ce dossier ci-dessous dans le champ &quot;Nom de la sauvegarde&quot;.&#10;- Ce dossier sera enregistré dans le répertoire spécifié dans le champ &quot;Sauvegarder dans&quot;.&#10;- Pour une sauvegarde partielle, spécifier les schemas à sauvegarder. Laisser vide pour une sauvegarde complète.&#10;- Un script de sauvegarde est généré suite au clic sur le bouton &quot;Générer&quot;, dans le répertoire de travail. Il est possible de l'éditer avant exécution&#10;- Le clic sur le bouton &quot;Exécuter&quot; exécute le (les) scripts de sauvegarde contenu(s) dans le répertoire de travail."/>
                             </properties>
                           </component>
                           <component id="9b7f1" class="javax.swing.JLabel">
@@ -572,6 +572,7 @@
                             </constraints>
                             <properties>
                               <text value="Nom de la sauvegarde :"/>
+                              <toolTipText value="Nom à donner au dossier spécifique à cette sauvegarde."/>
                             </properties>
                           </component>
                           <component id="51596" class="javax.swing.JTextField" binding="txtBckpName">
@@ -588,6 +589,7 @@
                             </constraints>
                             <properties>
                               <text value="Schema(s) :"/>
+                              <toolTipText value="Facultatif. Pour une sauvegarde partielle, schema(s) à sauvegarder, séparés par une virgule et/ou espace(s). Certains caractères spéciaux sont possibles. Ex.: &quot;teruti_*, bdt_*, grille_eaa&quot;"/>
                             </properties>
                           </component>
                           <component id="6cf24" class="javax.swing.JTextField" binding="txtBckpListSchemas">
@@ -604,6 +606,7 @@
                             </constraints>
                             <properties>
                               <text value="Sauvegarder dans :"/>
+                              <toolTipText value="Répertoire où enregistrer le dossier de sauvegarde."/>
                             </properties>
                           </component>
                           <component id="868d5" class="javax.swing.JTextField" binding="txtBckpParentDir">
@@ -707,6 +710,7 @@
                             </constraints>
                             <properties>
                               <text value="Sauvegarde à restaurer :"/>
+                              <toolTipText value="Il s'agira du dossier spécifique à la sauvegarde à restaurer, correspondant au nom donné à cette sauvegarde."/>
                             </properties>
                           </component>
                           <vspacer id="934c2">

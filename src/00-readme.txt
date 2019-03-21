@@ -1,10 +1,13 @@
-NOTE D'ARCHITECTURE
---------------------
+# -------------------------------------
+# StratifGUI - NOTE D'ARCHITECTURE
+# -------------------------------------
+
 F.Hill - 2019.01.22
 2019.0.29
 
 
 1. Spécifications techniques
+------------------------------
 
 Développé avec :
 IDE : IntelliJ IDEA 2018.1.3 (Community Edition)
@@ -19,6 +22,8 @@ Cible : application Swing tournant sur un PC bureautique (SSP) Windows 7
 
 
 2. But de l'appli
+------------------
+L'application constitue une évolution de l'existant "teruti-utils"
 
 L'application en elle-même se contente :
 - de récolter des entrants fournis par l'utilisateur de la GUI
@@ -36,15 +41,15 @@ pour plusieurs raisons :
 - présence d'existants scripts, éprouvé
 - familiarité des utilisateurs avec les scripts
 - possibilité laissée à l'utilisateur de gérer, corriger, retravailler etc. les scripts avant exécution
-Ainsi plus de latitude est
 
 
 3 Organisation du code
-
+------------------------------
 3.1. Philosophie de développement
+- - - - - - - - - - - - - - - - - -
 
 Compte-tenu du contexte (temps réduit, peu d'utilisateurs, outil interne...) le mode "POC" a été privilégié
-(=>pragmastisme, commodité et rapidité de développement plutôt que respect absolu de normes ou bonnes pratiques
+(=> pragmastisme, commodité et rapidité de développement vs respect absolu de normes ou "bonnes pratiques"
 péremptoires - sans pour autant compromettre totalement l'architecture, la maintenabilité, ou l'expérience utilisateur.)
 Il se peut donc que certaines "bonnes pratiques" aient été allègrement  bypassées ;o) (ex : accès aux membres d'une
 classe via Getter et Setters => membres publics , pas de tests unitaires etc.)
@@ -53,23 +58,23 @@ De la même manière, l'utilisateur final est considéré comme "bienveillant" e
 pas réalisées.
 
 3.2 Packages
-
+- - - - - - -
 - Le package "chargement_couches" regroupe les composants nécessaires à la réalisation du chargement des couches
-(topo, foncier, alti, forêt), en BD. Sur la GUI cela correspond à un onglet, "chargement couches". En général les couches
+(topo, foncier, alti, forêt), en BD. Sur la GUI cela correspond l'onglet "chargement couches". En général les couches
 sont fournies par les producteurs de données (IGN, Geoide) sous la forme de zips (à dézipper avant de pouvoir le charger
 via la GUI), un zip par département.
 
 - Le package "stratification" regroupe les composants nécessaires à la réalisation de la stratification proprement dite
-(exécution d'un certain nombre de scripts SQL), en BD. Sur la GUI cela correspond à un onglet, "stratification".
+(exécution d'un certain nombre de scripts SQL), en BD. Sur la GUI cela correspond l'onglet "stratification".
 La GUI donne la possibilité à l'utilisateur de choisir sur quels départements jouer ces scripts SQL.
 
 - Le package common contient toutes les classes utilisées pour l'un ou l'autre de ces 2 buts, ainsi que les
 classes parentes
 
 3.3. Architecture
-
+- - - - - - - - - -
 3.3.1 Généralités
-
+-  -  -  -  -  -  -
 L'organisation du code s'inspire du modèle MVC.
 
 -Classe Gui : ~ "vue" + colle
@@ -123,7 +128,7 @@ Ils héritent tous les 2 d'une surclasse.
 
 
 3.3.2 Détails
-
+-  -  -  -  -  -  -
 - Configuration : il s'agit d'un (de) fichier(s) éditable(s) par l'utilisateur, au format .ini, placé(s) dans le répertoire conf
 (et packagé(s) en dehors du .jar livrable).
 A l'heure d'écriture de ces lignes la fonctionnalité consistant à mettre à jour la conf avec ce que l'utilisateur a entré
@@ -172,10 +177,9 @@ un swingWorker qui s'exécute lui-même dans un thread dédié, au sein d'une m�
 eux-même des commandes systèmes (psql.exe ...) sur lesquelles on n'a pas vraiment de prise à l'intérieur du le code java.
 
 
-3.3.3 Packages
-
 
 4. Code style
+---------------
 
 Commentaires :
 //# = code "deprecated", souvent agrémenté de la raison de la dépréciation, laissé pour donner du contexte
